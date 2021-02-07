@@ -38,6 +38,12 @@
 #include <winsdkver.h>
 #endif
 
+#define HAVE_LIBC
+
+#ifdef __MINGW32__
+#define _MSC_VER 1900
+#endif
+
 /* This is a set of defines to configure the SDL features */
 
 #if !defined(_STDINT_H_) && (!defined(HAVE_STDINT_H) || !_HAVE_STDINT_H)
@@ -99,7 +105,7 @@ typedef unsigned int uintptr_t;
 #define HAVE_DSOUND_H 1
 #define HAVE_DXGI_H 1
 #define HAVE_XINPUT_H 1
-#if defined(_WIN32_MAXVER) && _WIN32_MAXVER >= 0x0A00  /* Windows 10 SDK */
+#if !defined(__MINGW32__) && defined(_WIN32_MAXVER) && _WIN32_MAXVER >= 0x0A00  /* Windows 10 SDK */
 #define HAVE_WINDOWS_GAMING_INPUT_H 1
 #endif
 #if defined(_WIN32_MAXVER) && _WIN32_MAXVER >= 0x0602  /* Windows 8 SDK */
@@ -228,24 +234,25 @@ typedef unsigned int uintptr_t;
 #endif
 
 /* Enable various audio drivers */
-#define SDL_AUDIO_DRIVER_WASAPI 1
-#define SDL_AUDIO_DRIVER_DSOUND 1
-#define SDL_AUDIO_DRIVER_WINMM  1
-#define SDL_AUDIO_DRIVER_DISK   1
-#define SDL_AUDIO_DRIVER_DUMMY  1
+//#define SDL_AUDIO_DRIVER_WASAPI 1
+//#define SDL_AUDIO_DRIVER_DSOUND 1
+//#define SDL_AUDIO_DRIVER_WINMM  1
+//#define SDL_AUDIO_DRIVER_DISK   1
+//#define SDL_AUDIO_DRIVER_DUMMY  1
 
 /* Enable various input drivers */
-#define SDL_JOYSTICK_DINPUT 1
+//#define SDL_JOYSTICK_DINPUT 1
 #define SDL_JOYSTICK_HIDAPI 1
-#ifndef __WINRT__
-#define SDL_JOYSTICK_RAWINPUT   1
-#endif
-#define SDL_JOYSTICK_VIRTUAL    1
+// RAWINPUT disabled: duplicates instantiation of arrControllers from controller_type.h
+//#ifndef __WINRT__
+//#define SDL_JOYSTICK_RAWINPUT   1
+//#endif
+//#define SDL_JOYSTICK_VIRTUAL    1
 #ifdef HAVE_WINDOWS_GAMING_INPUT_H
 #define SDL_JOYSTICK_WGI    1
 #endif
 #define SDL_JOYSTICK_XINPUT 1
-#define SDL_HAPTIC_DINPUT   1
+//#define SDL_HAPTIC_DINPUT   1
 #define SDL_HAPTIC_XINPUT   1
 
 /* Enable the sensor driver */
@@ -262,15 +269,15 @@ typedef unsigned int uintptr_t;
 #define SDL_TIMER_WINDOWS   1
 
 /* Enable various video drivers */
-#define SDL_VIDEO_DRIVER_DUMMY  1
+//#define SDL_VIDEO_DRIVER_DUMMY  1
 #define SDL_VIDEO_DRIVER_WINDOWS    1
 
-#ifndef SDL_VIDEO_RENDER_D3D
-#define SDL_VIDEO_RENDER_D3D    1
-#endif
-#if !defined(SDL_VIDEO_RENDER_D3D11) && defined(HAVE_D3D11_H)
-#define SDL_VIDEO_RENDER_D3D11  1
-#endif
+//#ifndef SDL_VIDEO_RENDER_D3D
+//#define SDL_VIDEO_RENDER_D3D    1
+//#endif
+//#if !defined(SDL_VIDEO_RENDER_D3D11) && defined(HAVE_D3D11_H)
+//#define SDL_VIDEO_RENDER_D3D11  1
+//#endif
 
 /* Enable OpenGL support */
 #ifndef SDL_VIDEO_OPENGL
@@ -305,6 +312,14 @@ typedef unsigned int uintptr_t;
 #ifndef _WIN64
 #define SDL_ASSEMBLY_ROUTINES   1
 #endif
+
+#ifdef __MINGW32__
+#undef _MSC_VER
+#endif
+
+#define SDL_AUDIO_DISABLED 1
+#define SDL_SENSOR_DISABLED 1
+#define SDL_RENDER_DISABLED 1
 
 #endif /* SDL_config_windows_h_ */
 
