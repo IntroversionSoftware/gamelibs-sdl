@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
+#include "SDL_internal.h"
+
 #if defined(__clang_analyzer__) && !defined(SDL_DISABLE_ANALYZE_MACROS)
 #define SDL_DISABLE_ANALYZE_MACROS 1
 #endif
-
-#include "../SDL_internal.h"
 
 #if defined(__WIN32__)
 #include "../core/windows/SDL_windows.h"
