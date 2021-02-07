@@ -28,7 +28,7 @@
 /* !!! FIXME: can this target support hotplugging? */
 /* !!! FIXME: ...does SDL2 even support QNX? */
 
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 
 #if SDL_AUDIO_DRIVER_QSA
 
