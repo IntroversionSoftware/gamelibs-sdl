@@ -67,7 +67,7 @@
 #undef HIDAPI_H__
 #if __LINUX__
 
-#include "../../core/linux/SDL_udev.h"
+#include "../core/linux/SDL_udev.h"
 #if SDL_USE_LIBUDEV
 static const SDL_UDEV_Symbols *udev_ctx = NULL;
 
