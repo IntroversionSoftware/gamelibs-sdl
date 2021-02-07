@@ -25,6 +25,8 @@
 
 #if SDL_DYNAMIC_API
 
+#include <stdio.h>
+
 #if defined(__OS2__)
 #define INCL_DOS
 #define INCL_DOSERRORS
