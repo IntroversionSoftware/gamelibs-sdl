@@ -122,6 +122,7 @@
 
 #include "SDL_assert.h"
 #include "SDL_log.h"
+#include "SDL_stdinc.h"
 
 #endif /* SDL_internal_h_ */
 
