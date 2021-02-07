@@ -24,7 +24,7 @@
  * Thanks to Alex Szpakowski, @slime73 on GitHub, for his gist showing
  * how to add a CAMetalLayer backed view.
  */
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 
 #import "SDL_cocoametalview.h"
 
