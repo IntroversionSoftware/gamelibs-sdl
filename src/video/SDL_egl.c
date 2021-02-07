@@ -18,7 +18,7 @@
  *     misrepresented as being the original software.
  *  3. This notice may not be removed or altered from any source distribution.
  */
-#include "../SDL_internal.h"
+#include "SDL_internal.h"
 
 #if SDL_VIDEO_OPENGL_EGL
 
@@ -1139,13 +1139,6 @@ SDL_EGL_SetSwapInterval(_THIS, int interval)
     
     if (!_this->egl_data) {
         return SDL_SetError("EGL not initialized");
-    }
-
-    /* FIXME: Revisit this check when EGL_EXT_swap_control_tear is published:
-     * https://github.com/KhronosGroup/EGL-Registry/pull/113
-     */
-    if (interval < 0) {
-        return SDL_SetError("Late swap tearing currently unsupported");
     }
     
     status = _this->egl_data->eglSwapInterval(_this->egl_data->egl_display, interval);
