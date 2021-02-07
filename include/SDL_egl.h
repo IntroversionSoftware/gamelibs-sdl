@@ -24,7 +24,7 @@
  *
  *  This is a simple file to encapsulate the EGL API headers.
  */
-#if !defined(_MSC_VER) && !defined(__ANDROID__)
+#if !defined(__MINGW32__) && !defined(_MSC_VER) && !defined(__ANDROID__)
 
 #if defined(__vita__) || defined(__psp2__)
 #include <psp2/types.h>
