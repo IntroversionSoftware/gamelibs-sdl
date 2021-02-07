@@ -21,7 +21,7 @@
 
 #include <Windows.h>
 
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 #include "../SDL_syslocale.h"
 
 /*using namespace Windows::Graphics::Display;*/
