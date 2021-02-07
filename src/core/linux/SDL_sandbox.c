@@ -21,7 +21,7 @@
 */
 
 
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 #include "SDL_sandbox.h"
 
 #include <unistd.h>
