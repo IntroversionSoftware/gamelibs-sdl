@@ -23,7 +23,7 @@
 #define SDL_DISABLE_ANALYZE_MACROS 1
 #endif
 
-#include "../SDL_internal.h"
+#include "SDL_internal.h"
 
 /* This file contains SDL replacements for functions in the C library */
 
