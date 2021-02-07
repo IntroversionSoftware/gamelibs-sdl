@@ -1,0 +1,4 @@
+option('wayland',
+    type: 'boolean',
+    value: false,
+    description: 'Enable Wayland support')
