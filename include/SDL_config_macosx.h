@@ -277,4 +277,9 @@
 #define SDL_ALTIVEC_BLITTERS    1
 #endif
 
+#define SDL_AUDIO_DISABLED 1
+#define SDL_SENSOR_DISABLED 1
+#define SDL_RENDER_DISABLED 1
+#define SDL_FILESYSTEM_DISABLED 1
+
 #endif /* SDL_config_macosx_h_ */
