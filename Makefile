@@ -1,7 +1,11 @@
 # -*- Makefile -*- for sdl
 
+.SECONDEXPANSION:
+.SUFFIXES:
+
 ifneq ($(findstring $(MAKEFLAGS),s),s)
 ifndef V
+        QUIET          = @
         QUIET_CC       = @echo '   ' CC $@;
         QUIET_AR       = @echo '   ' AR $@;
         QUIET_RANLIB   = @echo '   ' RANLIB $@;
@@ -30,10 +34,18 @@ endif
 SDL_LIB = libSDL.a
 SDLMAIN_LIB = libSDLmain.a
 AR    ?= ar
-ARFLAGS ?= rcu
+ARFLAGS ?= rc
 CC    ?= gcc
 RANLIB?= ranlib
 RM    ?= rm -f
+
+BUILD_DIR := build
+BUILD_ID  ?= default-build-id
+OBJ_DIR   := $(BUILD_DIR)/$(BUILD_ID)
+
+ifeq (,$(BUILD_ID))
+$(error BUILD_ID cannot be an empty string)
+endif
 
 prefix ?= /usr/local
 libdir := $(prefix)/lib
@@ -146,9 +158,9 @@ SDLMAIN_SOURCES := $(wildcard $(SDLMAIN_SOURCES))
 HEADERS := $(wildcard $(HEADERS))
 
 HEADERS_INST := $(patsubst include/%,$(includedir)/%,$(HEADERS))
-SDL_OBJECTS := $(filter %.o,$(patsubst %.c,%.o,$(SDL_SOURCES)))
-SDL_OBJECTS += $(filter %.o,$(patsubst %.m,%.o,$(SDL_SOURCES)))
-SDLMAIN_OBJECTS := $(patsubst %.c,%.o,$(SDLMAIN_SOURCES))
+SDL_OBJECTS := $(filter %.o,$(patsubst %.c,$(OBJ_DIR)/%.o,$(SDL_SOURCES)))
+SDL_OBJECTS += $(filter %.o,$(patsubst %.m,$(OBJ_DIR)/%.o,$(SDL_SOURCES)))
+SDLMAIN_OBJECTS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SDLMAIN_SOURCES))
 
 CFLAGS ?= -O2
 CFLAGS += -I. -Iinclude -DNO_STDIO_REDIRECT
@@ -160,9 +172,9 @@ ifneq ($(SDLMAIN_OBJECTS),)
 INSTALL_TARGETS += $(libdir)/$(SDLMAIN_LIB)
 endif
 
-ALL_TARGETS := $(SDL_LIB)
+ALL_TARGETS := $(OBJ_DIR)/$(SDL_LIB)
 ifneq ($(SDLMAIN_OBJECTS),)
-ALL_TARGETS += $(SDLMAIN_LIB)
+ALL_TARGETS += $(OBJ_DIR)/$(SDLMAIN_LIB)
 endif
 
 all: $(ALL_TARGETS)
@@ -177,7 +189,7 @@ $(includedir)/%.h: include/%.h
 	$(QUIET_INSTALL)cp $< $@
 	@chmod 0644 $@
 
-$(libdir)/%.a: %.a
+$(libdir)/%.a: $(OBJ_DIR)/%.a
 	-@if [ ! -d $(libdir)  ]; then mkdir -p $(libdir); fi
 	$(QUIET_INSTALL)cp $< $@
 	@chmod 0644 $@
@@ -185,22 +197,42 @@ $(libdir)/%.a: %.a
 install: $(INSTALL_TARGETS)
 
 clean:
-	$(RM) $(SDL_OBJECTS) $(SDLMAIN_OBJECTS) *.a
+	$(RM) -r $(OBJ_DIR)
 
 distclean: clean
+	$(RM) -r $(BUILD_DIR)
 
-$(SDL_LIB): $(SDL_OBJECTS)
+$(OBJ_DIR)/$(SDL_LIB): $(SDL_OBJECTS) | $$(@D)/.
 	$(QUIET_AR)$(AR) $(ARFLAGS) $@ $^
 	$(QUIET_RANLIB)$(RANLIB) $@
 
 ifneq ($(SDLMAIN_OBJECTS),)
-$(SDLMAIN_LIB): $(SDLMAIN_OBJECTS)
+$(OBJ_DIR)/$(SDLMAIN_LIB): $(SDLMAIN_OBJECTS) | $$(@D)/.
 	$(QUIET_AR)$(AR) $(ARFLAGS) $@ $^
 	$(QUIET_RANLIB)$(RANLIB) $@
 endif
 
-%.o: %.c .disable-dynapi
+$(OBJ_DIR)/%.o: %.c $(OBJ_DIR)/.cflags .disable-dynapi | $$(@D)/.
 	$(QUIET_CC)$(CC) $(CFLAGS) -o $@ -c $<
 
-%.o: %.m .disable-dynapi
+$(OBJ_DIR)/%.o: %.m $(OBJ_DIR)/.cflags .disable-dynapi | $$(@D)/.
 	$(QUIET_CC)$(CC) $(CFLAGS) $(OBJCFLAGS) -o $@ -c $<
+
+.PRECIOUS: $(OBJ_DIR)/. $(OBJ_DIR)%/.
+
+$(OBJ_DIR)/.:
+	$(QUIET)mkdir -p $@
+
+$(OBJ_DIR)%/.:
+	$(QUIET)mkdir -p $@
+
+TRACK_CFLAGS = $(subst ','\'',$(CC) $(CFLAGS) $(OBJCFLAGS))
+
+$(OBJ_DIR)/.cflags: .force-cflags | $$(@D)/.
+	@FLAGS='$(TRACK_CFLAGS)'; \
+    if test x"$$FLAGS" != x"`cat $(OBJ_DIR)/.cflags 2>/dev/null`" ; then \
+        echo "    * rebuilding sdl: new build flags or prefix"; \
+        echo "$$FLAGS" > $(OBJ_DIR)/.cflags; \
+    fi
+
+.PHONY: .force-cflags
