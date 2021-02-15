@@ -36,6 +36,7 @@ SDLMAIN_LIB = libSDLmain.a
 AR    ?= ar
 ARFLAGS ?= rc
 CC    ?= gcc
+CXX   ?= g++
 RANLIB?= ranlib
 RM    ?= rm -f
 
@@ -141,16 +142,29 @@ endif
 
 ifdef TARGET_OS_WINDOWS
 SDL_SOURCES += \
-    src/audio/windib/*.c \
-    src/joystick/win32/*.c \
-    src/loadso/win32/*.c \
-    src/thread/win32/SDL*.c \
-    src/timer/win32/*.c \
-    src/video/wincommon/*.c \
-    src/video/windib/*.c
+    src/core/windows/*.c \
+    src/filesystem/windows/*.c \
+    src/haptic/windows/*.c \
+    src/hidapi/windows/*.c \
+    src/joystick/windows/*.c \
+    src/loadso/windows/*.c \
+    src/locale/windows/*.c \
+    src/main/windows/*.c \
+    src/misc/windows/*.c \
+    src/power/windows/*.c \
+    src/sensor/windows/*.c \
+    src/thread/generic/*.c \
+    src/thread/windows/*.c \
+    src/timer/windows/*.c \
+    src/video/windows/*.c \
+    src/audio/directsound/*.c \
+    src/audio/wasapi/*.c \
+    src/audio/winmm/*.c \
+    src/render/direct3d/*.c \
+    src/render/direct3d11/*.c \
 
 SDLMAIN_SOURCES += \
-    src/main/win32/*.c
+    src/main/windows/*.c
 endif
 
 SDL_SOURCES := $(wildcard $(SDL_SOURCES))
@@ -160,6 +174,7 @@ HEADERS := $(wildcard $(HEADERS))
 HEADERS_INST := $(patsubst include/%,$(includedir)/%,$(HEADERS))
 SDL_OBJECTS := $(filter %.o,$(patsubst %.c,$(OBJ_DIR)/%.o,$(SDL_SOURCES)))
 SDL_OBJECTS += $(filter %.o,$(patsubst %.m,$(OBJ_DIR)/%.o,$(SDL_SOURCES)))
+SDL_OBJECTS += $(filter %.o,$(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SDL_SOURCES)))
 SDLMAIN_OBJECTS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SDLMAIN_SOURCES))
 
 CFLAGS ?= -O2
@@ -214,6 +229,9 @@ endif
 
 $(OBJ_DIR)/%.o: %.c $(OBJ_DIR)/.cflags .disable-dynapi | $$(@D)/.
 	$(QUIET_CC)$(CC) $(CFLAGS) -o $@ -c $<
+
+$(OBJ_DIR)/%.o: %.cpp $(OBJ_DIR)/.cflags .disable-dynapi | $$(@D)/.
+	$(QUIET_CXX)$(CXX) $(CFLAGS) -o $@ -c $<
 
 $(OBJ_DIR)/%.o: %.m $(OBJ_DIR)/.cflags .disable-dynapi | $$(@D)/.
 	$(QUIET_CC)$(CC) $(CFLAGS) $(OBJCFLAGS) -o $@ -c $<
