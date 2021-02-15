@@ -25,6 +25,10 @@
 
 #include "SDL_platform.h"
 
+#ifdef __MINGW32__
+#define _MSC_VER 1900
+#endif
+
 /* This is a set of defines to configure the SDL features */
 
 #if !defined(_STDINT_H_) && (!defined(HAVE_STDINT_H) || !_HAVE_STDINT_H)
@@ -264,13 +268,13 @@ typedef unsigned int uintptr_t;
 #define SDL_VIDEO_RENDER_OGL    1
 #endif
 #ifndef SDL_VIDEO_RENDER_OGL_ES2
-#define SDL_VIDEO_RENDER_OGL_ES2    1
+#define SDL_VIDEO_RENDER_OGL_ES2    0
 #endif
 #ifndef SDL_VIDEO_OPENGL_ES2
 #define SDL_VIDEO_OPENGL_ES2    1
 #endif
 #ifndef SDL_VIDEO_OPENGL_EGL
-#define SDL_VIDEO_OPENGL_EGL    1
+#define SDL_VIDEO_OPENGL_EGL    0
 #endif
 
 /* Enable Vulkan support */
@@ -285,6 +289,10 @@ typedef unsigned int uintptr_t;
 /* Enable assembly routines (Win64 doesn't have inline asm) */
 #ifndef _WIN64
 #define SDL_ASSEMBLY_ROUTINES   1
+#endif
+
+#ifdef __MINGW32__
+#undef _MSC_VER
 #endif
 
 #endif /* SDL_config_windows_h_ */
