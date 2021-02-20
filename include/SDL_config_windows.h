@@ -29,6 +29,10 @@
 #define _MSC_VER 1900
 #endif
 
+#if defined(__clang__) && defined(_MSC_VER)
+#define __GNUC__ 1
+#endif
+
 /* This is a set of defines to configure the SDL features */
 
 #if !defined(_STDINT_H_) && (!defined(HAVE_STDINT_H) || !_HAVE_STDINT_H)
