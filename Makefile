@@ -135,7 +135,6 @@ SDL_SOURCES += \
     src/joystick/darwin/*.c \
     src/joystick/iphoneos/*.m \
     src/render/metal/*.m \
-    src/thread/pthread/*.c \
     src/timer/unix/*.c \
     src/video/cocoa/*.m
 endif
@@ -153,7 +152,7 @@ SDL_SOURCES += \
     src/misc/windows/*.c \
     src/power/windows/*.c \
     src/sensor/windows/*.c \
-    src/thread/generic/*.c \
+    src/thread/generic/SDL_syscond.c \
     src/thread/windows/*.c \
     src/timer/windows/*.c \
     src/video/windows/*.c \
