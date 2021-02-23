@@ -25,12 +25,14 @@
 
 #include "SDL_platform.h"
 
-#ifdef __MINGW32__
-#define _MSC_VER 1900
-#endif
-
+#ifndef __GNUC__
 #if defined(__clang__) && defined(_MSC_VER)
 #define __GNUC__ 1
+#endif
+#endif
+
+#ifdef __MINGW32__
+#define _MSC_VER 1900
 #endif
 
 /* This is a set of defines to configure the SDL features */
