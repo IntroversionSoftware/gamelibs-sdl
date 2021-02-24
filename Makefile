@@ -6,7 +6,7 @@
 ifneq ($(findstring $(MAKEFLAGS),s),s)
 ifndef V
         QUIET          = @
-        QUIET_CC       = @echo '   ' CC $@;
+        QUIET_CC       = @echo '   ' CC $<;
         QUIET_AR       = @echo '   ' AR $@;
         QUIET_RANLIB   = @echo '   ' RANLIB $@;
         QUIET_INSTALL  = @echo '   ' INSTALL $<;
