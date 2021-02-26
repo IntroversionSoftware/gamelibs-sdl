@@ -12,6 +12,8 @@ link_deps = [
     dependency('gl'),
 ]
 
+sdlmain_sources = []
+
 sources = [
 	'src/SDL.c',
 	'src/SDL_assert.c',
@@ -160,6 +162,13 @@ endif
 
 
 if target_machine.system() == 'windows'
+    link_deps += [
+        compiler.find_library('imm32'),
+        compiler.find_library('setupapi'),
+    ]
+    sdlmain_sources += [
+        'src/main/windows/SDL_windows_main.c',
+    ]
 	sources += [
 		'src/audio/directsound/SDL_directsound.c',
 		'src/audio/wasapi/SDL_wasapi.c',
@@ -299,9 +308,17 @@ endif
 incdirs = include_directories(incdirs)
 build_incdirs = include_directories(build_incdirs)
 
-lib = static_library(
+sdl = static_library(
     'sdl2',
     sources,
+    include_directories: [incdirs, build_incdirs],
+    dependencies: link_deps,
+    objc_args: objc_flags,
+)
+
+sdlmain = static_library(
+    'sdlmain',
+    sdlmain_sources,
     include_directories: [incdirs, build_incdirs],
     dependencies: link_deps,
     objc_args: objc_flags,
@@ -310,7 +327,7 @@ lib = static_library(
 sdl_dep = declare_dependency(
     include_directories: incdirs,
     dependencies: link_deps,
-    link_with: lib,
+    link_with: [sdl, sdlmain],
     version: meson.project_version()
 )
 
