@@ -12,6 +12,13 @@ link_deps = [
     dependency('gl'),
 ]
 
+if target_machine.system() == 'windows'
+    link_deps += [
+        compiler.find_library('version'),
+        compiler.find_library('winmm'),
+    ]
+endif
+
 sdlmain_sources = []
 
 sources = [
