@@ -136,6 +136,7 @@
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PreprocessorDefinitions>DLL_EXPORT;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -143,7 +144,6 @@
     <Link>
       <AdditionalDependencies>setupapi.lib;winmm.lib;imm32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -159,6 +159,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)/../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PreprocessorDefinitions>DLL_EXPORT;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -166,7 +167,6 @@
     <Link>
       <AdditionalDependencies>setupapi.lib;winmm.lib;imm32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -181,6 +181,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)/../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PreprocessorDefinitions>DLL_EXPORT;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -188,7 +189,6 @@
     <Link>
       <AdditionalDependencies>setupapi.lib;winmm.lib;imm32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -210,6 +210,7 @@
       <PreprocessorDefinitions>DLL_EXPORT;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -217,7 +218,6 @@
     <Link>
       <AdditionalDependencies>setupapi.lib;winmm.lib;imm32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -234,6 +234,7 @@
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PreprocessorDefinitions>DLL_EXPORT;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -241,7 +242,6 @@
     <Link>
       <AdditionalDependencies>setupapi.lib;winmm.lib;imm32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
@@ -257,6 +257,7 @@
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PreprocessorDefinitions>DLL_EXPORT;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -264,7 +265,6 @@
     <Link>
       <AdditionalDependencies>setupapi.lib;winmm.lib;imm32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
-      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
