@@ -25,6 +25,8 @@
 
 #include "SDL_platform.h"
 
+#define HAVE_LIBC
+
 #ifndef __GNUC__
 #if defined(__clang__) && defined(_MSC_VER)
 #define __GNUC__ 1
