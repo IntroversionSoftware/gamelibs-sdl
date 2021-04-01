@@ -51,7 +51,7 @@ WIN_GLES_LoadLibrary(_THIS, const char *path) {
     }
     
     if (_this->egl_data == NULL) {
-        return SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY, 0);
+        return SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY, EGL_PLATFORM_ANGLE_ANGLE);
     }
 
     return 0;
