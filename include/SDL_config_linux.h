@@ -451,4 +451,7 @@
 /* Enable dynamic libsamplerate support */
 #define SDL_LIBSAMPLERATE_DYNAMIC "libsamplerate.so.0"
 
+#define SDL_AUDIO_DISABLED 1
+#define SDL_SENSOR_DISABLED 1
+
 #endif /* SDL_config_h_ */
