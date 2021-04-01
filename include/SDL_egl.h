@@ -1044,6 +1044,10 @@ EGLAPI EGLBoolean EGLAPIENTRY eglSetDamageRegionKHR (EGLDisplay dpy, EGLSurface 
 #define EGL_PLATFORM_X11_SCREEN_KHR       0x31D6
 #endif /* EGL_KHR_platform_x11 */
 
+#define EGL_PLATFORM_ANGLE_ANGLE              0x3202
+#define EGL_PLATFORM_ANGLE_TYPE_ANGLE         0x3203
+#define EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE 0x3206
+
 #ifndef EGL_KHR_reusable_sync
 #define EGL_KHR_reusable_sync 1
 #ifdef KHRONOS_SUPPORT_INT64
