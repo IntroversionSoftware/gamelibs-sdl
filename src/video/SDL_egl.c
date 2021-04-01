@@ -487,6 +487,15 @@ SDL_EGL_GetVersion(_THIS) {
     }
 }
 
+static EGLint getANGLERendererHint()
+{
+    const char *angle_renderer_hint;
+    angle_renderer_hint = SDL_GetHint("SDL_HINT_ANGLE_RENDERER");
+    if (angle_renderer_hint)
+        return SDL_atoi(angle_renderer_hint);
+    return EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE;
+}
+
 int
 SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_display, EGLenum platform)
 {
@@ -517,7 +526,11 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
             if (SDL_EGL_HasExtension(_this, SDL_EGL_CLIENT_EXTENSION, "EGL_EXT_platform_base")) {
                 _this->egl_data->eglGetPlatformDisplayEXT = SDL_EGL_GetProcAddress(_this, "eglGetPlatformDisplayEXT");
                 if (_this->egl_data->eglGetPlatformDisplayEXT) {
-                    _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplayEXT(platform, (void *)(uintptr_t)native_display, NULL);
+                    EGLint angleVulkan[] = {
+                        EGL_PLATFORM_ANGLE_TYPE_ANGLE,
+                        getANGLERendererHint(),
+                        EGL_NONE };
+                    _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplayEXT(platform, (void *)(uintptr_t)native_display, angleVulkan);
                 }
             }
         }
