@@ -109,6 +109,11 @@
 #define EGL_PLATFORM_DEVICE_EXT 0x0
 #endif
 
+#define EGL_EXTENSIONS_ENABLED_ANGLE 0x345F
+#define EGL_POWER_PREFERENCE_ANGLE 0x3482
+#define EGL_LOW_POWER_ANGLE 0x0001
+#define EGL_HIGH_POWER_ANGLE 0x0002
+
 #if defined(SDL_VIDEO_STATIC_ANGLE) || defined(SDL_VIDEO_DRIVER_VITA)
 #define LOAD_FUNC(NAME) \
 _this->egl_data->NAME = (void *)NAME;
@@ -491,6 +496,33 @@ SDL_EGL_GetVersion(_THIS) {
     }
 }
 
+#define         EGL_PLATFORM_ANGLE_ANGLE                           0x3202
+#define         EGL_PLATFORM_ANGLE_TYPE_ANGLE                      0x3203
+#define         EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE              0x3206
+#define         EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE                0x3208
+#define         EGL_PLATFORM_ANGLE_TYPE_METAL_ANGLE                0x3489
+#define         EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE                 0x3488
+#define         EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED            0x3451
+
+
+static EGLint getANGLERendererHint()
+{
+    const char *angle_renderer_hint;
+    angle_renderer_hint = SDL_GetHint("SDL_HINT_ANGLE_RENDERER");
+    if (angle_renderer_hint)
+        return SDL_atoi(angle_renderer_hint);
+    return EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE;
+}
+
+static EGLint getANGLEDebugLayersHint()
+{
+    const char *angle_renderer_hint;
+    angle_renderer_hint = SDL_GetHint("SDL_HINT_ANGLE_DEBUG_LAYERS");
+    if (angle_renderer_hint)
+        return SDL_atoi(angle_renderer_hint);
+    return EGL_DONT_CARE;
+}
+
 int
 SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_display, EGLenum platform)
 {
@@ -512,20 +544,35 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
          * - it works on desktop X11 (using SDL_VIDEO_X11_FORCE_EGL=1) */
         SDL_EGL_GetVersion(_this);
 
-        if (_this->egl_data->egl_version_major == 1 && _this->egl_data->egl_version_minor == 5) {
-            LOAD_FUNC(eglGetPlatformDisplay);
+        LOAD_FUNC(eglGetPlatformDisplay);
+
+        uintptr_t renderer = getANGLERendererHint();
+        int isD3D11On12 = (renderer == EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE);
+        if (isD3D11On12)
+            renderer = EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE;
+
+        EGLAttrib angleConfig[32];
+        int idx = 0;
+
+        angleConfig[idx++] = EGL_PLATFORM_ANGLE_TYPE_ANGLE;
+        angleConfig[idx++] = renderer;
+
+        angleConfig[idx++] = EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED;
+        angleConfig[idx++] = getANGLEDebugLayersHint();
+
+        if (isD3D11On12) {
+            angleConfig[idx++] = EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE;
+            angleConfig[idx++] = EGL_TRUE;
         }
 
-        if (_this->egl_data->eglGetPlatformDisplay) {
-            _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplay(platform, (void *)(uintptr_t)native_display, NULL);
-        } else {
-            if (SDL_EGL_HasExtension(_this, SDL_EGL_CLIENT_EXTENSION, "EGL_EXT_platform_base")) {
-                _this->egl_data->eglGetPlatformDisplayEXT = SDL_EGL_GetProcAddress(_this, "eglGetPlatformDisplayEXT");
-                if (_this->egl_data->eglGetPlatformDisplayEXT) {
-                    _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplayEXT(platform, (void *)(uintptr_t)native_display, NULL);
-                }
-            }
+        if (renderer == EGL_PLATFORM_ANGLE_TYPE_METAL_ANGLE) {
+            angleConfig[idx++] = EGL_POWER_PREFERENCE_ANGLE;
+            angleConfig[idx++] = EGL_HIGH_POWER_ANGLE;
         }
+
+        angleConfig[idx++] = EGL_NONE;
+
+        _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplay(platform, (void *)(uintptr_t)native_display, angleConfig);
     }
 #endif
     /* Try the implementation-specific eglGetDisplay even if eglGetPlatformDisplay fails */
@@ -1019,6 +1066,11 @@ SDL_EGL_CreateContext(_THIS, EGLSurface egl_surface)
         }
     }
 #endif
+
+    if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_ANGLE_create_context_extensions_enabled")) {
+        attribs[attr++] = EGL_EXTENSIONS_ENABLED_ANGLE;
+        attribs[attr++] = GL_TRUE;
+    }
 
     attribs[attr++] = EGL_NONE;
 
