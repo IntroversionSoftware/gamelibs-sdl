@@ -24,6 +24,7 @@
 
 #include "SDL.h"
 #include "SDL_endian.h"
+#include "SDL_cocoaopengles.h"
 #include "SDL_cocoavideo.h"
 #include "SDL_cocoashape.h"
 #include "SDL_cocoavulkan.h"
