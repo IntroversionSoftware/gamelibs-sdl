@@ -270,19 +270,19 @@ typedef unsigned int uintptr_t;
 #define SDL_VIDEO_OPENGL    1
 #endif
 #ifndef SDL_VIDEO_OPENGL_WGL
-#define SDL_VIDEO_OPENGL_WGL    1
+#define SDL_VIDEO_OPENGL_WGL    0
 #endif
 #ifndef SDL_VIDEO_RENDER_OGL
 #define SDL_VIDEO_RENDER_OGL    1
 #endif
 #ifndef SDL_VIDEO_RENDER_OGL_ES2
-#define SDL_VIDEO_RENDER_OGL_ES2    0
+#define SDL_VIDEO_RENDER_OGL_ES2    1
 #endif
 #ifndef SDL_VIDEO_OPENGL_ES2
 #define SDL_VIDEO_OPENGL_ES2    1
 #endif
 #ifndef SDL_VIDEO_OPENGL_EGL
-#define SDL_VIDEO_OPENGL_EGL    0
+#define SDL_VIDEO_OPENGL_EGL    1
 #endif
 
 /* Enable Vulkan support */
@@ -302,6 +302,9 @@ typedef unsigned int uintptr_t;
 #ifdef __MINGW32__
 #undef _MSC_VER
 #endif
+
+#define SDL_AUDIO_DISABLED 1
+#define SDL_SENSOR_DISABLED 1
 
 #endif /* SDL_config_windows_h_ */
 
