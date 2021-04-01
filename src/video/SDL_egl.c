@@ -482,6 +482,10 @@ SDL_EGL_GetVersion(_THIS) {
     }
 }
 
+#define         EGL_PLATFORM_ANGLE_ANGLE                           0x3202
+#define         EGL_PLATFORM_ANGLE_TYPE_ANGLE                      0x3203
+#define         EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE              0x3206
+
 static EGLint getANGLERendererHint()
 {
     const char *angle_renderer_hint;
