@@ -106,6 +106,9 @@ SDL_SOURCES += \
     src/thread/pthread/*.c \
     src/timer/unix/*.c \
 
+ifeq ($(OPENGL),angle)
+	CFLAGS += -DSDL_VIDEO_OPENGL_WGL=0
+endif
 endif
 
 ifdef TARGET_OS_LINUX
