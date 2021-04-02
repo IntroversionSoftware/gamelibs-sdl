@@ -6,17 +6,23 @@ incdirs = ['include']
 build_incdirs = ['src/hidapi/hidapi']
 
 objc_flags = []
+c_flags = []
 
 link_deps = [
     dependency('threads'),
     dependency('gl'),
 ]
 
+opengl = get_option('opengl')
+
 if target_machine.system() == 'windows'
     link_deps += [
         compiler.find_library('version'),
         compiler.find_library('winmm'),
     ]
+    if opengl == 'angle'
+        c_flags += ['-DSDL_VIDEO_OPENGL_WGL=0']
+    endif
 endif
 
 sdlmain_sources = []
@@ -331,6 +337,7 @@ sdl = static_library(
     'sdl2',
     sources,
     include_directories: [incdirs, build_incdirs],
+    c_args: c_flags,
     dependencies: link_deps,
     objc_args: objc_flags,
 )
