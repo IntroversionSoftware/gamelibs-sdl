@@ -29,6 +29,8 @@
 
 /* EGL implementation of SDL OpenGL support */
 
+#define EGL_PLATFORM_ANGLE_ANGLE                        0x3202
+
 int
 X11_GLES_LoadLibrary(_THIS, const char *path)
 {
@@ -54,7 +56,7 @@ X11_GLES_LoadLibrary(_THIS, const char *path)
         #endif
     }
     
-    return SDL_EGL_LoadLibrary(_this, path, (NativeDisplayType) data->display, 0);
+    return SDL_EGL_LoadLibrary(_this, path, (NativeDisplayType) data->display, EGL_PLATFORM_ANGLE_ANGLE);
 }
 
 XVisualInfo *
