@@ -27,6 +27,7 @@
 #include "SDL_cocoaopengl.h"
 
 /* EGL implementation of SDL OpenGL support */
+#define EGL_PLATFORM_ANGLE_ANGLE              0x3202
 
 int
 Cocoa_GLES_LoadLibrary(_THIS, const char *path) {
@@ -51,7 +52,7 @@ Cocoa_GLES_LoadLibrary(_THIS, const char *path) {
     }
     
     if (_this->egl_data == NULL) {
-        return SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY, 0);
+        return SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY, EGL_PLATFORM_ANGLE_ANGLE);
     }
 
     return 0;
@@ -110,7 +111,7 @@ Cocoa_GLES_SetupWindow(_THIS, SDL_Window * window)
 
     if (_this->egl_data == NULL) {
         SDL_assert(!_this->gl_config.driver_loaded);
-        if (SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY, 0) < 0) {
+        if (SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY, EGL_PLATFORM_ANGLE_ANGLE) < 0) {
             SDL_EGL_UnloadLibrary(_this);
             return -1;
         }
