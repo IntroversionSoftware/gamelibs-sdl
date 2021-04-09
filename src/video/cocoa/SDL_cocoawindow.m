@@ -79,6 +79,7 @@
 /* These are needed for borderless/fullscreen windows */
 - (BOOL)canBecomeKeyWindow;
 - (BOOL)canBecomeMainWindow;
+- (BOOL)isOpaque;
 - (void)sendEvent:(NSEvent *)event;
 - (void)doCommandBySelector:(SEL)aSelector;
 
@@ -117,6 +118,11 @@
 }
 
 - (BOOL)canBecomeMainWindow
+{
+    return YES;
+}
+
+- (BOOL)isOpaqua
 {
     return YES;
 }
