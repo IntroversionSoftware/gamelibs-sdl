@@ -100,6 +100,25 @@ Cocoa_GLES_DeleteContext(_THIS, SDL_GLContext context)
 SDL_EGL_SwapWindow_impl(Cocoa)
 SDL_EGL_MakeCurrent_impl(Cocoa)
 
+void
+Cocoa_GLES_GetDrawableSize(_THIS, SDL_Window * window, int * w, int * h)
+{
+    SDL_WindowData *windata = (SDL_WindowData *) window->driverdata;
+    NSView *contentView = windata->nswindow.contentView;
+    CALayer *layer = [contentView layer];
+
+    int width = layer.bounds.size.width * layer.contentsScale;
+    int height = layer.bounds.size.height * layer.contentsScale;
+
+    if (w) {
+        *w = width;
+    }
+
+    if (h) {
+        *h = height;
+    }
+}
+
 int
 Cocoa_GLES_SetupWindow(_THIS, SDL_Window * window)
 {
