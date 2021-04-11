@@ -134,9 +134,11 @@ OBJCFLAGS += -fobjc-weak
 SDL_SOURCES += \
     src/audio/coreaudio/*.m \
     src/file/cocoa/*.m \
+    src/filesystem/cocoa/*.m \
     src/haptic/darwin/*c \
     src/joystick/darwin/*.c \
     src/joystick/iphoneos/*.m \
+    src/power/macosx/*.c \
     src/render/metal/*.m \
     src/timer/unix/*.c \
     src/video/cocoa/*.m
