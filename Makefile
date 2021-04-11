@@ -200,11 +200,6 @@ endif
 
 all: $(ALL_TARGETS)
 
-.disable-dynapi: src/dynapi/SDL_dynapi.h
-	sed 's/SDL_DYNAMIC_API 1/SDL_DYNAMIC_API 0/g' $< > $<.tmp
-	mv $<.tmp $<
-	touch .disable-dynapi
-
 $(includedir)/%.h: include/%.h
 	-@if [ ! -d $(includedir)  ]; then mkdir -p $(includedir); fi
 	$(QUIET_INSTALL)cp $< $@
@@ -233,13 +228,13 @@ $(OBJ_DIR)/$(SDLMAIN_LIB): $(SDLMAIN_OBJECTS) | $$(@D)/.
 	$(QUIET_RANLIB)$(RANLIB) $@
 endif
 
-$(OBJ_DIR)/%.o: %.c $(OBJ_DIR)/.cflags .disable-dynapi | $$(@D)/.
+$(OBJ_DIR)/%.o: %.c $(OBJ_DIR)/.cflags | $$(@D)/.
 	$(QUIET_CC)$(CC) $(CFLAGS) -o $@ -c $<
 
-$(OBJ_DIR)/%.o: %.cpp $(OBJ_DIR)/.cflags .disable-dynapi | $$(@D)/.
+$(OBJ_DIR)/%.o: %.cpp $(OBJ_DIR)/.cflags | $$(@D)/.
 	$(QUIET_CXX)$(CXX) $(CFLAGS) -o $@ -c $<
 
-$(OBJ_DIR)/%.o: %.m $(OBJ_DIR)/.cflags .disable-dynapi | $$(@D)/.
+$(OBJ_DIR)/%.o: %.m $(OBJ_DIR)/.cflags | $$(@D)/.
 	$(QUIET_CC)$(CC) $(CFLAGS) $(OBJCFLAGS) -o $@ -c $<
 
 .PRECIOUS: $(OBJ_DIR)/. $(OBJ_DIR)%/.
