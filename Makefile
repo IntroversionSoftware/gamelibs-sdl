@@ -106,9 +106,6 @@ SDL_SOURCES += \
     src/thread/pthread/*.c \
     src/timer/unix/*.c \
 
-ifeq ($(OPENGL),angle)
-	CFLAGS += -DSDL_VIDEO_OPENGL_WGL=0
-endif
 endif
 
 ifdef TARGET_OS_LINUX
@@ -173,6 +170,10 @@ SDL_SOURCES += \
 
 SDLMAIN_SOURCES += \
     src/main/windows/*.c
+
+ifeq ($(OPENGL),angle)
+	CFLAGS += -DSDL_VIDEO_OPENGL_WGL=0
+endif
 endif
 
 SDL_SOURCES := $(wildcard $(SDL_SOURCES))
