@@ -10,10 +10,13 @@ c_flags = []
 
 link_deps = [
     dependency('threads'),
-    dependency('gl'),
 ]
 
 opengl = get_option('opengl')
+
+if opengl != 'angle'
+    link_deps += [ dependency('gl') ]
+endif
 
 if target_machine.system() == 'windows'
     link_deps += [
@@ -236,7 +239,6 @@ endif
 
 if target_machine.system() == 'linux'
     link_deps += [
-        dependency('libusb-1.0'),
         compiler.find_library('dl'),
     ]
     if opengl == 'angle'
