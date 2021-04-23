@@ -1,7 +1,7 @@
 /* include/SDL_config.h.  Generated from SDL_config.h.in by configure.  */
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2020 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -44,11 +44,12 @@
 /* #undef volatile */
 
 /* C datatypes */
-#ifdef __LP64__
+#if defined(__LP64__) || defined(_LP64) || defined(_WIN64)
 #define SIZEOF_VOIDP 8
 #else
 #define SIZEOF_VOIDP 4
 #endif
+
 #define HAVE_GCC_ATOMICS 1
 /* #undef HAVE_GCC_SYNC_LOCK_TEST_AND_SET */
 
@@ -77,7 +78,7 @@
 #define HAVE_SYS_TYPES_H 1
 #define HAVE_WCHAR_H 1
 /* #undef HAVE_PTHREAD_NP_H */
-#define HAVE_LIBUNWIND_H 1
+/* #undef HAVE_LIBUNWIND_H */
 
 /* C library functions */
 #define HAVE_MALLOC 1
@@ -101,6 +102,7 @@
 #define HAVE_WCSLEN 1
 /* #undef HAVE_WCSLCPY */
 /* #undef HAVE_WCSLCAT */
+/* #undef HAVE__WCSDUP */
 #define HAVE_WCSDUP 1
 #define HAVE_WCSSTR 1
 #define HAVE_WCSCMP 1
@@ -115,13 +117,12 @@
 /* #undef HAVE__STRREV */
 /* #undef HAVE__STRUPR */
 /* #undef HAVE__STRLWR */
-/* #undef HAVE_INDEX */
-/* #undef HAVE_RINDEX */
+#define HAVE_INDEX 1
+#define HAVE_RINDEX 1
 #define HAVE_STRCHR 1
 #define HAVE_STRRCHR 1
 #define HAVE_STRSTR 1
 #define HAVE_STRTOK_R 1
-/* #undef HAVE_STRTOK_S */
 /* #undef HAVE_ITOA */
 /* #undef HAVE__LTOA */
 /* #undef HAVE__UITOA */
@@ -172,8 +173,12 @@
 #define HAVE_LOGF 1
 #define HAVE_LOG10 1
 #define HAVE_LOG10F 1
+#define HAVE_LROUND 1
+#define HAVE_LROUNDF 1
 #define HAVE_POW 1
 #define HAVE_POWF 1
+#define HAVE_ROUND 1
+#define HAVE_ROUNDF 1
 #define HAVE_SCALBN 1
 #define HAVE_SCALBNF 1
 #define HAVE_SIN 1
@@ -213,7 +218,7 @@
 
 /* #undef HAVE_ALTIVEC_H */
 /* #undef HAVE_DBUS_DBUS_H */
-//#define HAVE_FCITX 1
+/* #undef HAVE_FCITX */
 #define HAVE_SYS_INOTIFY_H 1
 #define HAVE_INOTIFY_INIT 1
 #define HAVE_INOTIFY_INIT1 1
@@ -221,7 +226,7 @@
 /* #undef HAVE_IBUS_IBUS_H */
 #define HAVE_IMMINTRIN_H 1
 #define HAVE_LIBUDEV_H 1
-#define HAVE_LIBSAMPLERATE_H 1
+/* #undef HAVE_LIBSAMPLERATE_H */
 
 /* #undef HAVE_DDRAW_H */
 /* #undef HAVE_DINPUT_H */
@@ -241,7 +246,7 @@
 
 /* Allow disabling of core subsystems */
 /* #undef SDL_ATOMIC_DISABLED */
-/* #undef SDL_AUDIO_DISABLED */
+#define SDL_AUDIO_DISABLED 1
 /* #undef SDL_CPUINFO_DISABLED */
 /* #undef SDL_EVENTS_DISABLED */
 /* #undef SDL_FILE_DISABLED */
@@ -257,43 +262,47 @@
 /* #undef SDL_FILESYSTEM_DISABLED */
 
 /* Enable various audio drivers */
-#define SDL_AUDIO_DRIVER_ALSA 1
-#define SDL_AUDIO_DRIVER_ALSA_DYNAMIC "libasound.so.2"
+/* #undef SDL_AUDIO_DRIVER_ALSA */
+/* #undef SDL_AUDIO_DRIVER_ALSA_DYNAMIC */
 /* #undef SDL_AUDIO_DRIVER_ANDROID */
 /* #undef SDL_AUDIO_DRIVER_ARTS */
 /* #undef SDL_AUDIO_DRIVER_ARTS_DYNAMIC */
 /* #undef SDL_AUDIO_DRIVER_COREAUDIO */
-#define SDL_AUDIO_DRIVER_DISK 1
+/* #undef SDL_AUDIO_DRIVER_DISK */
 /* #undef SDL_AUDIO_DRIVER_DSOUND */
-#define SDL_AUDIO_DRIVER_DUMMY 1
+/* #undef SDL_AUDIO_DRIVER_DUMMY */
 /* #undef SDL_AUDIO_DRIVER_EMSCRIPTEN */
 /* #undef SDL_AUDIO_DRIVER_ESD */
 /* #undef SDL_AUDIO_DRIVER_ESD_DYNAMIC */
 /* #undef SDL_AUDIO_DRIVER_FUSIONSOUND */
 /* #undef SDL_AUDIO_DRIVER_FUSIONSOUND_DYNAMIC */
 /* #undef SDL_AUDIO_DRIVER_HAIKU */
-#define SDL_AUDIO_DRIVER_JACK 1
-#define SDL_AUDIO_DRIVER_JACK_DYNAMIC "libjack.so.0"
+/* #undef SDL_AUDIO_DRIVER_JACK */
+/* #undef SDL_AUDIO_DRIVER_JACK_DYNAMIC */
 /* #undef SDL_AUDIO_DRIVER_NACL */
 /* #undef SDL_AUDIO_DRIVER_NAS */
 /* #undef SDL_AUDIO_DRIVER_NAS_DYNAMIC */
 /* #undef SDL_AUDIO_DRIVER_NETBSD */
-#define SDL_AUDIO_DRIVER_OSS 1
+/* #undef SDL_AUDIO_DRIVER_OSS */
 /* #undef SDL_AUDIO_DRIVER_OSS_SOUNDCARD_H */
 /* #undef SDL_AUDIO_DRIVER_PAUDIO */
-#define SDL_AUDIO_DRIVER_PULSEAUDIO 1
-#define SDL_AUDIO_DRIVER_PULSEAUDIO_DYNAMIC "libpulse-simple.so.0"
+/* #undef SDL_AUDIO_DRIVER_PIPEWIRE */
+/* #undef SDL_AUDIO_DRIVER_PIPEWIRE_DYNAMIC */
+/* #undef SDL_AUDIO_DRIVER_PULSEAUDIO */
+/* #undef SDL_AUDIO_DRIVER_PULSEAUDIO_DYNAMIC */
 /* #undef SDL_AUDIO_DRIVER_QSA */
 /* #undef SDL_AUDIO_DRIVER_SNDIO */
 /* #undef SDL_AUDIO_DRIVER_SNDIO_DYNAMIC */
 /* #undef SDL_AUDIO_DRIVER_SUNAUDIO */
 /* #undef SDL_AUDIO_DRIVER_WASAPI */
 /* #undef SDL_AUDIO_DRIVER_WINMM */
+/* #undef SDL_AUDIO_DRIVER_OS2 */
 
 /* Enable various input drivers */
 #define SDL_INPUT_LINUXEV 1
 /* #undef SDL_INPUT_FBSDKBIO */
 #define SDL_INPUT_LINUXKD 1
+/* #undef SDL_INPUT_WSCONS */
 /* #undef SDL_JOYSTICK_HAIKU */
 /* #undef SDL_JOYSTICK_DINPUT */
 /* #undef SDL_JOYSTICK_XINPUT */
@@ -303,8 +312,9 @@
 #define SDL_JOYSTICK_LINUX 1
 /* #undef SDL_JOYSTICK_ANDROID */
 /* #undef SDL_JOYSTICK_WINMM */
+/* #undef SDL_JOYSTICK_OS2 */
 /* #undef SDL_JOYSTICK_USBHID */
-/* #undef SDL_JOYSTICK_USBHID_MACHINE_JOYSTICK_H */
+/* #undef SDL_HAVE_MACHINE_JOYSTICK_H */
 #define SDL_JOYSTICK_HIDAPI 1
 /* #undef SDL_JOYSTICK_RAWINPUT */
 /* #undef SDL_JOYSTICK_EMSCRIPTEN */
@@ -327,18 +337,22 @@
 /* #undef SDL_LOADSO_DUMMY */
 /* #undef SDL_LOADSO_LDG */
 /* #undef SDL_LOADSO_WINDOWS */
+/* #undef SDL_LOADSO_OS2 */
 
 /* Enable various threading systems */
+/* #undef SDL_THREAD_GENERIC_COND_SUFFIX */
 #define SDL_THREAD_PTHREAD 1
 #define SDL_THREAD_PTHREAD_RECURSIVE_MUTEX 1
 /* #undef SDL_THREAD_PTHREAD_RECURSIVE_MUTEX_NP */
 /* #undef SDL_THREAD_WINDOWS */
+/* #undef SDL_THREAD_OS2 */
 
 /* Enable various timer systems */
 /* #undef SDL_TIMER_HAIKU */
 /* #undef SDL_TIMER_DUMMY */
 #define SDL_TIMER_UNIX 1
 /* #undef SDL_TIMER_WINDOWS */
+/* #undef SDL_TIMER_OS2 */
 
 /* Enable various video drivers */
 /* #undef SDL_VIDEO_DRIVER_HAIKU */
@@ -347,15 +361,12 @@
 /* #undef SDL_VIDEO_DRIVER_DIRECTFB_DYNAMIC */
 #define SDL_VIDEO_DRIVER_DUMMY 1
 /* #undef SDL_VIDEO_DRIVER_WINDOWS */
-
-/* TODO: implement the wayland-scanner stuff, see configure.ac */
-//#define SDL_VIDEO_DRIVER_WAYLAND 1
-//#define SDL_VIDEO_DRIVER_WAYLAND_QT_TOUCH 1
-//#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC "libwayland-client.so.0"
-//#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL "libwayland-egl.so.1"
-//#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR "libwayland-cursor.so.0"
-//#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON "libxkbcommon.so.0"
-
+/* #undef SDL_VIDEO_DRIVER_WAYLAND */
+/* #undef SDL_VIDEO_DRIVER_WAYLAND_QT_TOUCH */
+/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC */
+/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL */
+/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR */
+/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON */
 #define SDL_VIDEO_DRIVER_X11 1
 /* #undef SDL_VIDEO_DRIVER_RPI */
 /* #undef SDL_VIDEO_DRIVER_KMSDRM */
@@ -386,6 +397,7 @@
 /* #undef SDL_VIDEO_DRIVER_NACL */
 /* #undef SDL_VIDEO_DRIVER_VIVANTE */
 /* #undef SDL_VIDEO_DRIVER_VIVANTE_VDK */
+/* #undef SDL_VIDEO_DRIVER_OS2 */
 /* #undef SDL_VIDEO_DRIVER_QNX */
 
 /* #undef SDL_VIDEO_RENDER_D3D */
@@ -434,6 +446,7 @@
 /* #undef SDL_FILESYSTEM_NACL */
 /* #undef SDL_FILESYSTEM_ANDROID */
 /* #undef SDL_FILESYSTEM_EMSCRIPTEN */
+/* #undef SDL_FILESYSTEM_OS2 */
 
 /* Enable assembly routines */
 #define SDL_ASSEMBLY_ROUTINES 1
@@ -448,12 +461,9 @@
 #define SDL_UDEV_DYNAMIC "libudev.so.1"
 
 /* Enable dynamic libusb support */
-#define SDL_LIBUSB_DYNAMIC "libusb-1.0.so.0"
+/* #undef SDL_LIBUSB_DYNAMIC */
 
 /* Enable dynamic libsamplerate support */
-#define SDL_LIBSAMPLERATE_DYNAMIC "libsamplerate.so.0"
+/* #undef SDL_LIBSAMPLERATE_DYNAMIC */
 
-#define SDL_AUDIO_DISABLED 1
-#define SDL_SENSOR_DISABLED 1
-
-#endif /* SDL_config_h_ */
+#endif /* SDL_config_linux_h_ */
