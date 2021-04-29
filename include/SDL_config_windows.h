@@ -305,6 +305,7 @@ typedef unsigned int uintptr_t;
 
 #define SDL_AUDIO_DISABLED 1
 #define SDL_SENSOR_DISABLED 1
+#define SDL_RENDER_DISABLED 1
 
 #endif /* SDL_config_windows_h_ */
 
