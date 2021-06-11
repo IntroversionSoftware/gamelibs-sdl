@@ -228,17 +228,17 @@ typedef unsigned int uintptr_t;
 #define SDL_AUDIO_DRIVER_DUMMY  1
 
 /* Enable various input drivers */
-#define SDL_JOYSTICK_DINPUT 1
+//#define SDL_JOYSTICK_DINPUT 1
 #define SDL_JOYSTICK_HIDAPI 1
 #ifndef __WINRT__
 #define SDL_JOYSTICK_RAWINPUT   1
 #endif
-#define SDL_JOYSTICK_VIRTUAL    1
+//#define SDL_JOYSTICK_VIRTUAL    1
 #ifdef SDL_WINDOWS10_SDK
 #define SDL_JOYSTICK_WGI    1
 #endif
 #define SDL_JOYSTICK_XINPUT 1
-#define SDL_HAPTIC_DINPUT   1
+//#define SDL_HAPTIC_DINPUT   1
 #define SDL_HAPTIC_XINPUT   1
 
 /* Enable the sensor driver */
@@ -255,7 +255,7 @@ typedef unsigned int uintptr_t;
 #define SDL_TIMER_WINDOWS   1
 
 /* Enable various video drivers */
-#define SDL_VIDEO_DRIVER_DUMMY  1
+//#define SDL_VIDEO_DRIVER_DUMMY  1
 #define SDL_VIDEO_DRIVER_WINDOWS    1
 
 #ifndef SDL_VIDEO_RENDER_D3D
