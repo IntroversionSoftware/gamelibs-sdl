@@ -102,6 +102,11 @@
 #define EGL_PLATFORM_DEVICE_EXT 0x0
 #endif
 
+#define EGL_EXTENSIONS_ENABLED_ANGLE 0x345F
+#define EGL_POWER_PREFERENCE_ANGLE 0x3482
+#define EGL_LOW_POWER_ANGLE 0x0001
+#define EGL_HIGH_POWER_ANGLE 0x0002
+
 #ifdef SDL_VIDEO_STATIC_ANGLE
 #define LOAD_FUNC(NAME) \
 _this->egl_data->NAME = (void *)NAME;
@@ -1029,6 +1034,16 @@ SDL_EGL_CreateContext(_THIS, EGLSurface egl_surface)
             SDL_SetError("EGL implementation does not support no_error contexts");
             return NULL;
         }
+    }
+
+    if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_ANGLE_create_context_extensions_enabled")) {
+        attribs[attr++] = EGL_EXTENSIONS_ENABLED_ANGLE;
+        attribs[attr++] = GL_TRUE;
+    }
+
+    if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_ANGLE_power_preference")) {
+        attribs[attr++] = EGL_POWER_PREFERENCE_ANGLE;
+        attribs[attr++] = EGL_HIGH_POWER_ANGLE;
     }
 
     attribs[attr++] = EGL_NONE;
