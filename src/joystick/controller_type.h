@@ -256,7 +256,7 @@ static const ControllerDescription_t arrControllers[] = {
 	{ MAKE_CONTROLLER_ID( 0x1689, 0xfd00 ), k_eControllerType_XBox360Controller, NULL },	// Razer Onza Tournament Edition
 	{ MAKE_CONTROLLER_ID( 0x1689, 0xfd01 ), k_eControllerType_XBox360Controller, NULL },	// Razer Onza Classic Edition
 	{ MAKE_CONTROLLER_ID( 0x1689, 0xfe00 ), k_eControllerType_XBox360Controller, NULL },	// Razer Sabertooth
-	{ MAKE_CONTROLLER_ID( 0x1949, 0x041a ), k_eControllerType_XBox360Controller, "Amazon Luna Gamepad" },	// Amazon Luna Gamepad
+	{ MAKE_CONTROLLER_ID( 0x1949, 0x041a ), k_eControllerType_XBox360Controller, "Amazon Luna Controller" },	// Amazon Luna Controller
 	{ MAKE_CONTROLLER_ID( 0x1bad, 0x0002 ), k_eControllerType_XBox360Controller, NULL },	// Harmonix Rock Band Guitar
 	{ MAKE_CONTROLLER_ID( 0x1bad, 0x0003 ), k_eControllerType_XBox360Controller, NULL },	// Harmonix Rock Band Drumkit
 	{ MAKE_CONTROLLER_ID( 0x1bad, 0xf016 ), k_eControllerType_XBox360Controller, NULL },	// Mad Catz Xbox 360 Controller
@@ -402,6 +402,7 @@ static const ControllerDescription_t arrControllers[] = {
 	{ MAKE_CONTROLLER_ID( 0x1532, 0x0a00 ), k_eControllerType_XBoxOneController, NULL },	// Razer Atrox Arcade Stick
 	{ MAKE_CONTROLLER_ID( 0x1532, 0x0a03 ), k_eControllerType_XBoxOneController, NULL },	// Razer Wildcat
 	{ MAKE_CONTROLLER_ID( 0x1532, 0x0a14 ), k_eControllerType_XBoxOneController, NULL },	// Razer Wolverine Ultimate
+	{ MAKE_CONTROLLER_ID( 0x1532, 0x0a15 ), k_eControllerType_XBoxOneController, NULL },	// Razer Wolverine Tournament Edition
 	{ MAKE_CONTROLLER_ID( 0x20d6, 0x2001 ), k_eControllerType_XBoxOneController, "PowerA Xbox Series X Controller" },	// PowerA Xbox Series X Wired Controller
 	{ MAKE_CONTROLLER_ID( 0x20d6, 0x4001 ), k_eControllerType_XBoxOneController, "PowerA Fusion Pro 2 Controller" },	// PowerA Fusion Pro 2 Wired Controller (Xbox Series X style)
 	{ MAKE_CONTROLLER_ID( 0x24c6, 0x541a ), k_eControllerType_XBoxOneController, NULL },	// PowerA Xbox One Mini Wired Controller
