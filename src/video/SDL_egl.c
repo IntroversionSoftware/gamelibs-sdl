@@ -490,6 +490,7 @@ SDL_EGL_GetVersion(_THIS) {
 #define         EGL_PLATFORM_ANGLE_ANGLE                           0x3202
 #define         EGL_PLATFORM_ANGLE_TYPE_ANGLE                      0x3203
 #define         EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE              0x3206
+#define         EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED            0x3451
 
 static EGLint getANGLERendererHint()
 {
@@ -498,6 +499,15 @@ static EGLint getANGLERendererHint()
     if (angle_renderer_hint)
         return SDL_atoi(angle_renderer_hint);
     return EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE;
+}
+
+static EGLint getANGLEDebugLayersHint()
+{
+    const char *angle_renderer_hint;
+    angle_renderer_hint = SDL_GetHint("SDL_HINT_ANGLE_DEBUG_LAYERS");
+    if (angle_renderer_hint)
+        return SDL_atoi(angle_renderer_hint);
+    return EGL_DONT_CARE;
 }
 
 int
@@ -533,6 +543,8 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
                     EGLint angleVulkan[] = {
                         EGL_PLATFORM_ANGLE_TYPE_ANGLE,
                         getANGLERendererHint(),
+                        EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED,
+                        getANGLEDebugLayersHint(),
                         EGL_NONE };
                     _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplayEXT(platform, (void *)(uintptr_t)native_display, angleVulkan);
                 }
