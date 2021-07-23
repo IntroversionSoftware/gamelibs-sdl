@@ -68,6 +68,7 @@ sources = [
     'src/joystick/SDL_joystick.c',
     'src/joystick/dummy/SDL_sysjoystick.c',
     'src/joystick/hidapi/SDL_hidapi_gamecube.c',
+    'src/joystick/hidapi/SDL_hidapi_luna.c',
     'src/joystick/hidapi/SDL_hidapi_ps4.c',
     'src/joystick/hidapi/SDL_hidapi_ps5.c',
     'src/joystick/hidapi/SDL_hidapi_rumble.c',
