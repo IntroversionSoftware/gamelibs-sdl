@@ -214,11 +214,23 @@ handle_configure_xdg_toplevel(void *data,
     enum xdg_toplevel_state *state;
     SDL_bool fullscreen = SDL_FALSE;
     SDL_bool maximized = SDL_FALSE;
+    SDL_bool floating = SDL_TRUE;
     wl_array_for_each(state, states) {
-        if (*state == XDG_TOPLEVEL_STATE_FULLSCREEN) {
+        switch (*state) {
+        case XDG_TOPLEVEL_STATE_FULLSCREEN:
             fullscreen = SDL_TRUE;
-        } else if (*state == XDG_TOPLEVEL_STATE_MAXIMIZED) {
+            floating = SDL_FALSE;
+            break;
+        case XDG_TOPLEVEL_STATE_MAXIMIZED:
             maximized = SDL_TRUE;
+            floating = SDL_FALSE;
+            break;
+        case XDG_TOPLEVEL_STATE_TILED_LEFT:
+        case XDG_TOPLEVEL_STATE_TILED_RIGHT:
+        case XDG_TOPLEVEL_STATE_TILED_TOP:
+        case XDG_TOPLEVEL_STATE_TILED_BOTTOM:
+            floating = SDL_FALSE;
+            break;
         }
     }
 
@@ -231,8 +243,8 @@ handle_configure_xdg_toplevel(void *data,
         }
 
         if (width == 0 || height == 0) {
-            width = window->windowed.w;
-            height = window->windowed.h;
+            width = wind->floating_width;
+            height = wind->floating_height;
         }
 
         /* xdg_toplevel spec states that this is a suggestion.
@@ -274,6 +286,12 @@ handle_configure_xdg_toplevel(void *data,
         return;
     }
 
+    if (floating) {
+        /* store current floating dimensions for restoring */
+        wind->floating_width = width;
+        wind->floating_height = height;
+    }
+
     wind->resize.width = width;
     wind->resize.height = height;
 }
@@ -302,11 +320,17 @@ decoration_frame_configure(struct libdecor_frame *frame,
     enum libdecor_window_state window_state;
     struct libdecor_state *state;
 
+    SDL_bool fullscreen = SDL_FALSE;
+    SDL_bool maximized = SDL_FALSE;
+
     /* window size */
     if (!libdecor_configuration_get_content_size(configuration, frame, &width, &height)) {
-        width = window->w;
-        height = window->h;
+        width = wind->floating_width;
+        height = wind->floating_height;
     }
+
+    width = (width == 0) ? window->w : width;
+    height = (height == 0) ? window->h : height;
 
     wind->resize.width = width;
     wind->resize.height = height;
@@ -324,37 +348,64 @@ decoration_frame_configure(struct libdecor_frame *frame,
         window_state = LIBDECOR_WINDOW_STATE_NONE;
     }
 
-   /* Always send maximized/restored/focus events; if the event is redundant it will
-     * automatically be discarded (see src/events/SDL_windowevents.c).
-     *
-     * No, we do not get minimize events from libdecor.
-     */
-    if (window_state & LIBDECOR_WINDOW_STATE_FULLSCREEN) {
-        window->flags |= SDL_WINDOW_FULLSCREEN;
-    } else {
+    /* translate libdecor to SDL states */
+    switch (window_state) {
+    case LIBDECOR_WINDOW_STATE_FULLSCREEN:
+        fullscreen = SDL_TRUE;
+        break;
+    case LIBDECOR_WINDOW_STATE_MAXIMIZED:
+        maximized = SDL_TRUE;
+        break;
+    }
+
+    if (!fullscreen) {
         if (window->flags & SDL_WINDOW_FULLSCREEN) {
             /* We might need to re-enter fullscreen after being restored from minimized */
             SDL_WaylandOutputData *driverdata = (SDL_WaylandOutputData *) SDL_GetDisplayForWindow(window)->driverdata;
             SetFullscreen(window, driverdata->output);
-        } else {
-            SDL_SendWindowEvent(window,
-                                (window_state & LIBDECOR_WINDOW_STATE_MAXIMIZED) ?
-                                    SDL_WINDOWEVENT_MAXIMIZED :
-                                    SDL_WINDOWEVENT_RESTORED,
-                                0, 0);
+            fullscreen = SDL_TRUE;
         }
-        window->flags &= ~SDL_WINDOW_FULLSCREEN;
+
+        if (width == 0 || height == 0) {
+            width = wind->floating_width;
+            height = wind->floating_height;
+        }
+
+        if ((window->flags & SDL_WINDOW_RESIZABLE)) {
+            if (window->max_w > 0) {
+                width = SDL_min(width, window->max_w);
+            }
+            width = SDL_max(width, window->min_w);
+
+            if (window->max_h > 0) {
+                height = SDL_min(height, window->max_h);
+            }
+            height = SDL_max(height, window->min_h);
+        } else {
+            wind->resize.width = window->w;
+            wind->resize.height = window->h;
+            return;
+        }
     }
-    SDL_SendWindowEvent(window,
-                        (window_state & LIBDECOR_WINDOW_STATE_ACTIVE) ?
-                            SDL_WINDOWEVENT_FOCUS_GAINED :
-                            SDL_WINDOWEVENT_FOCUS_LOST,
-                        0, 0);
+
+    if (!fullscreen) {
+        SDL_SendWindowEvent(window,
+                            maximized ?
+                                SDL_WINDOWEVENT_MAXIMIZED :
+                                SDL_WINDOWEVENT_RESTORED,
+                            0, 0);
+    }
 
     /* commit frame state */
     state = libdecor_state_new(width, height);
     libdecor_frame_commit(frame, state, configuration);
     libdecor_state_free(state);
+
+    /* store floating dimensions */
+    if (libdecor_frame_is_floating(frame)) {
+        wind->floating_width = width;
+        wind->floating_height = height;
+    }
 
     /* Update the resize capability. Since this will change the capabilities and
      * commit a new frame state with the last known content dimension, this has
@@ -1302,6 +1353,11 @@ void Wayland_SetWindowSize(_THIS, SDL_Window * window)
         libdecor_state_free(state);
     }
 #endif
+
+    if (!(window->flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_MAXIMIZED))) {
+        wind->floating_width = window->w;
+        wind->floating_height = window->h;
+    }
 
     region = wl_compositor_create_region(data->compositor);
     wl_region_add(region, 0, 0, window->w, window->h);
