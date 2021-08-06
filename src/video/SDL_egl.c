@@ -491,6 +491,9 @@ SDL_EGL_GetVersion(_THIS) {
 #define         EGL_PLATFORM_ANGLE_TYPE_ANGLE                      0x3203
 #define         EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE              0x3206
 #define         EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED            0x3451
+#define         EGL_FEATURE_OVERRIDES_ENABLED_ANGLE                0x3466
+#define         EGL_FEATURE_OVERRIDES_DISABLED_ANGLE               0x3467
+
 
 static EGLint getANGLERendererHint()
 {
@@ -508,6 +511,26 @@ static EGLint getANGLEDebugLayersHint()
     if (angle_renderer_hint)
         return SDL_atoi(angle_renderer_hint);
     return EGL_DONT_CARE;
+}
+
+static const char **getANGLEFeatureOverridesDisabled()
+{
+    static const char *null_overrides = NULL;
+    const char *angle_feature_overrides_disable_hint = SDL_GetHint("SDL_HINT_ANGLE_FEATURE_OVERRIDES_DISABLE");
+    if (!angle_feature_overrides_disable_hint)
+        return &null_overrides;
+    uintptr_t angle_feature_overrides_ptr = SDL_strtoull(angle_feature_overrides_disable_hint, NULL, 16);
+    return (const char **)angle_feature_overrides_ptr;
+}
+
+static const char **getANGLEFeatureOverridesEnabled()
+{
+    static const char *null_overrides = NULL;
+    const char *angle_feature_overrides_enable_hint = SDL_GetHint("SDL_HINT_ANGLE_FEATURE_OVERRIDES_ENABLE");
+    if (!angle_feature_overrides_enable_hint)
+        return &null_overrides;
+    uintptr_t angle_feature_overrides_ptr = SDL_strtoull(angle_feature_overrides_enable_hint, NULL, 16);
+    return (const char **)angle_feature_overrides_ptr;
 }
 
 int
@@ -530,26 +553,20 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
          * - it works on desktop X11 (using SDL_VIDEO_X11_FORCE_EGL=1) */
         SDL_EGL_GetVersion(_this);
 
-        if (_this->egl_data->egl_version_major == 1 && _this->egl_data->egl_version_minor == 5) {
-            LOAD_FUNC(eglGetPlatformDisplay);
-        }
+        LOAD_FUNC(eglGetPlatformDisplay);
 
-        if (_this->egl_data->eglGetPlatformDisplay) {
-            _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplay(platform, (void *)(uintptr_t)native_display, NULL);
-        } else {
-            if (SDL_EGL_HasExtension(_this, SDL_EGL_CLIENT_EXTENSION, "EGL_EXT_platform_base")) {
-                _this->egl_data->eglGetPlatformDisplayEXT = SDL_EGL_GetProcAddress(_this, "eglGetPlatformDisplayEXT");
-                if (_this->egl_data->eglGetPlatformDisplayEXT) {
-                    EGLint angleVulkan[] = {
-                        EGL_PLATFORM_ANGLE_TYPE_ANGLE,
-                        getANGLERendererHint(),
-                        EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED,
-                        getANGLEDebugLayersHint(),
-                        EGL_NONE };
-                    _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplayEXT(platform, (void *)(uintptr_t)native_display, angleVulkan);
-                }
-            }
-        }
+        EGLAttrib angleConfig[] = {
+            EGL_PLATFORM_ANGLE_TYPE_ANGLE,
+            getANGLERendererHint(),
+            EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED,
+            getANGLEDebugLayersHint(),
+            EGL_FEATURE_OVERRIDES_ENABLED_ANGLE,
+            (EGLAttrib)getANGLEFeatureOverridesEnabled(),
+            EGL_FEATURE_OVERRIDES_DISABLED_ANGLE,
+            (EGLAttrib)getANGLEFeatureOverridesDisabled(),
+            EGL_NONE
+        };
+        _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplay(platform, (void *)(uintptr_t)native_display, angleConfig);
     }
     /* Try the implementation-specific eglGetDisplay even if eglGetPlatformDisplay fails */
     if (_this->egl_data->egl_display == EGL_NO_DISPLAY) {
