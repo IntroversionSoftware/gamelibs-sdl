@@ -627,14 +627,16 @@ LINUX_JoystickDetect(void)
 static int
 LINUX_JoystickInit(void)
 {
+    const char *devices = SDL_GetHint("SDL_JOYSTICK_DEVICE");
+
 #if SDL_USE_LIBUDEV
     if (enumeration_method == ENUMERATION_UNSET) {
-        if (SDL_getenv("SDL_JOYSTICK_DISABLE_UDEV") != NULL) {
+        if (!SDL_GetHintBoolean("SDL_JOYSTICK_DISABLE_UDEV", SDL_FALSE)) {
             SDL_LogDebug(SDL_LOG_CATEGORY_INPUT,
                          "udev disabled by SDL_JOYSTICK_DISABLE_UDEV");
             enumeration_method = ENUMERATION_FALLBACK;
-        }
-        else if (access("/.flatpak-info", F_OK) == 0
+
+        } else if (access("/.flatpak-info", F_OK) == 0
                  || access("/run/host/container-manager", F_OK) == 0) {
             /* Explicitly check `/.flatpak-info` because, for old versions of
              * Flatpak, this was the only available way to tell if we were in
@@ -642,8 +644,8 @@ LINUX_JoystickInit(void)
             SDL_LogDebug(SDL_LOG_CATEGORY_INPUT,
                          "Container detected, disabling udev integration");
             enumeration_method = ENUMERATION_FALLBACK;
-        }
-        else {
+
+        } else {
             SDL_LogDebug(SDL_LOG_CATEGORY_INPUT,
                          "Using udev for joystick device discovery");
             enumeration_method = ENUMERATION_LIBUDEV;
@@ -652,9 +654,9 @@ LINUX_JoystickInit(void)
 #endif
 
     /* First see if the user specified one or more joysticks to use */
-    if (SDL_getenv("SDL_JOYSTICK_DEVICE") != NULL) {
+    if (devices != NULL) {
         char *envcopy, *envpath, *delim;
-        envcopy = SDL_strdup(SDL_getenv("SDL_JOYSTICK_DEVICE"));
+        envcopy = SDL_strdup(devices);
         envpath = envcopy;
         while (envpath != NULL) {
             delim = SDL_strchr(envpath, ':');
@@ -673,6 +675,9 @@ LINUX_JoystickInit(void)
     /* Force immediate joystick detection if using fallback */
     last_joy_detect_time = 0;
     last_input_dir_mtime = 0;
+
+    /* Manually scan first, since we sort by device number and udev doesn't */
+    LINUX_JoystickDetect();
 
 #if SDL_USE_LIBUDEV
     if (enumeration_method == ENUMERATION_LIBUDEV) {
@@ -715,9 +720,6 @@ LINUX_JoystickInit(void)
             }
         }
 #endif /* HAVE_INOTIFY */
-
-        /* Report all devices currently present */
-        LINUX_JoystickDetect();
     }
 
     return 0;

@@ -711,8 +711,10 @@ extern "C" {
  *  \brief  A variable controlling whether the Home button LED should be turned on when a Nintendo Switch controller is opened
  *
  *  This variable can be set to the following values:
- *    "0"       - home button LED is left off
- *    "1"       - home button LED is turned on (the default)
+ *    "0"       - home button LED is turned off
+ *    "1"       - home button LED is turned on
+ *
+ *  By default the Home button LED state is not changed.
  */
 #define SDL_HINT_JOYSTICK_HIDAPI_SWITCH_HOME_LED "SDL_JOYSTICK_HIDAPI_SWITCH_HOME_LED"
 
@@ -1217,6 +1219,17 @@ extern "C" {
  * - Raspberry Pi (raspberrypi)
  */
 #define SDL_HINT_VIDEO_DOUBLE_BUFFER      "SDL_VIDEO_DOUBLE_BUFFER"
+
+/**
+ * \brief A variable controlling whether the EGL window is allowed to be
+ * composited as transparent, rather than opaque.
+ *
+ * Most window systems will always render windows opaque, even if the surface
+ * format has an alpha channel. This is not always true, however, so by default
+ * SDL will try to enforce opaque composition. To override this behavior, you
+ * can set this hint to "1".
+ */
+#define SDL_HINT_VIDEO_EGL_ALLOW_TRANSPARENCY "SDL_VIDEO_EGL_ALLOW_TRANSPARENCY"
 
 /**
  * \brief A variable controlling whether the graphics context is externally managed.
