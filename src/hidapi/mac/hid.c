@@ -432,8 +432,8 @@ int HID_API_EXPORT hid_exit(void)
 {
 	if (hid_mgr) {
 		/* Close the HID manager. */
-		IOHIDManagerClose(hid_mgr, kIOHIDOptionsTypeNone);
-		CFRelease(hid_mgr);
+		//IOHIDManagerClose(hid_mgr, kIOHIDOptionsTypeNone);
+		//CFRelease(hid_mgr);
 		hid_mgr = NULL;
 	}
 	
