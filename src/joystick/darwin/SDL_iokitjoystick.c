@@ -1096,9 +1096,9 @@ DARWIN_JoystickQuit(void)
     }
 
     if (hidman) {
-        IOHIDManagerUnscheduleFromRunLoop(hidman, CFRunLoopGetCurrent(), SDL_JOYSTICK_RUNLOOP_MODE);
-        IOHIDManagerClose(hidman, kIOHIDOptionsTypeNone);
-        CFRelease(hidman);
+        //IOHIDManagerUnscheduleFromRunLoop(hidman, CFRunLoopGetCurrent(), SDL_JOYSTICK_RUNLOOP_MODE);
+        //IOHIDManagerClose(hidman, kIOHIDOptionsTypeNone);
+        //CFRelease(hidman);
         hidman = NULL;
     }
 }
