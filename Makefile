@@ -52,7 +52,7 @@ prefix ?= /usr/local
 libdir := $(prefix)/lib
 includedir := $(prefix)/include/SDL
 
-CFLAGS += -Isrc/hidapi/hidapi
+CFLAGS += -Isrc -Isrc/hidapi/hidapi -D_LARGEFILE64_SOURCE
 
 HEADERS = include/*.h
 

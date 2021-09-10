@@ -3,7 +3,7 @@ project('sdl2', 'c', version: '2.0.14')
 compiler = meson.get_compiler('c')
 
 incdirs = ['include']
-build_incdirs = ['src/hidapi/hidapi']
+build_incdirs = ['src', 'src/hidapi/hidapi']
 
 objc_flags = []
 c_flags = []
@@ -16,6 +16,10 @@ opengl = get_option('opengl')
 
 if opengl != 'angle'
     link_deps += [ dependency('gl') ]
+endif
+
+if target_machine.system() == 'linux'
+    c_flags += ['-D_LARGEFILE64_SOURCE']
 endif
 
 if target_machine.system() == 'windows'
