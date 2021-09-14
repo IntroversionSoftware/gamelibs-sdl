@@ -354,8 +354,13 @@ typedef uint64_t Uint64;
 #endif
 #endif /* SDL_DISABLE_ANALYZE_MACROS */
 
+#ifndef __cplusplus
 #define SDL_COMPILE_TIME_ASSERT(name, x)               \
        _Static_assert((x), "Static assertion " #name " failed")
+#else
+#define SDL_COMPILE_TIME_ASSERT(name, x)               \
+       static_assert((x), "Static assertion " #name " failed")
+#endif
 /** \cond */
 #ifndef DOXYGEN_SHOULD_IGNORE_THIS
 SDL_COMPILE_TIME_ASSERT(uint8, sizeof(Uint8) == 1);
