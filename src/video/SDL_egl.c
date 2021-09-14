@@ -522,22 +522,38 @@ static EGLint getANGLEDebugLayersHint()
 
 static const char **getANGLEFeatureOverridesDisabled()
 {
-    static const char *null_overrides = NULL;
-    const char *angle_feature_overrides_disable_hint = SDL_GetHint("SDL_HINT_ANGLE_FEATURE_OVERRIDES_DISABLE");
-    if (!angle_feature_overrides_disable_hint)
-        return &null_overrides;
-    uintptr_t angle_feature_overrides_ptr = SDL_strtoull(angle_feature_overrides_disable_hint, NULL, 16);
-    return (const char **)angle_feature_overrides_ptr;
+    static char *overrides[16];
+    static char buffer[256];
+
+    SDL_memset(overrides, 0, sizeof(overrides));
+    SDL_strlcpy(buffer, SDL_GetHint("SDL_HINT_ANGLE_FEATURE_OVERRIDES_DISABLE"), sizeof(buffer));
+
+    char *token = NULL;
+    int idx = 0;
+    do {
+        token = strtok(token ? NULL : buffer, ";");
+        overrides[idx++] = token;
+    } while (token && idx < sizeof(overrides) / sizeof(overrides[0]));
+
+    return (const char **)overrides;
 }
 
 static const char **getANGLEFeatureOverridesEnabled()
 {
-    static const char *null_overrides = NULL;
-    const char *angle_feature_overrides_enable_hint = SDL_GetHint("SDL_HINT_ANGLE_FEATURE_OVERRIDES_ENABLE");
-    if (!angle_feature_overrides_enable_hint)
-        return &null_overrides;
-    uintptr_t angle_feature_overrides_ptr = SDL_strtoull(angle_feature_overrides_enable_hint, NULL, 16);
-    return (const char **)angle_feature_overrides_ptr;
+    static char *overrides[16];
+    static char buffer[256];
+
+    SDL_memset(overrides, 0, sizeof(overrides));
+    SDL_strlcpy(buffer, SDL_GetHint("SDL_HINT_ANGLE_FEATURE_OVERRIDES_ENABLE"), sizeof(buffer));
+
+    char *token = NULL;
+    int idx = 0;
+    do {
+        token = strtok(token ? NULL : buffer, ";");
+        overrides[idx++] = token;
+    } while (token && idx < sizeof(overrides) / sizeof(overrides[0]));
+
+    return (const char **)overrides;
 }
 
 int
