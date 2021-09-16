@@ -37,7 +37,7 @@
 #endif
 
 #if defined(_MSC_VER) && (defined(_M_IX86) || defined(_M_X64))
-#include <xmmintrin.h>
+#include <intrin.h>
 #endif
 
 #if defined(__WATCOMC__) && defined(__386__)
