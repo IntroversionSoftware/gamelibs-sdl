@@ -879,6 +879,7 @@ SDL_CreateWindowAndRenderer(int width, int height, Uint32 window_flags,
     return 0;
 }
 
+#if !SDL_RENDER_DISABLED
 static SDL_INLINE
 void VerifyDrawQueueFunctions(const SDL_Renderer *renderer)
 {
@@ -892,6 +893,7 @@ void VerifyDrawQueueFunctions(const SDL_Renderer *renderer)
     SDL_assert(renderer->QueueCopy != NULL || renderer->QueueGeometry != NULL);
     SDL_assert(renderer->RunCommandQueue != NULL);
 }
+#endif
 
 SDL_Renderer *
 SDL_CreateRenderer(SDL_Window * window, int index, Uint32 flags)
