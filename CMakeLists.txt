@@ -1596,7 +1596,7 @@ elseif(WINDOWS)
     set(SDL_THREAD_WINDOWS 1)
     set(SOURCE_FILES ${SOURCE_FILES}
       ${SDL2_SOURCE_DIR}/src/thread/generic/SDL_syscond.c
-      ${SDL2_SOURCE_DIR}/src/thread/windows/SDL_syscond_srw.c
+      ${SDL2_SOURCE_DIR}/src/thread/windows/SDL_syscond_cv.c
       ${SDL2_SOURCE_DIR}/src/thread/windows/SDL_sysmutex.c
       ${SDL2_SOURCE_DIR}/src/thread/windows/SDL_syssem.c
       ${SDL2_SOURCE_DIR}/src/thread/windows/SDL_systhread.c
@@ -2246,6 +2246,7 @@ elseif(VITA)
       SceHid_stub
       SceMotion_stub
       ScePower_stub
+      SceProcessmgr_stub
       m
     )
     if(HAVE_VIDEO_VITA_PIB)
