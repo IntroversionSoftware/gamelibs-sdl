@@ -439,9 +439,6 @@
     <ClCompile Include="..\..\src\thread\SDL_thread.c">
       <Filter>src\thread</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\thread\windows\SDL_syscond_srw.c">
-      <Filter>src\thread\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\thread\windows\SDL_sysmutex.c">
       <Filter>src\thread\windows</Filter>
     </ClCompile>
@@ -588,6 +585,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\thread\generic\SDL_syscond.c">
       <Filter>src\thread\generic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\thread\windows\SDL_syscond_cv.c">
+      <Filter>src\thread\windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
