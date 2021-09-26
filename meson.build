@@ -263,6 +263,7 @@ if target_machine.system() == 'linux'
         'src/core/linux/SDL_ime.c',
         'src/core/linux/SDL_threadprio.c',
         'src/core/linux/SDL_udev.c',
+        'src/events/imKStoUCS.c',
         'src/haptic/linux/SDL_syshaptic.c',
         'src/joystick/linux/SDL_sysjoystick.c',
         'src/joystick/steam/SDL_steamcontroller.c',
@@ -294,7 +295,6 @@ if target_machine.system() == 'linux'
         'src/video/x11/SDL_x11window.c',
         'src/video/x11/SDL_x11xinput2.c',
         'src/video/x11/edid-parse.c',
-        'src/video/x11/imKStoUCS.c',
     ]
 endif
 
