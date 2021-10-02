@@ -497,6 +497,8 @@ SDL_EGL_GetVersion(_THIS) {
 #define         EGL_PLATFORM_ANGLE_ANGLE                           0x3202
 #define         EGL_PLATFORM_ANGLE_TYPE_ANGLE                      0x3203
 #define         EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE              0x3206
+#define         EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE                0x3208
+#define         EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE                 0x3488
 #define         EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED            0x3451
 #define         EGL_FEATURE_OVERRIDES_ENABLED_ANGLE                0x3466
 #define         EGL_FEATURE_OVERRIDES_DISABLED_ANGLE               0x3467
@@ -579,15 +581,22 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
 
         LOAD_FUNC(eglGetPlatformDisplay);
 
+        uintptr_t renderer = getANGLERendererHint();
+		int isD3D11On12 = (renderer == EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE);
+        if (isD3D11On12)
+            renderer = EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE;
+
         EGLAttrib angleConfig[] = {
             EGL_PLATFORM_ANGLE_TYPE_ANGLE,
-            getANGLERendererHint(),
+            renderer,
             EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED,
             getANGLEDebugLayersHint(),
             EGL_FEATURE_OVERRIDES_ENABLED_ANGLE,
             (EGLAttrib)getANGLEFeatureOverridesEnabled(),
             EGL_FEATURE_OVERRIDES_DISABLED_ANGLE,
             (EGLAttrib)getANGLEFeatureOverridesDisabled(),
+            isD3D11On12 ? EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE : EGL_NONE,
+            isD3D11On12 ? EGL_TRUE : EGL_NONE,
             EGL_NONE
         };
         _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplay(platform, (void *)(uintptr_t)native_display, angleConfig);
