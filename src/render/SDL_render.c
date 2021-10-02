@@ -1148,8 +1148,10 @@ SDL_CreateTexture(SDL_Renderer * renderer, Uint32 format, int access, int w, int
         return NULL;
     }
     if (SDL_ISPIXELFORMAT_INDEXED(format)) {
-        SDL_SetError("Palettized textures are not supported");
-        return NULL;
+        if (!IsSupportedFormat(renderer, format)) {
+            SDL_SetError("Palettized textures are not supported");
+            return NULL;
+        }
     }
     if (w <= 0 || h <= 0) {
         SDL_SetError("Texture dimensions can't be 0");
@@ -1343,6 +1345,18 @@ SDL_CreateTextureFromSurface(SDL_Renderer * renderer, SDL_Surface * surface)
         } else {
             SDL_UpdateTexture(texture, NULL, surface->pixels, surface->pitch);
         }
+
+#if SDL_VIDEO_RENDER_DIRECTFB
+        /* DirectFB allows palette format for textures.
+         * Copy SDL_Surface palette to the texture */
+        if (SDL_ISPIXELFORMAT_INDEXED(format)) {
+            if (SDL_strcasecmp(renderer->info.name, "directfb") == 0) {
+                extern void DirectFB_SetTexturePalette(SDL_Renderer *renderer, SDL_Texture *texture, SDL_Palette *pal);
+                DirectFB_SetTexturePalette(renderer, texture, surface->format->palette);
+            }
+        }
+#endif
+
     } else {
         SDL_PixelFormat *dst_fmt;
         SDL_Surface *temp = NULL;
