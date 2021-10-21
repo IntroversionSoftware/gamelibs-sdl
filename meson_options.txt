@@ -3,3 +3,7 @@ option('opengl',
 	choices: ['angle', 'core', 'compat'],
 	value: 'angle',
 	description: 'OpenGL API target')
+option('angle_static',
+    type: 'boolean',
+	value: false,
+	description: 'Link ANGLE statically')
