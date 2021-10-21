@@ -13,6 +13,7 @@ link_deps = [
 ]
 
 opengl = get_option('opengl')
+angle_static = get_option('angle_static')
 
 if opengl != 'angle'
     link_deps += [ dependency('gl') ]
@@ -20,6 +21,10 @@ endif
 
 if target_machine.system() == 'linux'
     c_flags += ['-D_LARGEFILE64_SOURCE']
+endif
+
+if angle_static
+    c_flags += ['-DSDL_VIDEO_STATIC_ANGLE=1']
 endif
 
 if target_machine.system() == 'windows'
