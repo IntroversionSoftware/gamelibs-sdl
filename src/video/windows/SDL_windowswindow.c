@@ -165,7 +165,7 @@ WIN_SetWindowPositionInternal(_THIS, SDL_Window * window, UINT flags)
     WIN_AdjustWindowRect(window, &x, &y, &w, &h, SDL_TRUE);
 
     data->expected_resize = SDL_TRUE;
-    SetWindowPos(hwnd, top, x, y, w, h, flags);
+    SetWindowPos(hwnd, top, x, y, w, h, flags | SWP_ASYNCWINDOWPOS);
     data->expected_resize = SDL_FALSE;
 }
 
