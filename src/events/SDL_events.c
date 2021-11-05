@@ -953,20 +953,22 @@ SDL_WaitEventTimeout(SDL_Event * event, int timeout)
     Uint32 start = 0;
     Uint32 expiration = 0;
 
-    /* First check for existing events */
-    switch (SDL_PeepEvents(event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT)) {
-    case -1:
-        return 0;
-    case 0:
-        break;
-    default:
-        /* Check whether we have reached the end of the poll cycle, and no more events are left */
-        if (timeout == 0 && event && event->type == SDL_POLLSENTINEL) {
-            return (SDL_PeepEvents(event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT) == 1);
-        }
-        /* Has existing events */
-        return 1;
-    }
+    if (event) {
+		/* First check for existing events */
+		switch (SDL_PeepEvents(event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT)) {
+		case -1:
+			return 0;
+		case 0:
+			break;
+		default:
+			/* Check whether we have reached the end of the poll cycle, and no more events are left */
+			if (timeout == 0 && event && event->type == SDL_POLLSENTINEL) {
+				return (SDL_PeepEvents(event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT) == 1);
+			}
+			/* Has existing events */
+			return 1;
+		}
+	}
 
     if (timeout > 0) {
         start = SDL_GetTicks();
