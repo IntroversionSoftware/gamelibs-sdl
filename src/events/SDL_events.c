@@ -993,39 +993,41 @@ SDL_WaitEventTimeout(SDL_Event * event, int timeout)
         SDL_PumpEventsInternal(SDL_TRUE);
     }
 
-    /* First check for existing events */
-    switch (SDL_PeepEventsInternal(event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT, include_sentinel)) {
-    case -1:
-        return 0;
-    case 0:
-        if (timeout == 0) {
-            /* No events available, and not willing to wait */
+    if (event) {
+        /* First check for existing events */
+        switch (SDL_PeepEventsInternal(event, 1, SDL_GETEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT, include_sentinel)) {
+        case -1:
             return 0;
-        }
-        break;
-    default:
-        if (include_sentinel) {
-            if (event) {
-                if (event->type == SDL_POLLSENTINEL) {
-                    /* Reached the end of a poll cycle, and not willing to wait */
-                    return 0;
-                }
-            } else {
-                /* Need to peek the next event to check for sentinel */
-                SDL_Event dummy;
+        case 0:
+            if (timeout == 0) {
+                /* No events available, and not willing to wait */
+                return 0;
+            }
+            break;
+        default:
+            if (include_sentinel) {
+                if (event) {
+                    if (event->type == SDL_POLLSENTINEL) {
+                        /* Reached the end of a poll cycle, and not willing to wait */
+                        return 0;
+                    }
+                } else {
+                    /* Need to peek the next event to check for sentinel */
+                    SDL_Event dummy;
 
-                if (SDL_PeepEventsInternal(&dummy, 1, SDL_PEEKEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT, SDL_TRUE) &&
-                    dummy.type == SDL_POLLSENTINEL) {
-                    /* Reached the end of a poll cycle, and not willing to wait */
-                    return 0;
+                    if (SDL_PeepEventsInternal(&dummy, 1, SDL_PEEKEVENT, SDL_FIRSTEVENT, SDL_LASTEVENT, SDL_TRUE) &&
+                        dummy.type == SDL_POLLSENTINEL) {
+                        /* Reached the end of a poll cycle, and not willing to wait */
+                        return 0;
+                    }
                 }
             }
+            /* Has existing events */
+            return 1;
         }
-        /* Has existing events */
-        return 1;
+        /* We should have completely handled timeout == 0 above */
+        SDL_assert(timeout != 0);
     }
-    /* We should have completely handled timeout == 0 above */
-    SDL_assert(timeout != 0);
 
     if (timeout > 0) {
         start = SDL_GetTicks();
