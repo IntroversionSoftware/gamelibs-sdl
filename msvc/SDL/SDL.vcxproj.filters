@@ -295,9 +295,6 @@
     <ClCompile Include="..\..\src\joystick\windows\SDL_dinputjoystick.c">
       <Filter>src\joystick\windows</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\joystick\windows\SDL_mmjoystick.c">
-      <Filter>src\joystick\windows</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\joystick\windows\SDL_rawinputjoystick.c">
       <Filter>src\joystick\windows</Filter>
     </ClCompile>
