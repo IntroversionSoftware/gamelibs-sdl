@@ -209,7 +209,6 @@ if target_machine.system() == 'windows'
         'src/haptic/windows/SDL_xinputhaptic.c',
         'src/hidapi/windows/hid.c',
         'src/joystick/windows/SDL_dinputjoystick.c',
-        'src/joystick/windows/SDL_mmjoystick.c',
         'src/joystick/windows/SDL_rawinputjoystick.c',
         'src/joystick/windows/SDL_windows_gaming_input.c',
         'src/joystick/windows/SDL_windowsjoystick.c',
