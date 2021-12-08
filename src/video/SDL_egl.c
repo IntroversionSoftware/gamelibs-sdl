@@ -501,6 +501,7 @@ SDL_EGL_GetVersion(_THIS) {
 #define         EGL_PLATFORM_ANGLE_TYPE_ANGLE                      0x3203
 #define         EGL_PLATFORM_ANGLE_TYPE_DEFAULT_ANGLE              0x3206
 #define         EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE                0x3208
+#define         EGL_PLATFORM_ANGLE_TYPE_METAL_ANGLE                0x3489
 #define         EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE                 0x3488
 #define         EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED            0x3451
 #define         EGL_FEATURE_OVERRIDES_ENABLED_ANGLE                0x3466
@@ -585,23 +586,37 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
         LOAD_FUNC(eglGetPlatformDisplay);
 
         uintptr_t renderer = getANGLERendererHint();
-		int isD3D11On12 = (renderer == EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE);
+        int isD3D11On12 = (renderer == EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE);
         if (isD3D11On12)
             renderer = EGL_PLATFORM_ANGLE_TYPE_D3D11_ANGLE;
 
-        EGLAttrib angleConfig[] = {
-            EGL_PLATFORM_ANGLE_TYPE_ANGLE,
-            renderer,
-            EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED,
-            getANGLEDebugLayersHint(),
-            EGL_FEATURE_OVERRIDES_ENABLED_ANGLE,
-            (EGLAttrib)getANGLEFeatureOverridesEnabled(),
-            EGL_FEATURE_OVERRIDES_DISABLED_ANGLE,
-            (EGLAttrib)getANGLEFeatureOverridesDisabled(),
-            isD3D11On12 ? EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE : EGL_NONE,
-            isD3D11On12 ? EGL_TRUE : EGL_NONE,
-            EGL_NONE
-        };
+        EGLAttrib angleConfig[32];
+        int idx = 0;
+
+        angleConfig[idx++] = EGL_PLATFORM_ANGLE_TYPE_ANGLE;
+        angleConfig[idx++] = renderer;
+
+        angleConfig[idx++] = EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED;
+        angleConfig[idx++] = getANGLEDebugLayersHint();
+
+        angleConfig[idx++] = EGL_FEATURE_OVERRIDES_ENABLED_ANGLE;
+        angleConfig[idx++] = (EGLAttrib)getANGLEFeatureOverridesEnabled();
+
+        angleConfig[idx++] = EGL_FEATURE_OVERRIDES_DISABLED_ANGLE;
+        angleConfig[idx++] = (EGLAttrib)getANGLEFeatureOverridesDisabled();
+
+        if (isD3D11On12) {
+            angleConfig[idx++] = EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE;
+            angleConfig[idx++] = EGL_TRUE;
+        }
+
+        if (renderer == EGL_PLATFORM_ANGLE_TYPE_METAL_ANGLE) {
+            angleConfig[idx++] = EGL_POWER_PREFERENCE_ANGLE;
+            angleConfig[idx++] = EGL_HIGH_POWER_ANGLE;
+        }
+
+        angleConfig[idx++] = EGL_NONE;
+
         _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplay(platform, (void *)(uintptr_t)native_display, angleConfig);
     }
 #endif
@@ -1101,11 +1116,6 @@ SDL_EGL_CreateContext(_THIS, EGLSurface egl_surface)
     if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_ANGLE_create_context_extensions_enabled")) {
         attribs[attr++] = EGL_EXTENSIONS_ENABLED_ANGLE;
         attribs[attr++] = GL_TRUE;
-    }
-
-    if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_ANGLE_power_preference")) {
-        attribs[attr++] = EGL_POWER_PREFERENCE_ANGLE;
-        attribs[attr++] = EGL_HIGH_POWER_ANGLE;
     }
 
     attribs[attr++] = EGL_NONE;
