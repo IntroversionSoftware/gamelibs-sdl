@@ -35,6 +35,7 @@ typedef enum
     SDL_MUTEX_INVALID = 0,
     SDL_MUTEX_SRW,
     SDL_MUTEX_CS,
+    SDL_MUTEX_TICKET,
 } SDL_MutexType;
 
 typedef struct SDL_mutex_impl_t
@@ -70,5 +71,15 @@ typedef struct SDL_mutex_cs
 {
     CRITICAL_SECTION cs;
 } SDL_mutex_cs;
+
+typedef struct SDL_mutex_ticket
+{
+    CONDITION_VARIABLE cv;
+    SRWLOCK srw;
+    DWORD count;
+    DWORD owner;
+    DWORD queue_head;
+    DWORD queue_tail;
+} SDL_mutex_ticket;
 
 /* vi: set ts=4 sw=4 expandtab: */
