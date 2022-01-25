@@ -777,6 +777,22 @@ SDL_FlushEvent(Uint32 type)
     SDL_FlushEvents(type, type);
 }
 
+int
+SDL_LockEvents()
+{
+    if (SDL_EventQ.lock)
+        return SDL_LockMutex(SDL_EventQ.lock);
+    return -1;
+}
+
+int
+SDL_UnlockEvents()
+{
+    if (SDL_EventQ.lock)
+        return SDL_UnlockMutex(SDL_EventQ.lock);
+    return -1;
+}
+
 void
 SDL_FlushEvents(Uint32 minType, Uint32 maxType)
 {
