@@ -1151,6 +1151,9 @@ extern DECLSPEC Uint8 SDLCALL SDL_EventState(Uint32 type, int state);
  */
 extern DECLSPEC Uint32 SDLCALL SDL_RegisterEvents(int numevents);
 
+extern DECLSPEC int SDLCALL SDL_LockEvents();
+extern DECLSPEC int SDLCALL SDL_UnlockEvents();
+
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus
 }
