@@ -53,9 +53,15 @@ SDL_mutex_impl_t SDL_mutex_impl_active = {0};
 typedef VOID(WINAPI *pfnReleaseSRWLockExclusive)(PSRWLOCK);
 typedef VOID(WINAPI *pfnAcquireSRWLockExclusive)(PSRWLOCK);
 typedef BOOLEAN(WINAPI *pfnTryAcquireSRWLockExclusive)(PSRWLOCK);
+typedef VOID(WINAPI *pfnInitializeConditionVariable)(PCONDITION_VARIABLE);
+typedef BOOL(WINAPI *pfnSleepConditionVariableSRW)(PCONDITION_VARIABLE, PSRWLOCK, DWORD, ULONG);
+typedef VOID(WINAPI *pfnWakeAllConditionVariable)(PCONDITION_VARIABLE);
 static pfnReleaseSRWLockExclusive pReleaseSRWLockExclusive = NULL;
 static pfnAcquireSRWLockExclusive pAcquireSRWLockExclusive = NULL;
 static pfnTryAcquireSRWLockExclusive pTryAcquireSRWLockExclusive = NULL;
+static pfnInitializeConditionVariable pInitializeConditionVariable = NULL;
+static pfnSleepConditionVariableSRW pSleepConditionVariableSRW = NULL;
+static pfnWakeAllConditionVariable pWakeAllConditionVariable = NULL;
 #endif
 
 static SDL_mutex *
@@ -255,6 +261,135 @@ static const SDL_mutex_impl_t SDL_mutex_impl_cs =
 };
 
 
+#if !__WINRT__
+/**
+ * Mutex implementation using a ticket lock
+ */
+
+/* Create a mutex */
+static SDL_mutex *
+SDL_CreateMutex_ticket(void)
+{
+    SDL_mutex_ticket *mutex;
+
+    /* Allocate mutex memory */
+    mutex = (SDL_mutex_ticket *) SDL_calloc(1, sizeof(*mutex));
+    if (mutex) {
+        /* Initialize */
+        pInitializeConditionVariable(&mutex->cv);
+    } else {
+        SDL_OutOfMemory();
+    }
+    return (SDL_mutex *)mutex;
+}
+
+/* Free the mutex */
+static void
+SDL_DestroyMutex_ticket(SDL_mutex * mutex_)
+{
+    SDL_mutex_ticket *mutex = (SDL_mutex_ticket *)mutex_;
+    if (mutex) {
+        SDL_free(mutex);
+    }
+}
+
+/* Lock the mutex */
+static int
+SDL_LockMutex_ticket(SDL_mutex * mutex_)
+{
+    SDL_mutex_ticket *mutex = (SDL_mutex_ticket *)mutex_;
+    DWORD this_thread;
+
+    if (mutex == NULL) {
+        return SDL_SetError("Passed a NULL mutex");
+    }
+
+    this_thread = GetCurrentThreadId();
+    if (mutex->owner == this_thread) {
+        ++mutex->count;
+    } else {
+        DWORD my_ticket;
+
+        pAcquireSRWLockExclusive(&mutex->srw);
+        my_ticket = mutex->queue_tail++;
+        while (my_ticket != mutex->queue_head)
+            pSleepConditionVariableSRW(&mutex->cv, &mutex->srw, INFINITE, 0);
+        SDL_assert(mutex->count == 0 && mutex->owner == 0);
+        mutex->owner = this_thread;
+        mutex->count = 1;
+        pReleaseSRWLockExclusive(&mutex->srw);
+    }
+
+    return 0;
+}
+
+/* TryLock the mutex */
+static int
+SDL_TryLockMutex_ticket(SDL_mutex * mutex_)
+{
+    SDL_mutex_ticket *mutex = (SDL_mutex_ticket *)mutex_;
+    DWORD this_thread;
+
+    if (mutex == NULL) {
+        return SDL_SetError("Passed a NULL mutex");
+    }
+
+    this_thread = GetCurrentThreadId();
+    if (mutex->owner == this_thread) {
+        ++mutex->count;
+    } else {
+        pAcquireSRWLockExclusive(&mutex->srw);
+        if (mutex->queue_tail != mutex->queue_head) {
+            pReleaseSRWLockExclusive(&mutex->srw);
+            return SDL_MUTEX_TIMEDOUT;
+        }
+        SDL_assert(mutex->count == 0 && mutex->owner == 0);
+        mutex->queue_tail++;
+        mutex->owner = this_thread;
+        mutex->count = 1;
+        pReleaseSRWLockExclusive(&mutex->srw);
+    }
+
+    return 0;
+}
+
+/* Unlock the mutex */
+static int
+SDL_UnlockMutex_ticket(SDL_mutex * mutex_)
+{
+    SDL_mutex_ticket *mutex = (SDL_mutex_ticket *)mutex_;
+    if (mutex == NULL) {
+        return SDL_SetError("Passed a NULL mutex");
+    }
+
+    if (mutex->owner == GetCurrentThreadId()) {
+        pAcquireSRWLockExclusive(&mutex->srw);
+        if (--mutex->count == 0) {
+            mutex->owner = 0;
+            mutex->queue_head++;
+            pReleaseSRWLockExclusive(&mutex->srw);
+            pWakeAllConditionVariable(&mutex->cv);
+        } else {
+            pReleaseSRWLockExclusive(&mutex->srw);
+        }
+    } else {
+        return SDL_SetError("mutex not owned by this thread");
+    }
+    return 0;
+}
+
+static const SDL_mutex_impl_t SDL_mutex_impl_ticket =
+{
+    &SDL_CreateMutex_ticket,
+    &SDL_DestroyMutex_ticket,
+    &SDL_LockMutex_ticket,
+    &SDL_TryLockMutex_ticket,
+    &SDL_UnlockMutex_ticket,
+    SDL_MUTEX_TICKET,
+};
+#endif
+
+
 /**
  * Runtime selection and redirection
  */
@@ -277,10 +412,18 @@ SDL_CreateMutex(void)
                 /* Requires Vista: */
                 pReleaseSRWLockExclusive = (pfnReleaseSRWLockExclusive) GetProcAddress(kernel32, "ReleaseSRWLockExclusive");
                 pAcquireSRWLockExclusive = (pfnAcquireSRWLockExclusive) GetProcAddress(kernel32, "AcquireSRWLockExclusive");
+                pInitializeConditionVariable = (pfnInitializeConditionVariable) GetProcAddress(kernel32, "InitializeConditionVariable");
+                pSleepConditionVariableSRW = (pfnSleepConditionVariableSRW) GetProcAddress(kernel32, "SleepConditionVariableSRW");
+                pWakeAllConditionVariable = (pfnWakeAllConditionVariable) GetProcAddress(kernel32, "WakeAllConditionVariable");
+
                 /* Requires 7: */
                 pTryAcquireSRWLockExclusive = (pfnTryAcquireSRWLockExclusive) GetProcAddress(kernel32, "TryAcquireSRWLockExclusive");
+
                 if (pReleaseSRWLockExclusive && pAcquireSRWLockExclusive && pTryAcquireSRWLockExclusive) {
                     impl = &SDL_mutex_impl_srw;
+                }
+                if (SDL_GetHintBoolean(SDL_HINT_FAIR_MUTEX, SDL_FALSE) && pReleaseSRWLockExclusive && pAcquireSRWLockExclusive && pInitializeConditionVariable && pSleepConditionVariableSRW && pWakeAllConditionVariable) {
+                    impl = &SDL_mutex_impl_ticket;
                 }
             }
 #endif
