@@ -1389,6 +1389,18 @@ extern "C" {
 #define SDL_HINT_THREAD_STACK_SIZE              "SDL_THREAD_STACK_SIZE"
 
 /**
+ * \brief Request that SDL use a ticket lock implementation when available.
+ *
+ *  This variable can be set to the following values:
+ *    "0"       - Use unfair lock implementations. Lower latency, but can cause
+ *                starvation if one thread is repeatedly winning the race for the
+ *                lock. (default)
+ *    "1"       - Request the use of a ticket lock implementation, when available.
+ *
+ */
+#define SDL_HINT_FAIR_MUTEX "SDL_FAIR_MUTEX"
+
+/**
  *  \brief A variable that controls the timer resolution, in milliseconds.
  *
  *  The higher resolution the timer, the more frequently the CPU services
