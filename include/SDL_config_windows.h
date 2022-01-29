@@ -247,9 +247,10 @@ typedef unsigned int uintptr_t;
 /* Enable various input drivers */
 //#define SDL_JOYSTICK_DINPUT 1
 #define SDL_JOYSTICK_HIDAPI 1
-#ifndef __WINRT__
-#define SDL_JOYSTICK_RAWINPUT   1
-#endif
+// RAWINPUT disabled: duplicates instantiation of arrControllers from controller_type.h
+//#ifndef __WINRT__
+//#define SDL_JOYSTICK_RAWINPUT   1
+//#endif
 //#define SDL_JOYSTICK_VIRTUAL    1
 #ifdef HAVE_WINDOWS_GAMING_INPUT_H
 #define SDL_JOYSTICK_WGI    1
