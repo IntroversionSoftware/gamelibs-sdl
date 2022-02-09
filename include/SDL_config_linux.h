@@ -1,7 +1,7 @@
 /* include/SDL_config.h.  Generated from SDL_config.h.in by configure.  */
 /*
   Simple DirectMedia Layer
-  Copyright (C) 1997-2021 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2022 Sam Lantinga <slouken@libsdl.org>
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -35,7 +35,7 @@
 
 /* Make sure that this isn't included by Visual C++ */
 #ifdef _MSC_VER
-#error You should run hg revert SDL_config.h
+#error You should run git checkout -f include/SDL_config.h
 #endif
 
 /* C language features */
@@ -81,6 +81,7 @@
 /* #undef HAVE_LIBUNWIND_H */
 
 /* C library functions */
+#define HAVE_DLOPEN 1
 #define HAVE_MALLOC 1
 #define HAVE_CALLOC 1
 #define HAVE_REALLOC 1
@@ -216,9 +217,10 @@
 #define HAVE_STDINT_H 1
 #endif /* HAVE_LIBC */
 
+#define HAVE_O_CLOEXEC 1
 /* #undef HAVE_ALTIVEC_H */
-/* #undef HAVE_DBUS_DBUS_H */
-/* #undef HAVE_FCITX */
+#define HAVE_DBUS_DBUS_H 1
+#define HAVE_FCITX 1
 #define HAVE_SYS_INOTIFY_H 1
 #define HAVE_INOTIFY_INIT 1
 #define HAVE_INOTIFY_INIT1 1
@@ -227,19 +229,21 @@
 #define HAVE_IMMINTRIN_H 1
 #define HAVE_LIBUDEV_H 1
 /* #undef HAVE_LIBSAMPLERATE_H */
+/* #undef HAVE_LIBDECOR_H */
 
 /* #undef HAVE_DDRAW_H */
 /* #undef HAVE_DINPUT_H */
 /* #undef HAVE_DSOUND_H */
 /* #undef HAVE_DXGI_H */
+/* #undef HAVE_WINDOWS_GAMING_INPUT_H */
 /* #undef HAVE_XINPUT_H */
+/* #undef HAVE_XINPUT_GAMEPAD_EX */
+/* #undef HAVE_XINPUT_STATE_EX */
 
 /* #undef HAVE_MMDEVICEAPI_H */
 /* #undef HAVE_AUDIOCLIENT_H */
+/* #undef HAVE_TPCSHRD_H */
 /* #undef HAVE_SENSORSAPI_H */
-
-/* #undef HAVE_XINPUT_GAMEPAD_EX */
-/* #undef HAVE_XINPUT_STATE_EX */
 
 /* SDL internal assertion support */
 /* #undef SDL_DEFAULT_ASSERT_LEVEL */
@@ -252,16 +256,20 @@
 /* #undef SDL_FILE_DISABLED */
 /* #undef SDL_JOYSTICK_DISABLED */
 /* #undef SDL_HAPTIC_DISABLED */
+/* #undef SDL_HIDAPI_DISABLED */
 /* #undef SDL_SENSOR_DISABLED */
 /* #undef SDL_LOADSO_DISABLED */
-/* #undef SDL_RENDER_DISABLED */
+#define SDL_RENDER_DISABLED 1
 /* #undef SDL_THREADS_DISABLED */
 /* #undef SDL_TIMERS_DISABLED */
 /* #undef SDL_VIDEO_DISABLED */
 /* #undef SDL_POWER_DISABLED */
 /* #undef SDL_FILESYSTEM_DISABLED */
+/* #undef SDL_LOCALE_DISABLED */
+/* #undef SDL_MISC_DISABLED */
 
 /* Enable various audio drivers */
+/* #undef SDL_AUDIO_DRIVER_AAUDIO */
 /* #undef SDL_AUDIO_DRIVER_ALSA */
 /* #undef SDL_AUDIO_DRIVER_ALSA_DYNAMIC */
 /* #undef SDL_AUDIO_DRIVER_ANDROID */
@@ -283,6 +291,7 @@
 /* #undef SDL_AUDIO_DRIVER_NAS */
 /* #undef SDL_AUDIO_DRIVER_NAS_DYNAMIC */
 /* #undef SDL_AUDIO_DRIVER_NETBSD */
+/* #undef SDL_AUDIO_DRIVER_OPENSLES */
 /* #undef SDL_AUDIO_DRIVER_OSS */
 /* #undef SDL_AUDIO_DRIVER_OSS_SOUNDCARD_H */
 /* #undef SDL_AUDIO_DRIVER_PAUDIO */
@@ -305,13 +314,13 @@
 /* #undef SDL_INPUT_WSCONS */
 /* #undef SDL_JOYSTICK_HAIKU */
 /* #undef SDL_JOYSTICK_DINPUT */
+/* #undef SDL_JOYSTICK_WGI */
 /* #undef SDL_JOYSTICK_XINPUT */
 /* #undef SDL_JOYSTICK_DUMMY */
 /* #undef SDL_JOYSTICK_IOKIT */
 /* #undef SDL_JOYSTICK_MFI */
 #define SDL_JOYSTICK_LINUX 1
 /* #undef SDL_JOYSTICK_ANDROID */
-/* #undef SDL_JOYSTICK_WINMM */
 /* #undef SDL_JOYSTICK_OS2 */
 /* #undef SDL_JOYSTICK_USBHID */
 /* #undef SDL_HAVE_MACHINE_JOYSTICK_H */
@@ -361,12 +370,13 @@
 /* #undef SDL_VIDEO_DRIVER_DIRECTFB_DYNAMIC */
 #define SDL_VIDEO_DRIVER_DUMMY 1
 /* #undef SDL_VIDEO_DRIVER_WINDOWS */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND_QT_TOUCH */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR */
-/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON */
+#define SDL_VIDEO_DRIVER_WAYLAND 1
+#define SDL_VIDEO_DRIVER_WAYLAND_QT_TOUCH 1
+#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC "libwayland-client.so.0"
+#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_EGL "libwayland-egl.so.1"
+#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_CURSOR "libwayland-cursor.so.0"
+#define SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_XKBCOMMON "libxkbcommon.so.0"
+/* #undef SDL_VIDEO_DRIVER_WAYLAND_DYNAMIC_LIBDECOR */
 #define SDL_VIDEO_DRIVER_X11 1
 /* #undef SDL_VIDEO_DRIVER_RPI */
 /* #undef SDL_VIDEO_DRIVER_KMSDRM */
@@ -374,11 +384,13 @@
 /* #undef SDL_VIDEO_DRIVER_KMSDRM_DYNAMIC_GBM */
 /* #undef SDL_VIDEO_DRIVER_ANDROID */
 /* #undef SDL_VIDEO_DRIVER_EMSCRIPTEN */
+/* #undef SDL_VIDEO_DRIVER_OFFSCREEN */
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC "libX11.so.6"
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT "libXext.so.6"
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XCURSOR "libXcursor.so.1"
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XINERAMA "libXinerama.so.1"
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 "libXi.so.6"
+#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XFIXES "libXfixes.so.3"
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR "libXrandr.so.2"
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS "libXss.so.1"
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XVIDMODE "libXxf86vm.so.1"
@@ -387,18 +399,19 @@
 #define SDL_VIDEO_DRIVER_X11_XINERAMA 1
 #define SDL_VIDEO_DRIVER_X11_XINPUT2 1
 #define SDL_VIDEO_DRIVER_X11_XINPUT2_SUPPORTS_MULTITOUCH 1
+#define SDL_VIDEO_DRIVER_X11_XFIXES 1
 #define SDL_VIDEO_DRIVER_X11_XRANDR 1
 #define SDL_VIDEO_DRIVER_X11_XSCRNSAVER 1
 #define SDL_VIDEO_DRIVER_X11_XSHAPE 1
 #define SDL_VIDEO_DRIVER_X11_XVIDMODE 1
 #define SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS 1
-#define SDL_VIDEO_DRIVER_X11_CONST_PARAM_XEXTADDDISPLAY 1
 #define SDL_VIDEO_DRIVER_X11_HAS_XKBKEYCODETOKEYSYM 1
 /* #undef SDL_VIDEO_DRIVER_NACL */
 /* #undef SDL_VIDEO_DRIVER_VIVANTE */
 /* #undef SDL_VIDEO_DRIVER_VIVANTE_VDK */
 /* #undef SDL_VIDEO_DRIVER_OS2 */
 /* #undef SDL_VIDEO_DRIVER_QNX */
+/* #undef SDL_VIDEO_DRIVER_RISCOS */
 
 /* #undef SDL_VIDEO_RENDER_D3D */
 /* #undef SDL_VIDEO_RENDER_D3D11 */
@@ -438,21 +451,34 @@
 /* #undef SDL_POWER_HARDWIRED */
 
 /* Enable system filesystem support */
+/* #undef SDL_FILESYSTEM_ANDROID */
 /* #undef SDL_FILESYSTEM_HAIKU */
 /* #undef SDL_FILESYSTEM_COCOA */
 /* #undef SDL_FILESYSTEM_DUMMY */
+/* #undef SDL_FILESYSTEM_RISCOS */
 #define SDL_FILESYSTEM_UNIX 1
 /* #undef SDL_FILESYSTEM_WINDOWS */
 /* #undef SDL_FILESYSTEM_NACL */
 /* #undef SDL_FILESYSTEM_ANDROID */
 /* #undef SDL_FILESYSTEM_EMSCRIPTEN */
 /* #undef SDL_FILESYSTEM_OS2 */
+/* #undef SDL_FILESYSTEM_VITA */
+/* #undef SDL_FILESYSTEM_PSP */
+
+/* Enable misc subsystem */
+/* #undef SDL_MISC_DUMMY */
+
+/* Enable locale subsystem */
+/* #undef SDL_LOCALE_DUMMY */
 
 /* Enable assembly routines */
 #define SDL_ASSEMBLY_ROUTINES 1
 /* #undef SDL_ALTIVEC_BLITTERS */
 /* #undef SDL_ARM_SIMD_BLITTERS */
 /* #undef SDL_ARM_NEON_BLITTERS */
+
+/* Whether SDL_DYNAMIC_API needs dlopen() */
+#define DYNAPI_NEEDS_DLOPEN 1
 
 /* Enable ime support */
 #define SDL_USE_IME 1
