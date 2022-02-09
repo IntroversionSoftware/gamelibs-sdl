@@ -34,7 +34,9 @@
 #undef va_copy
 #define va_copy(dst, src)   dst = src
 #elif defined(__GNUC__) && (__GNUC__ < 3)
+#ifndef va_copy
 #define va_copy(to, from)   __va_copy(to, from)
+#endif
 #endif
 
 #if !defined(HAVE_VSSCANF) || !defined(HAVE_STRTOL) || !defined(HAVE_STRTOUL) || !defined(HAVE_STRTOD) || !defined(HAVE_STRTOLL) || !defined(HAVE_STRTOULL)
