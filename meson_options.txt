@@ -7,3 +7,7 @@ option('angle_static',
     type: 'boolean',
 	value: false,
 	description: 'Link ANGLE statically')
+option('wayland',
+    type: 'boolean',
+    value: false,
+    description: 'Enable Wayland support')
