@@ -32,7 +32,9 @@
 #undef va_copy
 #define va_copy(dst, src)   dst = src
 #elif defined(__GNUC__) && (__GNUC__ < 3)
+#ifndef va_copy
 #define va_copy(dst, src)   __va_copy(dst, src)
+#endif
 #endif
 
 /* This is for a variable-length array at the end of a struct:
