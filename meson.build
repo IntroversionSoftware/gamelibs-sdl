@@ -247,62 +247,67 @@ if target_machine.system() == 'windows'
 endif
 
 if target_machine.system() == 'linux'
-    dep_wl_scanner = dependency('wayland-scanner', native: true)
-    wayland_client = dependency('wayland-client')
-    wayland_scanner = find_program(dep_wl_scanner.get_pkgconfig_variable('wayland_scanner'))
+    if get_option('wayland')
+        dep_wl_scanner = dependency('wayland-scanner', native: true)
+        wayland_client = dependency('wayland-client')
+        wayland_scanner = find_program(dep_wl_scanner.get_pkgconfig_variable('wayland_scanner'))
 
-    protocols = [
-        'wayland-protocols/idle-inhibit-unstable-v1.xml',
-        'wayland-protocols/keyboard-shortcuts-inhibit-unstable-v1.xml',
-        'wayland-protocols/pointer-constraints-unstable-v1.xml',
-        'wayland-protocols/relative-pointer-unstable-v1.xml',
-        'wayland-protocols/text-input-unstable-v3.xml',
-        'wayland-protocols/wayland.xml',
-        'wayland-protocols/xdg-activation-v1.xml',
-        'wayland-protocols/xdg-decoration-unstable-v1.xml',
-        'wayland-protocols/xdg-shell.xml',
-    ]
+        protocols = [
+            'wayland-protocols/idle-inhibit-unstable-v1.xml',
+            'wayland-protocols/keyboard-shortcuts-inhibit-unstable-v1.xml',
+            'wayland-protocols/pointer-constraints-unstable-v1.xml',
+            'wayland-protocols/relative-pointer-unstable-v1.xml',
+            'wayland-protocols/text-input-unstable-v3.xml',
+            'wayland-protocols/wayland.xml',
+            'wayland-protocols/xdg-activation-v1.xml',
+            'wayland-protocols/xdg-decoration-unstable-v1.xml',
+            'wayland-protocols/xdg-shell.xml',
+        ]
 
-    wl_protos_src = []
-    wl_protos_headers = []
+        wl_protos_src = []
+        wl_protos_headers = []
 
-    foreach xml : protocols
-        wl_protos_src += custom_target(
-            xml.underscorify() + '_server_c',
-            input: xml,
-            output: '@BASENAME@-protocol.c',
-            command: [wayland_scanner, 'private-code', '@INPUT@', '@OUTPUT@'],
+        foreach xml : protocols
+            wl_protos_src += custom_target(
+                xml.underscorify() + '_server_c',
+                input: xml,
+                output: '@BASENAME@-protocol.c',
+                command: [wayland_scanner, 'private-code', '@INPUT@', '@OUTPUT@'],
+            )
+            wl_protos_headers += custom_target(
+                xml.underscorify() + '_server_h',
+                input: xml,
+                output: '@BASENAME@-protocol.h',
+                command: [wayland_scanner, 'server-header', '@INPUT@', '@OUTPUT@'],
+            )
+        endforeach
+
+        foreach xml : protocols
+            wl_protos_headers += custom_target(
+                xml.underscorify() + '_client_h',
+                input: xml,
+                output: '@BASENAME@-client-protocol.h',
+                command: [wayland_scanner, 'client-header', '@INPUT@', '@OUTPUT@'],
+            )
+        endforeach
+
+        lib_client_protos = static_library(
+            'sdl_client_protos',
+            wl_protos_src + wl_protos_headers,
+            dependencies: wayland_client.partial_dependency(compile_args: true),
         )
-        wl_protos_headers += custom_target(
-            xml.underscorify() + '_server_h',
-            input: xml,
-            output: '@BASENAME@-protocol.h',
-            command: [wayland_scanner, 'server-header', '@INPUT@', '@OUTPUT@'],
+
+        client_protos = declare_dependency(
+            link_with: lib_client_protos,
+            sources: wl_protos_headers,
         )
-    endforeach
-
-    foreach xml : protocols
-        wl_protos_headers += custom_target(
-            xml.underscorify() + '_client_h',
-            input: xml,
-            output: '@BASENAME@-client-protocol.h',
-            command: [wayland_scanner, 'client-header', '@INPUT@', '@OUTPUT@'],
-        )
-    endforeach
-
-    lib_client_protos = static_library(
-        'sdl_client_protos',
-        wl_protos_src + wl_protos_headers,
-        dependencies: wayland_client.partial_dependency(compile_args: true),
-    )
-
-    client_protos = declare_dependency(
-        link_with: lib_client_protos,
-        sources: wl_protos_headers,
-    )
+        link_deps += [
+            client_protos,
+        ]
+        c_flags += ['-DENABLE_WAYLAND_SUPPORT']
+    endif
 
     link_deps += [
-        client_protos,
         dependency('dbus-1'),
         dependency('libdrm'),
         compiler.find_library('dl'),
