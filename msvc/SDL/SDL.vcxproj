@@ -436,7 +436,7 @@
     <Import Project="..\..\..\Master.props" />
   </ImportGroup>
   <PropertyGroup>
-    <TargetName>$(ProjectName)-$(GLAPI).$(PlatformShortName)</TargetName>
+    <TargetName>$(ProjectName).$(PlatformShortName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
