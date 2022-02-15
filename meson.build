@@ -32,9 +32,6 @@ if target_machine.system() == 'windows'
         compiler.find_library('version'),
         compiler.find_library('winmm'),
     ]
-    if opengl == 'angle'
-        c_flags += ['-DSDL_VIDEO_OPENGL_WGL=0']
-    endif
 endif
 
 sdlmain_sources = []
@@ -312,10 +309,6 @@ if target_machine.system() == 'linux'
         dependency('libdrm'),
         compiler.find_library('dl'),
     ]
-
-    if opengl == 'angle'
-        c_flags += ['-DSDL_VIDEO_OPENGL_GLX=0']
-    endif
 
     sources += [
         'src/audio/alsa/SDL_alsa_audio.c',
