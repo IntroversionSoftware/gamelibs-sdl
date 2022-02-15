@@ -1547,6 +1547,28 @@ extern "C" {
 #define SDL_HINT_VIDEO_WIN_D3DCOMPILER              "SDL_VIDEO_WIN_D3DCOMPILER"
 
 /**
+ * \brief A variable controlling whether we should use CGL or EGL by default on macOS
+ *
+ * This variable can be set to the following values:
+ * "0" - Use CGL
+ * "1" - Use EGL
+ *
+ * By default SDL will use CGL when both are present.
+ */
+#define SDL_HINT_VIDEO_MAC_FORCE_EGL "SDL_VIDEO_MAC_FORCE_EGL"
+
+/**
+ * \brief A variable controlling whether we should use WGL or EGL by default on Windows
+ *
+ * This variable can be set to the following values:
+ * "0" - Use WGL
+ * "1" - Use EGL
+ *
+ * By default SDL will use WGL when both are present.
+ */
+#define SDL_HINT_VIDEO_WIN_FORCE_EGL "SDL_VIDEO_WIN_FORCE_EGL"
+
+/**
  * \brief A variable controlling whether X11 should use GLX or EGL by default
  *
  * This variable can be set to the following values:
