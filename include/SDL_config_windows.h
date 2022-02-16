@@ -42,7 +42,8 @@
 
 #ifndef __GNUC__
 #if defined(__clang__) && defined(_MSC_VER)
-#define __GNUC__ 1
+#define __GNUC__ 11
+#define __GNUC_MINOR__ 2
 #endif
 #endif
 
