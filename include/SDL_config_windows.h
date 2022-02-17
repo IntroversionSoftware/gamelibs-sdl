@@ -40,13 +40,6 @@
 
 #define HAVE_LIBC
 
-#ifndef __GNUC__
-#if defined(__clang__) && defined(_MSC_VER)
-#define __GNUC__ 11
-#define __GNUC_MINOR__ 2
-#endif
-#endif
-
 #ifdef __MINGW32__
 #define _MSC_VER 1900
 #endif
