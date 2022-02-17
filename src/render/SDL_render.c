@@ -896,7 +896,6 @@ void VerifyDrawQueueFunctions(const SDL_Renderer *renderer)
     SDL_assert(renderer->QueueCopy != NULL || renderer->QueueGeometry != NULL);
     SDL_assert(renderer->RunCommandQueue != NULL);
 }
-#endif
 
 static SDL_RenderLineMethod SDL_GetRenderLineMethod()
 {
@@ -917,6 +916,7 @@ static SDL_RenderLineMethod SDL_GetRenderLineMethod()
         return SDL_RENDERLINEMETHOD_POINTS;
     }
 }
+#endif
 
 SDL_Renderer *
 SDL_CreateRenderer(SDL_Window * window, int index, Uint32 flags)
