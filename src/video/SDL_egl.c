@@ -452,6 +452,7 @@ SDL_EGL_LoadLibraryOnly(_THIS, const char *egl_path)
     LOAD_FUNC(eglCreatePbufferSurface);
     LOAD_FUNC(eglCreateWindowSurface);
     LOAD_FUNC(eglDestroySurface);
+    LOAD_FUNC(eglQuerySurface);
     LOAD_FUNC(eglMakeCurrent);
     LOAD_FUNC(eglSwapBuffers);
     LOAD_FUNC(eglSwapInterval);
@@ -503,6 +504,11 @@ SDL_EGL_GetVersion(_THIS) {
 #define         EGL_PLATFORM_ANGLE_TYPE_METAL_ANGLE                0x3489
 #define         EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE                 0x3488
 #define         EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED            0x3451
+
+#define         EGL_OPTIMAL_SURFACE_ORIENTATION_ANGLE              0x33A7
+#define         EGL_SURFACE_ORIENTATION_ANGLE                      0x33A8
+#define         EGL_SURFACE_ORIENTATION_INVERT_X_ANGLE             0x0001
+#define         EGL_SURFACE_ORIENTATION_INVERT_Y_ANGLE             0x0002
 
 
 static EGLint getANGLERendererHint()
@@ -1238,8 +1244,10 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
     EGLint format_wanted;
     EGLint format_got;
 #endif
-    /* max 2 key+value pairs, plus terminator. */
-    EGLint attribs[5];
+    EGLint optimal_orientation = 0;
+    EGLint current_orientation = 0;
+    /* max 3 key+value pairs, plus terminator. */
+    EGLint attribs[7];
     int attr = 0;
 
     EGLSurface * surface;
@@ -1280,6 +1288,21 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
     }
 #endif
 
+    if (_this->egl_data->eglGetConfigAttrib(
+            _this->egl_data->egl_display, _this->egl_data->egl_config,
+            EGL_OPTIMAL_SURFACE_ORIENTATION_ANGLE, &optimal_orientation))
+    {
+        EGLint orientation = 0;
+        attribs[attr++] = EGL_SURFACE_ORIENTATION_ANGLE;
+        if (_this->gl_config.angle_flip_x) {
+            orientation |= (optimal_orientation & EGL_SURFACE_ORIENTATION_INVERT_X_ANGLE);
+        }
+        if (_this->gl_config.angle_flip_y) {
+            orientation |= (optimal_orientation & EGL_SURFACE_ORIENTATION_INVERT_Y_ANGLE);
+        }
+        attribs[attr++] = orientation;
+    }
+
     attribs[attr++] = EGL_NONE;
     
     surface = _this->egl_data->eglCreateWindowSurface(
@@ -1288,6 +1311,20 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
             nw, &attribs[0]);
     if (surface == EGL_NO_SURFACE) {
         SDL_EGL_SetError("unable to create an EGL window surface", "eglCreateWindowSurface");
+    }
+
+    // Reset these to zero before querying
+    _this->gl_config.angle_flip_x = 0;
+    _this->gl_config.angle_flip_y = 0;
+
+    if (_this->egl_data->eglQuerySurface(_this->egl_data->egl_display, surface,
+                                         EGL_SURFACE_ORIENTATION_ANGLE,
+                                         &current_orientation))
+    {
+        _this->gl_config.angle_flip_x =
+            (current_orientation & EGL_SURFACE_ORIENTATION_INVERT_X_ANGLE) ? 1 : 0;
+        _this->gl_config.angle_flip_y =
+            (current_orientation & EGL_SURFACE_ORIENTATION_INVERT_Y_ANGLE) ? 1 : 0;
     }
 
 #if SDL_VIDEO_DRIVER_ANDROID
