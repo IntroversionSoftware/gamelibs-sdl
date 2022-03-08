@@ -380,6 +380,8 @@ struct SDL_VideoDevice
         int no_error;
         int retained_backing;
         int driver_loaded;
+        int angle_flip_x;
+        int angle_flip_y;
         char driver_path[256];
         void *dll_handle;
     } gl_config;

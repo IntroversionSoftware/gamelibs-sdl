@@ -76,6 +76,8 @@ typedef struct SDL_EGL_VideoData
                                          NativeWindowType window,
                                          const EGLint * attrib_list);
     EGLBoolean(EGLAPIENTRY *eglDestroySurface) (EGLDisplay dpy, EGLSurface surface);
+    EGLBoolean(EGLAPIENTRY *eglQuerySurface) (EGLDisplay dpy, EGLSurface surface,
+                                              EGLint attribute, EGLint *value);
     
     EGLBoolean(EGLAPIENTRY *eglMakeCurrent) (EGLDisplay dpy, EGLSurface draw,
                                  EGLSurface read, EGLContext ctx);
