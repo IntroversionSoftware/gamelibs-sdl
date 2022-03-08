@@ -505,6 +505,11 @@ SDL_EGL_GetVersion(_THIS) {
 #define         EGL_PLATFORM_ANGLE_D3D11ON12_ANGLE                 0x3488
 #define         EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED            0x3451
 
+#define         EGL_OPTIMAL_SURFACE_ORIENTATION_ANGLE              0x33A7
+#define         EGL_SURFACE_ORIENTATION_ANGLE                      0x33A8
+#define         EGL_SURFACE_ORIENTATION_INVERT_X_ANGLE             0x0001
+#define         EGL_SURFACE_ORIENTATION_INVERT_Y_ANGLE             0x0002
+
 
 static EGLint getANGLERendererHint()
 {
@@ -1239,8 +1244,9 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
     EGLint format_wanted;
     EGLint format_got;
 #endif
-    /* max 2 key+value pairs, plus terminator. */
-    EGLint attribs[5];
+    EGLint optimal_orientation = -1;
+    /* max 3 key+value pairs, plus terminator. */
+    EGLint attribs[7];
     int attr = 0;
 
     EGLSurface * surface;
@@ -1280,6 +1286,16 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
         attribs[attr++] = allow_transparent ? EGL_FALSE : EGL_TRUE;
     }
 #endif
+
+    if (SDL_GetHintBoolean("SDL_ANGLE_SURFACE_FLIP_Y", SDL_FALSE) &&
+        _this->egl_data->eglGetConfigAttrib(
+            _this->egl_data->egl_display,
+            _this->egl_data->egl_config,
+            EGL_OPTIMAL_SURFACE_ORIENTATION_ANGLE, &optimal_orientation))
+    {
+        attribs[attr++] = EGL_SURFACE_ORIENTATION_ANGLE;
+        attribs[attr++] = optimal_orientation & EGL_SURFACE_ORIENTATION_INVERT_Y_ANGLE;
+    }
 
     attribs[attr++] = EGL_NONE;
     
