@@ -3609,6 +3609,12 @@ SDL_GL_SetAttribute(SDL_GLattr attr, int value)
     case SDL_GL_CONTEXT_MINOR_VERSION:
         _this->gl_config.minor_version = value;
         break;
+    case SDL_GL_ANGLE_SURFACE_ORIENTATION_FLIP_X:
+        _this->gl_config.angle_flip_x = value;
+        break;
+    case SDL_GL_ANGLE_SURFACE_ORIENTATION_FLIP_Y:
+        _this->gl_config.angle_flip_y = value;
+        break;
     case SDL_GL_CONTEXT_EGL:
         /* FIXME: SDL_GL_CONTEXT_EGL to be deprecated in SDL 2.1 */
         if (value != 0) {
@@ -3861,6 +3867,16 @@ SDL_GL_GetAttribute(SDL_GLattr attr, int *value)
             *value = _this->gl_config.no_error;
             return 0;
         }
+    case SDL_GL_ANGLE_SURFACE_ORIENTATION_FLIP_X:
+        {
+            *value = _this->gl_config.angle_flip_x;
+            return 0;
+        }
+    case SDL_GL_ANGLE_SURFACE_ORIENTATION_FLIP_Y:
+        {
+            *value = _this->gl_config.angle_flip_y;
+            return 0;
+        }
     default:
         return SDL_SetError("Unknown OpenGL attribute");
     }
@@ -3936,6 +3952,12 @@ SDL_GL_CreateContext(SDL_Window * window)
     }
 
     ctx = _this->GL_CreateContext(_this, window);
+
+    /* If this is not an EGL context, we could not have flipped X or Y */
+    if (!_this->egl_data) {
+        _this->gl_config.angle_flip_x = 0;
+        _this->gl_config.angle_flip_y = 0;
+    }
 
     /* Creating a context is assumed to make it current in the SDL driver. */
     if (ctx) {
