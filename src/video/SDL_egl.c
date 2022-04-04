@@ -1087,7 +1087,7 @@ SDL_EGL_CreateContext(_THIS, EGLSurface egl_surface)
 
     if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_ANGLE_create_context_extensions_enabled")) {
         attribs[attr++] = EGL_EXTENSIONS_ENABLED_ANGLE;
-        attribs[attr++] = GL_TRUE;
+        attribs[attr++] = EGL_TRUE;
     }
 
     attribs[attr++] = EGL_NONE;
