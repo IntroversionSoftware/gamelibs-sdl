@@ -43,81 +43,7 @@ typedef struct SDL_EGL_VideoData
     SDL_bool is_offscreen;  /* whether EGL display was offscreen */
     EGLenum apitype;  /* EGL_OPENGL_ES_API, EGL_OPENGL_API, etc */
     
-    EGLDisplay(EGLAPIENTRY *eglGetDisplay) (NativeDisplayType display);
-    EGLDisplay(EGLAPIENTRY *eglGetPlatformDisplay) (EGLenum platform,
-                                void *native_display,
-                                const EGLAttrib *attrib_list);
-    EGLDisplay(EGLAPIENTRY *eglGetPlatformDisplayEXT) (EGLenum platform,
-                                void *native_display,
-                                const EGLint *attrib_list);
-    EGLBoolean(EGLAPIENTRY *eglInitialize) (EGLDisplay dpy, EGLint * major,
-                                EGLint * minor);
-    EGLBoolean(EGLAPIENTRY  *eglTerminate) (EGLDisplay dpy);
-    
-    void *(EGLAPIENTRY *eglGetProcAddress) (const char * procName);
-    
-    EGLBoolean(EGLAPIENTRY *eglChooseConfig) (EGLDisplay dpy,
-                                  const EGLint * attrib_list,
-                                  EGLConfig * configs,
-                                  EGLint config_size, EGLint * num_config);
-    
-    EGLContext(EGLAPIENTRY *eglCreateContext) (EGLDisplay dpy,
-                                   EGLConfig config,
-                                   EGLContext share_list,
-                                   const EGLint * attrib_list);
-    
-    EGLBoolean(EGLAPIENTRY *eglDestroyContext) (EGLDisplay dpy, EGLContext ctx);
-    
-    EGLSurface(EGLAPIENTRY *eglCreatePbufferSurface)(EGLDisplay dpy, EGLConfig config,
-                                                     EGLint const* attrib_list);
-
-    EGLSurface(EGLAPIENTRY *eglCreateWindowSurface) (EGLDisplay dpy,
-                                         EGLConfig config,
-                                         NativeWindowType window,
-                                         const EGLint * attrib_list);
-    EGLBoolean(EGLAPIENTRY *eglDestroySurface) (EGLDisplay dpy, EGLSurface surface);
-    EGLBoolean(EGLAPIENTRY *eglQuerySurface) (EGLDisplay dpy, EGLSurface surface,
-                                              EGLint attribute, EGLint *value);
-    
-    EGLBoolean(EGLAPIENTRY *eglMakeCurrent) (EGLDisplay dpy, EGLSurface draw,
-                                 EGLSurface read, EGLContext ctx);
-    
-    EGLBoolean(EGLAPIENTRY *eglSwapBuffers) (EGLDisplay dpy, EGLSurface draw);
-    
-    EGLBoolean(EGLAPIENTRY *eglSwapInterval) (EGLDisplay dpy, EGLint interval);
-    
-    const char *(EGLAPIENTRY *eglQueryString) (EGLDisplay dpy, EGLint name);
-
-    EGLenum(EGLAPIENTRY *eglQueryAPI)(void);
-    
-    EGLBoolean(EGLAPIENTRY  *eglGetConfigAttrib) (EGLDisplay dpy, EGLConfig config,
-                                     EGLint attribute, EGLint * value);
-    
-    EGLBoolean(EGLAPIENTRY *eglWaitNative) (EGLint  engine);
-
-    EGLBoolean(EGLAPIENTRY *eglWaitGL)(void);
-    
-    EGLBoolean(EGLAPIENTRY *eglBindAPI)(EGLenum);
-
-    EGLint(EGLAPIENTRY *eglGetError)(void);
-
-    EGLBoolean(EGLAPIENTRY *eglQueryDevicesEXT)(EGLint max_devices,
-                                            void **devices,
-                                            EGLint *num_devices);
-
-   /* Atomic functions */
-
-    EGLSyncKHR(EGLAPIENTRY *eglCreateSyncKHR)(EGLDisplay dpy, EGLenum type, const EGLint *attrib_list);
-
-    EGLBoolean(EGLAPIENTRY *eglDestroySyncKHR)(EGLDisplay dpy, EGLSyncKHR sync);
-
-    EGLint(EGLAPIENTRY *eglDupNativeFenceFDANDROID)(EGLDisplay dpy, EGLSyncKHR sync); 
-
-    EGLint(EGLAPIENTRY *eglWaitSyncKHR)(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags);
-
-    EGLint(EGLAPIENTRY *eglClientWaitSyncKHR)(EGLDisplay dpy, EGLSyncKHR sync, EGLint flags, EGLTimeKHR timeout);
-
-    /* Atomic functions end */
+    void *(EGLAPIENTRY *sdl_eglGetProcAddress) (const char * procName);
 } SDL_EGL_VideoData;
 
 /* OpenGLES functions */
@@ -155,7 +81,7 @@ extern int SDL_EGL_SwapBuffers(_THIS, EGLSurface egl_surface);
 
 /* SDL Error-reporting */
 extern int SDL_EGL_SetErrorEx(const char * message, const char * eglFunctionName, EGLint eglErrorCode);
-#define SDL_EGL_SetError(message, eglFunctionName) SDL_EGL_SetErrorEx(message, eglFunctionName, _this->egl_data->eglGetError())
+#define SDL_EGL_SetError(message, eglFunctionName) SDL_EGL_SetErrorEx(message, eglFunctionName, eglGetError())
 
 /* A few of useful macros */
 
