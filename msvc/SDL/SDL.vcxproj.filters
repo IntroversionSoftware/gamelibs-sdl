@@ -142,9 +142,6 @@
     <Filter Include="src\video\windows">
       <UniqueIdentifier>{d51343e5-6330-4d83-bd53-22d069a7d1a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\video\khronos\EGL">
-      <UniqueIdentifier>{d72673be-7d1d-43cd-b40c-9fa105275303}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\video\khronos\GLES2">
       <UniqueIdentifier>{08b911f8-512a-4b99-aead-8a85b68f0131}</UniqueIdentifier>
     </Filter>
@@ -1192,15 +1189,6 @@
     </ClInclude>
     <ClInclude Include="..\..\src\video\SDL_yuv_c.h">
       <Filter>src\video</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\video\khronos\EGL\egl.h">
-      <Filter>src\video\khronos\EGL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\video\khronos\EGL\eglext.h">
-      <Filter>src\video\khronos\EGL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\video\khronos\EGL\eglplatform.h">
-      <Filter>src\video\khronos\EGL</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\video\khronos\GLES2\gl2.h">
       <Filter>src\video\khronos\GLES2</Filter>
