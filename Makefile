@@ -52,8 +52,6 @@ prefix ?= /usr/local
 libdir := $(prefix)/lib
 includedir := $(prefix)/include/SDL
 
-CFLAGS += -Isrc -Isrc/hidapi/hidapi -D_LARGEFILE64_SOURCE
-
 HEADERS = include/*.h
 
 SDL_SOURCES = \
@@ -179,7 +177,7 @@ SDL_OBJECTS += $(filter %.o,$(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SDL_SOURCES)))
 SDLMAIN_OBJECTS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SDLMAIN_SOURCES))
 
 CFLAGS ?= -O2
-CFLAGS += -I. -Iinclude -DNO_STDIO_REDIRECT
+CFLAGS += -I../glad/include -I. -Iinclude -Isrc -Isrc/hidapi/hidapi -DNO_STDIO_REDIRECT -D_LARGEFILE64_SOURCE
 
 .PHONY: install
 
