@@ -25,6 +25,7 @@
 #include "SDL.h"
 #include "SDL_video.h"
 #include "SDL_sysvideo.h"
+#include "SDL_egl_c.h"
 #include "SDL_blit.h"
 #include "SDL_pixels_c.h"
 #include "SDL_rect_c.h"
@@ -4038,6 +4039,20 @@ SDL_GL_GetCurrentContext(void)
         return NULL;
     }
     return (SDL_GLContext)SDL_TLSGet(_this->current_glctx_tls);
+}
+
+SDL_EGLDisplay
+SDL_GL_GetCurrentEGLDisplay(void)
+{
+    if (!_this) {
+        SDL_UninitializedVideo();
+        return EGL_NO_DISPLAY;
+    }
+    if (!_this->egl_data) {
+        SDL_SetError("This is not an EGL context");
+        return EGL_NO_DISPLAY;
+    }
+    return _this->egl_data->egl_display;
 }
 
 void SDL_GL_GetDrawableSize(SDL_Window * window, int *w, int *h)
