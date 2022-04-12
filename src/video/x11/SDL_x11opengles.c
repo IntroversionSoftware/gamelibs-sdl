@@ -73,7 +73,7 @@ X11_GLES_GetVisual(_THIS, Display * display, int screen)
         return NULL;
     }
 
-    if (_this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display,
+    if (eglGetConfigAttrib(_this->egl_data->egl_display,
                                             _this->egl_data->egl_config,
                                             EGL_NATIVE_VISUAL_ID,
                                             &visual_id) == EGL_FALSE || !visual_id) {

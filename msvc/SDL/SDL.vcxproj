@@ -203,9 +203,6 @@
     <ClInclude Include="..\..\src\thread\windows\SDL_sysmutex_c.h" />
     <ClInclude Include="..\..\src\thread\windows\SDL_systhread_c.h" />
     <ClInclude Include="..\..\src\timer\SDL_timer_c.h" />
-    <ClInclude Include="..\..\src\video\khronos\EGL\egl.h" />
-    <ClInclude Include="..\..\src\video\khronos\EGL\eglext.h" />
-    <ClInclude Include="..\..\src\video\khronos\EGL\eglplatform.h" />
     <ClInclude Include="..\..\src\video\khronos\GLES2\gl2.h" />
     <ClInclude Include="..\..\src\video\khronos\GLES2\gl2ext.h" />
     <ClInclude Include="..\..\src\video\khronos\GLES2\gl2platform.h" />
@@ -417,6 +414,11 @@
     <ClCompile Include="..\..\src\video\windows\SDL_windowsvulkan.c" />
     <ClCompile Include="..\..\src\video\windows\SDL_windowswindow.c" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\glad\msvc\GLAD.vcxproj">
+      <Project>{2aea6789-84b0-464c-8f2e-ec028d36b91c}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>SDL2</ProjectName>
     <ProjectGuid>{81CE8DAF-EBB2-4761-8E45-B71ABCCA8C68}</ProjectGuid>
@@ -445,7 +447,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(ProjectDir)..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\glad\include;$(ProjectDir)..\..\include;$(ProjectDir)..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsC</CompileAs>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>SDL_internal.h</PrecompiledHeaderFile>
