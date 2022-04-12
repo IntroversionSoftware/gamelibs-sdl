@@ -10,6 +10,7 @@ c_flags = []
 
 link_deps = [
     dependency('threads'),
+    dependency('glad'),
 ]
 
 opengl = get_option('opengl')

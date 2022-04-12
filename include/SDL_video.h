@@ -216,6 +216,7 @@ typedef enum
  *  \brief An opaque handle to an OpenGL context.
  */
 typedef void *SDL_GLContext;
+typedef void *SDL_EGLDisplay;
 
 /**
  *  \brief OpenGL configuration attributes
@@ -1787,6 +1788,8 @@ extern DECLSPEC void SDLCALL SDL_DisableScreenSaver(void);
  * \sa SDL_GL_UnloadLibrary
  */
 extern DECLSPEC int SDLCALL SDL_GL_LoadLibrary(const char *path);
+
+extern DECLSPEC SDL_EGLDisplay SDLCALL SDL_GL_GetCurrentEGLDisplay(void);
 
 /**
  * Get an OpenGL function by name.
