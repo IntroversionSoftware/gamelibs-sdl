@@ -443,7 +443,7 @@ SDL_EGL_LoadLibraryOnly(_THIS, const char *egl_path)
 
 static void
 SDL_EGL_GetVersion(_THIS) {
-    if (eglQueryString && _this->egl_data->egl_display) {
+    if (eglQueryString) {
         const char *egl_version = eglQueryString(_this->egl_data->egl_display, EGL_VERSION);
         if (egl_version) {
             int major = 0, minor = 0;
