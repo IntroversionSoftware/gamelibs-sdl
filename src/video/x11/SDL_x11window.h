@@ -30,7 +30,7 @@
 #define PENDING_FOCUS_TIME   200
 
 #if SDL_VIDEO_OPENGL_EGL   
-#include <EGL/egl.h>
+#include "SDL_egl.h"
 #endif
 
 typedef enum
