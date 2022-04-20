@@ -998,6 +998,8 @@ SDL_UpdateMouseCapture(SDL_bool force_release)
         return 0;
     }
 
+    SDL_LockEvents();
+
     if (!force_release) {
         if (mouse->capture_desired || (mouse->auto_capture && SDL_GetMouseState(NULL, NULL) != 0)) {
             if (!mouse->relative_mode) {
@@ -1016,6 +1018,7 @@ SDL_UpdateMouseCapture(SDL_bool force_release)
         if (capture_window) {
             if (mouse->CaptureMouse(capture_window) < 0) {
                 /* CaptureMouse() will have set an error */
+                SDL_UnlockEvents();
                 return -1;
             }
             capture_window->flags |= SDL_WINDOW_MOUSE_CAPTURE;
@@ -1023,6 +1026,9 @@ SDL_UpdateMouseCapture(SDL_bool force_release)
 
         mouse->capture_window = capture_window;
     }
+
+    SDL_UnlockEvents();
+
     return 0;
 }
 
