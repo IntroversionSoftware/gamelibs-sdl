@@ -125,7 +125,7 @@ endif
 
 ifdef TARGET_OS_MACOSX
 CFLAGS += -Isrc/video/khronos
-OBJCFLAGS += -fobjc-weak
+OBJCFLAGS += -fobjc-weak -fobjc-arc
 SDL_SOURCES += \
     src/audio/coreaudio/*.m \
     src/file/cocoa/*.m \
