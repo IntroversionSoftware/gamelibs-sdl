@@ -1745,6 +1745,10 @@ Cocoa_CreateWindow(_THIS, SDL_Window * window)
     }
 #endif
 
+    if ([nswindow respondsToSelector:@selector(setReleasedWhenClosed:)]) {
+        [nswindow setReleasedWhenClosed:NO];
+    }
+
     if (videodata.allow_spaces) {
         /* we put FULLSCREEN_DESKTOP windows in their own Space, without a toggle button or menubar, later */
         if (window->flags & SDL_WINDOW_RESIZABLE) {
