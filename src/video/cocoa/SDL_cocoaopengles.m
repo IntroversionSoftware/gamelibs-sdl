@@ -115,6 +115,7 @@ Cocoa_GLES_MakeCurrent(_THIS, SDL_Window * window, SDL_GLContext context)
 
 void
 Cocoa_GLES_GetDrawableSize(_THIS, SDL_Window * window, int * w, int * h)
+{ @autoreleasepool
 {
     SDL_WindowData *windata = (__bridge SDL_WindowData *)window->driverdata;
     NSView *contentView = windata.nswindow.contentView;
@@ -130,10 +131,11 @@ Cocoa_GLES_GetDrawableSize(_THIS, SDL_Window * window, int * w, int * h)
     if (h) {
         *h = height;
     }
-}
+}}
 
 int
 Cocoa_GLES_SetupWindow(_THIS, SDL_Window * window)
+{ @autoreleasepool
 {
     NSView* v;
     /* The current context is lost in here; save it and reset it. */
@@ -163,7 +165,7 @@ Cocoa_GLES_SetupWindow(_THIS, SDL_Window * window)
     }
 
     return Cocoa_GLES_MakeCurrent(_this, current_win, current_ctx);
-}
+}}
 
 #endif /* SDL_VIDEO_DRIVER_COCOA && SDL_VIDEO_OPENGL_EGL */
 
