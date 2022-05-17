@@ -160,6 +160,58 @@ int SDL_EGL_SetErrorEx(const char * message, const char * eglFunctionName, EGLin
     return SDL_SetError("%s (call to %s failed, reporting an error of %s)", message, eglFunctionName, errorText);
 }
 
+static SDL_LogPriority EGLMessageTypeToLogPriority(EGLint messageType)
+{
+    switch (messageType) {
+    case EGL_DEBUG_MSG_CRITICAL_KHR:
+        return SDL_LOG_PRIORITY_CRITICAL;
+    case EGL_DEBUG_MSG_ERROR_KHR:
+        return SDL_LOG_PRIORITY_ERROR;
+    case EGL_DEBUG_MSG_WARN_KHR:
+        return SDL_LOG_PRIORITY_WARN;
+    case EGL_DEBUG_MSG_INFO_KHR:
+    default:
+        return SDL_LOG_PRIORITY_INFO;
+    }
+}
+
+static void EGLAPIENTRY SDL_EGL_DebugCallback(
+    EGLenum error,
+    const char *command,
+    EGLint messageType,
+    EGLLabelKHR threadLabel,
+    EGLLabelKHR objectLabel,
+    const char *message)
+{
+    SDL_LogMessage(SDL_LOG_CATEGORY_VIDEO, EGLMessageTypeToLogPriority(messageType), "EGL error %s for '%s': %s\n", SDL_EGL_GetErrorName(error), command, message);
+}
+
+static void SDL_EGL_RegisterDebugCallback(_THIS)
+{
+#ifdef EGL_KHR_debug
+    if (GLAD_EGL_KHR_debug) {
+        EGLAttrib attribs[16];
+        int attribId = 0;
+        attribs[attribId++] = EGL_DEBUG_MSG_CRITICAL_KHR;
+        attribs[attribId++] = EGL_TRUE;
+
+        attribs[attribId++] = EGL_DEBUG_MSG_ERROR_KHR;
+        attribs[attribId++] = EGL_TRUE;
+
+        attribs[attribId++] = EGL_DEBUG_MSG_WARN_KHR;
+        attribs[attribId++] = EGL_TRUE;
+
+        attribs[attribId++] = EGL_DEBUG_MSG_INFO_KHR;
+        attribs[attribId++] = EGL_TRUE;
+
+        attribs[attribId++] = EGL_NONE;
+        attribs[attribId++] = EGL_NONE;
+
+        eglDebugMessageControlKHR(SDL_EGL_DebugCallback, attribs);
+    }
+#endif
+}
+
 /* EGL implementation of SDL OpenGL ES support */
 
 void *
@@ -376,6 +428,8 @@ SDL_EGL_LoadLibraryOnly(_THIS, const char *egl_path)
 
     gladLoadEGLUserPtr(EGL_NO_DISPLAY, (GLADuserptrloadfunc)SDL_EGL_GetProcAddress, _this);
 
+    SDL_EGL_RegisterDebugCallback(_this);
+
     if (path) {
         SDL_strlcpy(_this->gl_config.driver_path, path, sizeof(_this->gl_config.driver_path) - 1);
     } else {
@@ -477,8 +531,10 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
 
         gladLoadEGLUserPtr(_this->egl_data->egl_display, (GLADuserptrloadfunc)SDL_EGL_GetProcAddress, _this);
 
-		EGLAttrib displayConfig[32];
-		int idx = 0;
+        EGLAttrib displayConfig[32];
+        int idx = 0;
+
+        SDL_EGL_RegisterDebugCallback(_this);
 
 #ifdef EGL_ANGLE_platform_angle
         if (GLAD_EGL_ANGLE_platform_angle) {
@@ -541,6 +597,8 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
 
     /* Get the EGL version with a valid egl_display, for EGL <= 1.4 */
     SDL_EGL_GetVersion(_this);
+
+    SDL_EGL_RegisterDebugCallback(_this);
 
     _this->egl_data->is_offscreen = SDL_FALSE;
 
