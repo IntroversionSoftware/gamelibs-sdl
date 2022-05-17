@@ -744,7 +744,7 @@ static void dumpconfig(_THIS, EGLConfig config)
     int attr;
     for (attr = 0 ; attr<sizeof(all_attributes)/sizeof(Attribute) ; attr++) {
         EGLint value;
-        _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display, config, all_attributes[attr].attribute, &value);
+        eglGetConfigAttrib(_this->egl_data->egl_display, config, all_attributes[attr].attribute, &value);
         SDL_Log("\t%-32s: %10d (0x%08x)\n", all_attributes[attr].name, value, value);
     }
 }
