@@ -42,6 +42,7 @@ sources = [
     'src/SDL_assert.c',
     'src/SDL_dataqueue.c',
     'src/SDL_error.c',
+    'src/SDL_guid.c',
     'src/SDL_hints.c',
     'src/SDL_list.c',
     'src/SDL_log.c',

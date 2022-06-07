@@ -600,6 +600,9 @@
     <ClCompile Include="..\..\src\joystick\controller_type.c">
       <Filter>src\joystick</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\SDL_guid.c">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\begin_code.h">
