@@ -72,6 +72,7 @@ sources = [
     'src/haptic/SDL_haptic.c',
     'src/haptic/dummy/SDL_syshaptic.c',
     'src/hidapi/SDL_hidapi.c',
+    'src/joystick/controller_type.c',
     'src/joystick/SDL_gamecontroller.c',
     'src/joystick/SDL_joystick.c',
     'src/joystick/dummy/SDL_sysjoystick.c',

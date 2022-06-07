@@ -597,6 +597,9 @@
     <ClCompile Include="..\..\src\render\direct3d12\SDL_shaders_d3d12.c">
       <Filter>src\render\direct3d12</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\joystick\controller_type.c">
+      <Filter>src\joystick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\begin_code.h">
