@@ -258,10 +258,13 @@ if target_machine.system() == 'linux'
             'wayland-protocols/keyboard-shortcuts-inhibit-unstable-v1.xml',
             'wayland-protocols/pointer-constraints-unstable-v1.xml',
             'wayland-protocols/relative-pointer-unstable-v1.xml',
+            'wayland-protocols/tablet-unstable-v2.xml',
             'wayland-protocols/text-input-unstable-v3.xml',
+            'wayland-protocols/viewporter.xml',
             'wayland-protocols/wayland.xml',
             'wayland-protocols/xdg-activation-v1.xml',
             'wayland-protocols/xdg-decoration-unstable-v1.xml',
+            'wayland-protocols/xdg-output-unstable-v1.xml',
             'wayland-protocols/xdg-shell.xml',
         ]
 
