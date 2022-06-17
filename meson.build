@@ -372,7 +372,7 @@ endif
 
 if target_machine.system() == 'darwin'
     add_languages('objc', required: true)
-    objc_flags += [ '-fobjc-weak' ]
+    objc_flags += [ '-fobjc-weak', '-fobjc-arc' ]
     build_incdirs += [ 'src/video/khronos' ]
     link_deps += [
         dependency('Carbon'),
