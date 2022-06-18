@@ -270,6 +270,9 @@ WIN_GetDisplayNameVista(const WCHAR *deviceName)
             targetName.header.size = sizeof (targetName);
             rc = pDisplayConfigGetDeviceInfo(&targetName.header);
             if (rc == ERROR_SUCCESS) {
+                if (SDL_wcslen(targetName.monitorFriendlyDeviceName) < 1)
+                    goto WIN_GetDisplayNameVista_failed;
+
                 retval = WIN_StringToUTF8W(targetName.monitorFriendlyDeviceName);
             }
             break;
