@@ -457,6 +457,24 @@ static EGLint getANGLEDebugLayersHint()
         return SDL_atoi(angle_renderer_hint);
     return EGL_DONT_CARE;
 }
+
+static EGLint getANGLEPreferredDeviceIdHigh()
+{
+    const char *angle_hint;
+    angle_hint = SDL_GetHint("SDL_HINT_ANGLE_DEVICE_ID_HIGH");
+    if (angle_hint)
+        return SDL_strtol(angle_hint, NULL, 0);
+    return EGL_DONT_CARE;
+}
+
+static EGLint getANGLEPreferredDeviceIdLow()
+{
+    const char *angle_hint;
+    angle_hint = SDL_GetHint("SDL_HINT_ANGLE_DEVICE_ID_LOW");
+    if (angle_hint)
+        return SDL_strtol(angle_hint, NULL, 0);
+    return EGL_DONT_CARE;
+}
 #endif
 
 static SDL_bool ANGLERendererIsAvailable(EGLint renderer)
@@ -523,6 +541,8 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
 #ifdef EGL_ANGLE_platform_angle
         if (GLAD_EGL_ANGLE_platform_angle) {
             EGLint renderer = getANGLERendererHint();
+            EGLint deviceIdHigh = getANGLEPreferredDeviceIdHigh();
+            EGLint deviceIdLow = getANGLEPreferredDeviceIdLow();
 
             if (!ANGLERendererIsAvailable(renderer))
                 return 1;
@@ -538,6 +558,16 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
 
             displayConfig[idx++] = EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED;
             displayConfig[idx++] = getANGLEDebugLayersHint();
+
+            if (deviceIdHigh != EGL_DONT_CARE) {
+                displayConfig[idx++] = EGL_PLATFORM_ANGLE_DEVICE_ID_HIGH_ANGLE;
+                displayConfig[idx++] = deviceIdHigh;
+            }
+
+            if (deviceIdLow != EGL_DONT_CARE) {
+                displayConfig[idx++] = EGL_PLATFORM_ANGLE_DEVICE_ID_LOW_ANGLE;
+                displayConfig[idx++] = deviceIdLow;
+            }
 
 #ifdef EGL_ANGLE_platform_angle_d3d11on12
             if (isD3D11On12) {
