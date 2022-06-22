@@ -219,7 +219,7 @@
 
 #define HAVE_O_CLOEXEC 1
 /* #undef HAVE_ALTIVEC_H */
-/* #undef HAVE_DBUS_DBUS_H */
+#define HAVE_DBUS_DBUS_H 1
 #define HAVE_FCITX 1
 #define HAVE_SYS_INOTIFY_H 1
 #define HAVE_INOTIFY_INIT 1
