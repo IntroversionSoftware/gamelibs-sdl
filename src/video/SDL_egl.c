@@ -559,14 +559,16 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
             displayConfig[idx++] = EGL_PLATFORM_ANGLE_DEBUG_LAYERS_ENABLED;
             displayConfig[idx++] = getANGLEDebugLayersHint();
 
-            if (deviceIdHigh != EGL_DONT_CARE) {
-                displayConfig[idx++] = EGL_PLATFORM_ANGLE_DEVICE_ID_HIGH_ANGLE;
-                displayConfig[idx++] = deviceIdHigh;
-            }
+            if (GLAD_EGL_ANGLE_platform_angle_device_id) {
+                if (deviceIdHigh != EGL_DONT_CARE) {
+                    displayConfig[idx++] = EGL_PLATFORM_ANGLE_DEVICE_ID_HIGH_ANGLE;
+                    displayConfig[idx++] = deviceIdHigh;
+                }
 
-            if (deviceIdLow != EGL_DONT_CARE) {
-                displayConfig[idx++] = EGL_PLATFORM_ANGLE_DEVICE_ID_LOW_ANGLE;
-                displayConfig[idx++] = deviceIdLow;
+                if (deviceIdLow != EGL_DONT_CARE) {
+                    displayConfig[idx++] = EGL_PLATFORM_ANGLE_DEVICE_ID_LOW_ANGLE;
+                    displayConfig[idx++] = deviceIdLow;
+                }
             }
 
 #ifdef EGL_ANGLE_platform_angle_d3d11on12
