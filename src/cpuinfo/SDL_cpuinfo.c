@@ -1146,8 +1146,6 @@ SDL_SIMDRealloc(void *mem, const size_t len)
     }
 
     if (mem) {
-        void **realptr = (void **) mem;
-        realptr--;
         mem = *(((void **) mem) - 1);
 
         /* Check the delta between the real pointer and user pointer */
@@ -1187,8 +1185,6 @@ void
 SDL_SIMDFree(void *ptr)
 {
     if (ptr) {
-        void **realptr = (void **) ptr;
-        realptr--;
         SDL_free(*(((void **) ptr) - 1));
     }
 }
