@@ -601,10 +601,6 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
         _this->egl_data->egl_display = eglGetPlatformDisplay(platform, (void *)(uintptr_t)native_display, displayConfig);
     }
 #endif
-    /* Try the implementation-specific eglGetDisplay even if eglGetPlatformDisplay fails */
-    if ((_this->egl_data->egl_display == EGL_NO_DISPLAY) && eglGetDisplay != NULL) {
-        _this->egl_data->egl_display = eglGetDisplay(native_display);
-    }
     if (_this->egl_data->egl_display == EGL_NO_DISPLAY) {
         _this->gl_config.driver_loaded = 0;
         *_this->gl_config.driver_path = '\0';
