@@ -114,6 +114,7 @@ WIN_GLES_SetupWindow(_THIS, SDL_Window * window)
         SDL_assert(!_this->gl_config.driver_loaded);
         #endif
         if (SDL_EGL_LoadLibrary(_this, NULL, EGL_DEFAULT_DISPLAY, EGL_PLATFORM_ANGLE_ANGLE) < 0) {
+            gladLoaderResetEGL();
             SDL_EGL_UnloadLibrary(_this);
             return -1;
         }
