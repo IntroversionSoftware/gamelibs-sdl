@@ -513,6 +513,8 @@ static SDL_bool ANGLERendererIsAvailable(EGLint renderer)
 int
 SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_display, EGLenum platform)
 {
+    gladLoaderResetEGL();
+
     int library_load_retcode = SDL_EGL_LoadLibraryOnly(_this, egl_path);
     if (library_load_retcode != 0) {
         return library_load_retcode;
@@ -534,6 +536,7 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
         gladLoadEGLUserPtr(_this->egl_data->egl_display, (GLADuserptrloadfunc)SDL_EGL_GetProcAddress, _this);
 
         if (!eglGetPlatformDisplay) {
+            gladLoaderResetEGL();
             _this->gl_config.driver_loaded = 0;
             *_this->gl_config.driver_path = '\0';
             return SDL_SetError("Could not find eglGetPlatformDisplay pointer");
@@ -551,6 +554,7 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
             EGLint deviceIdLow = getANGLEPreferredDeviceIdLow();
 
             if (!ANGLERendererIsAvailable(renderer)) {
+                gladLoaderResetEGL();
                 _this->gl_config.driver_loaded = 0;
                 *_this->gl_config.driver_path = '\0';
                 return SDL_SetError("Selected ANGLE renderer is not available");
@@ -602,12 +606,14 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
     }
 #endif
     if (_this->egl_data->egl_display == EGL_NO_DISPLAY) {
+        gladLoaderResetEGL();
         _this->gl_config.driver_loaded = 0;
         *_this->gl_config.driver_path = '\0';
         return SDL_SetError("Could not get EGL display");
     }
 
     if (eglInitialize(_this->egl_data->egl_display, NULL, NULL) != EGL_TRUE) {
+        gladLoaderResetEGL();
         _this->gl_config.driver_loaded = 0;
         *_this->gl_config.driver_path = '\0';
         return SDL_SetError("Could not initialize EGL");
