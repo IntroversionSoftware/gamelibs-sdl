@@ -47,6 +47,13 @@
 #define SWP_NOCOPYBITS 0
 #endif
 
+/* Dark mode support */
+#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
+#define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+#endif
+typedef HRESULT(WINAPI *pfnDwmSetWindowAttribute)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute);
+static pfnDwmSetWindowAttribute pDwmSetWindowAttribute = NULL;
+
 /* #define HIGHDPI_DEBUG */
 
 /* Fake window to help with DirectInput events. */
@@ -114,6 +121,20 @@ GetWindowStyle(SDL_Window * window)
         }
     }
     return style;
+}
+
+static void
+LoadDWMFunctions()
+{
+    static BOOL triedOnce = FALSE;
+    void *pDwmApiDll = NULL;
+    if (triedOnce)
+        return;
+    triedOnce = TRUE;
+    pDwmApiDll = SDL_LoadObject("dwmapi.dll");
+    if (!pDwmApiDll)
+        return;
+    pDwmSetWindowAttribute = SDL_LoadFunction(pDwmApiDll, "DwmSetWindowAttribute");
 }
 
 /**
@@ -511,6 +532,14 @@ WIN_CreateWindow(_THIS, SDL_Window * window)
                      SDL_Instance, NULL);
     if (!hwnd) {
         return WIN_SetError("Couldn't create window");
+    }
+
+    {
+        BOOL value = TRUE;
+        if (!pDwmSetWindowAttribute)
+            LoadDWMFunctions();
+        if (pDwmSetWindowAttribute)
+            pDwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &value, sizeof(value));
     }
 
     WIN_PumpEvents(_this);
