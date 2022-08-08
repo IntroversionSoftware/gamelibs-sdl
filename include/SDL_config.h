@@ -28,6 +28,10 @@
  *  \file SDL_config.h
  */
 
+#ifdef ANGLE_STATIC
+#define SDL_VIDEO_STATIC_ANGLE 1
+#endif
+
 /* Add any platform that doesn't build using the configure system. */
 #if defined(__WIN32__)
 #include "SDL_config_windows.h"
