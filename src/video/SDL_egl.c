@@ -267,6 +267,11 @@ SDL_EGL_UnloadLibrary(_THIS)
     }
 }
 
+#if defined(SDL_VIDEO_STATIC_ANGLE)
+#undef eglGetProcAddress
+extern void *eglGetProcAddress(const char *procName);
+#endif
+
 int
 SDL_EGL_LoadLibraryOnly(_THIS, const char *egl_path)
 {
@@ -408,7 +413,11 @@ SDL_EGL_LoadLibraryOnly(_THIS, const char *egl_path)
     _this->egl_data->opengl_dll_handle = opengl_dll_handle;
 #endif
 
+#if defined(SDL_VIDEO_STATIC_ANGLE)
+    _this->egl_data->sdl_eglGetProcAddress = eglGetProcAddress;
+#else
     LOAD_FUNC(eglGetProcAddress);
+#endif
 
     gladLoadEGLUserPtr(EGL_NO_DISPLAY, (GLADuserptrloadfunc)SDL_EGL_GetProcAddress, _this);
 
