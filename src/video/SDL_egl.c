@@ -256,7 +256,8 @@ SDL_EGL_UnloadLibrary(_THIS)
 {
     if (_this->egl_data) {
         if (_this->egl_data->egl_display) {
-            eglTerminate(_this->egl_data->egl_display);
+            if (eglTerminate)
+                eglTerminate(_this->egl_data->egl_display);
             _this->egl_data->egl_display = NULL;
         }
 
@@ -552,7 +553,6 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
         gladLoadEGLUserPtr(_this->egl_data->egl_display, (GLADuserptrloadfunc)SDL_EGL_GetProcAddress, _this);
 
         if (!eglGetPlatformDisplay) {
-            gladLoaderResetEGL();
             _this->gl_config.driver_loaded = 0;
             *_this->gl_config.driver_path = '\0';
             return SDL_SetError("Could not find eglGetPlatformDisplay pointer");
@@ -570,7 +570,6 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
             EGLint deviceIdLow = getANGLEPreferredDeviceIdLow();
 
             if (!ANGLERendererIsAvailable(renderer)) {
-                gladLoaderResetEGL();
                 _this->gl_config.driver_loaded = 0;
                 *_this->gl_config.driver_path = '\0';
                 return SDL_SetError("Selected ANGLE renderer is not available");
@@ -622,14 +621,12 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
     }
 #endif
     if (_this->egl_data->egl_display == EGL_NO_DISPLAY) {
-        gladLoaderResetEGL();
         _this->gl_config.driver_loaded = 0;
         *_this->gl_config.driver_path = '\0';
         return SDL_SetError("Could not get EGL display");
     }
 
     if (eglInitialize(_this->egl_data->egl_display, NULL, NULL) != EGL_TRUE) {
-        gladLoaderResetEGL();
         _this->gl_config.driver_loaded = 0;
         *_this->gl_config.driver_path = '\0';
         return SDL_SetError("Could not initialize EGL");
@@ -639,7 +636,6 @@ SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_displa
     gladLoadEGLUserPtr(_this->egl_data->egl_display, (GLADuserptrloadfunc)SDL_EGL_GetProcAddress, _this);
 
     if (!eglBindAPI) {
-        gladLoaderResetEGL();
         _this->gl_config.driver_loaded = 0;
         *_this->gl_config.driver_path = '\0';
         return SDL_SetError("Could not find eglBindAPI pointer");
