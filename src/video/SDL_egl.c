@@ -272,6 +272,7 @@ SDL_EGL_UnloadLibrary(_THIS)
         
         SDL_free(_this->egl_data);
         _this->egl_data = NULL;
+        gladLoaderUnloadEGL();
     }
 }
 
