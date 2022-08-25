@@ -3639,6 +3639,7 @@ SDL_GL_ResetAttributes()
 
     _this->gl_config.flags = 0;
     _this->gl_config.framebuffer_srgb_capable = 0;
+    _this->gl_config.egl_gl_colorspace = 0;
     _this->gl_config.no_error = 0;
     _this->gl_config.release_behavior = SDL_GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH;
     _this->gl_config.reset_notification = SDL_GL_CONTEXT_RESET_NO_NOTIFICATION;
@@ -3759,6 +3760,9 @@ SDL_GL_SetAttribute(SDL_GLattr attr, int value)
         break;
     case SDL_GL_FRAMEBUFFER_SRGB_CAPABLE:
         _this->gl_config.framebuffer_srgb_capable = value;
+        break;
+    case SDL_EGL_GL_COLORSPACE:
+        _this->gl_config.egl_gl_colorspace = value;
         break;
     case SDL_GL_CONTEXT_RELEASE_BEHAVIOR:
         _this->gl_config.release_behavior = value;

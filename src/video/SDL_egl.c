@@ -1341,6 +1341,19 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
     }
 #endif
 
+    if (_this->gl_config.egl_gl_colorspace) {
+#ifdef EGL_ANGLE_colorspace_attribute_passthrough
+        if (GLAD_EGL_ANGLE_colorspace_attribute_passthrough) {
+            attribs[attr++] = EGL_GL_COLORSPACE_KHR;
+            attribs[attr++] = _this->gl_config.egl_gl_colorspace;
+        } else
+#endif
+        {
+            SDL_SetError("EGL implementation does not support colorspace passthrough");
+            return EGL_NO_SURFACE;
+        }
+    }
+
 #ifdef EGL_ANGLE_surface_orientation
     if (GLAD_EGL_ANGLE_surface_orientation &&
         eglGetConfigAttrib(
