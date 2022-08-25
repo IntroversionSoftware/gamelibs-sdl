@@ -3644,6 +3644,9 @@ SDL_GL_ResetAttributes()
     _this->gl_config.reset_notification = SDL_GL_CONTEXT_RESET_NO_NOTIFICATION;
 
     _this->gl_config.share_with_current_context = 0;
+
+    _this->gl_config.angle_flip_x = 0;
+    _this->gl_config.angle_flip_y = 0;
 }
 
 int
