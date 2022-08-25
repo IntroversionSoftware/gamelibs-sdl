@@ -1299,8 +1299,8 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
 #endif
     EGLint optimal_orientation = 0;
     EGLint current_orientation = 0;
-    /* max 3 key+value pairs, plus terminator. */
-    EGLint attribs[7];
+    /* max 7 key+value pairs, plus terminator. */
+    EGLint attribs[15];
     int attr = 0;
 
     EGLSurface * surface;
@@ -1356,6 +1356,15 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
             orientation |= (optimal_orientation & EGL_SURFACE_ORIENTATION_INVERT_Y_ANGLE);
         }
         attribs[attr++] = orientation;
+    }
+#endif
+
+#ifdef EGL_ANGLE_direct_composition
+    if (GLAD_EGL_ANGLE_direct_composition)
+    {
+        const SDL_bool allow_directcomposition = SDL_GetHintBoolean(SDL_HINT_VIDEO_EGL_ALLOW_DIRECTCOMPOSITION, SDL_FALSE);
+        attribs[attr++] = EGL_DIRECT_COMPOSITION_ANGLE;
+        attribs[attr++] = allow_directcomposition ? EGL_TRUE : EGL_FALSE;
     }
 #endif
 

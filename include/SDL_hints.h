@@ -1598,6 +1598,12 @@ extern "C" {
 #define SDL_HINT_VIDEO_EGL_ALLOW_TRANSPARENCY "SDL_VIDEO_EGL_ALLOW_TRANSPARENCY"
 
 /**
+ * \brief A variable controlling whether the EGL_ANGLE_direct_composition
+ * extension may be enabled.
+ */
+#define SDL_HINT_VIDEO_EGL_ALLOW_DIRECTCOMPOSITION "SDL_VIDEO_EGL_ALLOW_DIRECTCOMPOSITION"
+
+/**
  * \brief A variable controlling whether the graphics context is externally managed.
  *
  * This variable can be set to the following values:
