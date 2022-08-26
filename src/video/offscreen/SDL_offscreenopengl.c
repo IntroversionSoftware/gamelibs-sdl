@@ -94,7 +94,7 @@ OFFSCREEN_GL_UnloadLibrary(_THIS)
 void*
 OFFSCREEN_GL_GetProcAddress(_THIS, const char* proc)
 {
-    void* proc_addr = SDL_EGL_GetProcAddress(_this, proc);
+    void* proc_addr = SDL_EGL_GetProcAddressInternal(_this, proc);
 
     if (!proc_addr) {
         SDL_SetError("Failed to find proc address!");
