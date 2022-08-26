@@ -3675,6 +3675,8 @@ SDL_GL_ResetAttributes()
     _this->gl_config.reset_notification = SDL_GL_CONTEXT_RESET_NO_NOTIFICATION;
 
     _this->gl_config.share_with_current_context = 0;
+
+    _this->gl_config.egl_platform = 0;
 }
 
 int
@@ -3790,6 +3792,9 @@ SDL_GL_SetAttribute(SDL_GLattr attr, int value)
         break;
     case SDL_GL_CONTEXT_NO_ERROR:
         _this->gl_config.no_error = value;
+        break;
+    case SDL_GL_EGL_PLATFORM:
+        _this->gl_config.egl_platform = value;
         break;
     default:
         retval = SDL_SetError("Unknown OpenGL attribute");
@@ -4000,6 +4005,12 @@ SDL_GL_GetAttribute(SDL_GLattr attr, int *value)
             *value = _this->gl_config.no_error;
             return 0;
         }
+    case SDL_GL_EGL_PLATFORM:
+        {
+            *value = _this->gl_config.egl_platform;
+            return 0;
+        }
+        break;
     default:
         return SDL_SetError("Unknown OpenGL attribute");
     }
