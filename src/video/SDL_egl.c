@@ -1290,6 +1290,32 @@ SDL_EGL_DeleteContext(_THIS, SDL_GLContext context)
         
 }
 
+static SDL_bool
+EglColorspaceSupported(GLenum _colorspace)
+{
+    if (!GLAD_EGL_KHR_gl_colorspace)
+        return SDL_FALSE;
+    switch (_colorspace) {
+    case EGL_GL_COLORSPACE_BT2020_PQ_EXT:
+        return GLAD_EGL_EXT_gl_colorspace_bt2020_pq;
+    case EGL_GL_COLORSPACE_BT2020_LINEAR_EXT:
+        return GLAD_EGL_EXT_gl_colorspace_bt2020_linear;
+    case EGL_GL_COLORSPACE_DISPLAY_P3_EXT:
+        return GLAD_EGL_EXT_gl_colorspace_display_p3;
+    case EGL_GL_COLORSPACE_DISPLAY_P3_LINEAR_EXT:
+        return GLAD_EGL_EXT_gl_colorspace_display_p3_linear;
+    case EGL_GL_COLORSPACE_DISPLAY_P3_PASSTHROUGH_EXT:
+        return GLAD_EGL_EXT_gl_colorspace_display_p3_passthrough;
+    case EGL_GL_COLORSPACE_SCRGB_EXT:
+        return GLAD_EGL_EXT_gl_colorspace_scrgb;
+    case EGL_GL_COLORSPACE_SCRGB_LINEAR_EXT:
+        return GLAD_EGL_EXT_gl_colorspace_scrgb_linear;
+    case EGL_GL_COLORSPACE_SRGB_KHR:
+        return SDL_TRUE;
+    }
+    return SDL_FALSE;
+}
+
 EGLSurface *
 SDL_EGL_CreateSurface(_THIS, NativeWindowType nw) 
 {
@@ -1343,13 +1369,15 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
 
     if (_this->gl_config.egl_gl_colorspace) {
 #ifdef EGL_ANGLE_colorspace_attribute_passthrough
-        if (GLAD_EGL_ANGLE_colorspace_attribute_passthrough) {
+        const SDL_bool supports_selected_colorspace = GLAD_EGL_ANGLE_colorspace_attribute_passthrough ||
+            EglColorspaceSupported(_this->gl_config.egl_gl_colorspace);
+        if (supports_selected_colorspace) {
             attribs[attr++] = EGL_GL_COLORSPACE_KHR;
             attribs[attr++] = _this->gl_config.egl_gl_colorspace;
         } else
 #endif
         {
-            SDL_SetError("EGL implementation does not support colorspace passthrough");
+            SDL_SetError("Selected GL colorspace is not supported");
             return EGL_NO_SURFACE;
         }
     }
