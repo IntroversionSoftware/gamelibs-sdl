@@ -82,6 +82,7 @@ sources = [
     'src/joystick/hidapi/SDL_hidapi_stadia.c',
     'src/joystick/hidapi/SDL_hidapi_steam.c',
     'src/joystick/hidapi/SDL_hidapi_switch.c',
+    'src/joystick/hidapi/SDL_hidapi_wii.c',
     'src/joystick/hidapi/SDL_hidapi_xbox360.c',
     'src/joystick/hidapi/SDL_hidapi_xbox360w.c',
     'src/joystick/hidapi/SDL_hidapi_xboxone.c',

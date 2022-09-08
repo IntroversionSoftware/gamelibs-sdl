@@ -645,6 +645,9 @@
     <ClCompile Include="..\..\src\video\yuv2rgb\yuv_rgb.c">
       <Filter>src\video\yuv2rgb</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_wii.c">
+      <Filter>src\joystick\hidapi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\begin_code.h">
@@ -1405,6 +1408,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_std_func.h">
       <Filter>src\video\yuv2rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\joystick\hidapi\SDL_hidapi_nintendo.h">
+      <Filter>src\joystick\hidapi</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
