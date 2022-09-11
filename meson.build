@@ -330,6 +330,7 @@ if target_machine.system() == 'linux'
         'src/core/linux/SDL_fcitx.c',
         'src/core/linux/SDL_ibus.c',
         'src/core/linux/SDL_ime.c',
+        'src/core/linux/SDL_sandbox.c',
         'src/core/linux/SDL_threadprio.c',
         'src/core/linux/SDL_udev.c',
         'src/events/imKStoUCS.c',
