@@ -258,6 +258,7 @@ if target_machine.system() == 'linux'
             'wayland-protocols/idle-inhibit-unstable-v1.xml',
             'wayland-protocols/keyboard-shortcuts-inhibit-unstable-v1.xml',
             'wayland-protocols/pointer-constraints-unstable-v1.xml',
+            'wayland-protocols/primary-selection-unstable-v1.xml',
             'wayland-protocols/relative-pointer-unstable-v1.xml',
             'wayland-protocols/tablet-unstable-v2.xml',
             'wayland-protocols/text-input-unstable-v3.xml',
