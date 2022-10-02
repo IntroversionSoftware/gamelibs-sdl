@@ -47,6 +47,7 @@
 #include "SDL_bits.h"
 #include "SDL_revision.h"
 #include "SDL_assert_c.h"
+#include "SDL_hints_c.h"
 #include "SDL_log_c.h"
 #include "events/SDL_events_c.h"
 #include "haptic/SDL_haptic_c.h"
@@ -491,7 +492,7 @@ SDL_Quit(void)
     SDL_TicksQuit();
 #endif
 
-    SDL_ClearHints();
+    SDL_CleanupHints();
     SDL_AssertionsQuit();
 
 #if SDL_USE_LIBDBUS

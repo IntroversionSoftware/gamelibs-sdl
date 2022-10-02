@@ -120,14 +120,25 @@ SDL_ResetHint(const char *name)
                     entry = next;
                 }
             }
-            if (prev) {
-                prev->next = hint->next;
+
+            if (hint->callbacks) {
+                /* If this hint has callbacks bound to it, we need to keep the
+                   hint structure around to preserve them.
+                 */
+                hint->priority = SDL_HINT_DEFAULT;
+                SDL_free(hint->value);
+                hint->value = NULL;
+                return SDL_TRUE;
             } else {
-                SDL_hints = hint->next;
+                if (prev) {
+                    prev->next = hint->next;
+                } else {
+                    SDL_hints = hint->next;
+                }
+                SDL_free(hint->value);
+                SDL_free(hint);
+                return SDL_TRUE;
             }
-            SDL_free(hint->value);
-            SDL_free(hint);
-            return SDL_TRUE;
         }
     }
     return SDL_FALSE;
@@ -265,6 +276,52 @@ SDL_DelHintCallback(const char *name, SDL_HintCallback callback, void *userdata)
 }
 
 void SDL_ClearHints(void)
+{
+    const char *env;
+    SDL_Hint *hint, *prev;
+    SDL_HintWatch *entry;
+
+    for (prev = NULL, hint = SDL_hints; hint; ) {
+        env = SDL_getenv(hint->name);
+        if ((env == NULL && hint->value != NULL) ||
+            (env != NULL && hint->value == NULL) ||
+            (env && SDL_strcmp(env, hint->value) != 0)) {
+            for (entry = hint->callbacks; entry; ) {
+                /* Save the next entry in case this one is deleted */
+                SDL_HintWatch *next = entry->next;
+                entry->callback(entry->userdata, hint->name, hint->value, env);
+                entry = next;
+            }
+        }
+
+        if (hint->callbacks) {
+            /* If this hint has callbacks bound to it, we need to keep the
+               hint structure around to preserve them.
+             */
+            hint->priority = SDL_HINT_DEFAULT;
+            SDL_free(hint->value);
+            hint->value = NULL;
+
+            /* Advance to the next hint. */
+            prev = hint;
+            hint = hint->next;
+        } else {
+            SDL_Hint *next = hint->next;
+            if (prev) {
+                prev->next = next;
+            } else {
+                SDL_hints = next;
+            }
+            SDL_free(hint->value);
+            SDL_free(hint);
+
+            /* Advance to the next hint. 'prev' hint hasn't changed. */
+            hint = next;
+        }
+    }
+}
+
+void SDL_CleanupHints(void)
 {
     SDL_Hint *hint;
     SDL_HintWatch *entry;
