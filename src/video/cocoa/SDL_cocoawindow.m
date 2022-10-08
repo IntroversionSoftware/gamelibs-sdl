@@ -1738,6 +1738,8 @@ Cocoa_CreateWindow(_THIS, SDL_Window * window)
         return SDL_SetError("%s", [[e reason] UTF8String]);
     }
 
+    [nswindow setColorSpace:[NSColorSpace sRGBColorSpace]];
+
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= 101200 /* Added in the 10.12.0 SDK. */
     /* By default, don't allow users to make our window tabbed in 10.12 or later */
     if ([nswindow respondsToSelector:@selector(setTabbingMode:)]) {
@@ -1780,6 +1782,13 @@ Cocoa_CreateWindow(_THIS, SDL_Window * window)
     if ((window->flags & SDL_WINDOW_OPENGL) &&
         _this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES) {
         [contentView setWantsLayer:TRUE];
+        if (!(window->flags & SDL_WINDOW_ALLOW_HIGHDPI)) {
+            contentView.layer.contentsScale = 1;
+        } else {
+            if ([nswindow.screen respondsToSelector:@selector(backingScaleFactor)]) {
+                contentView.layer.contentsScale = nswindow.screen.backingScaleFactor;
+            }
+        }
     }
 #endif /* SDL_VIDEO_OPENGL_EGL */
 #endif /* SDL_VIDEO_OPENGL_ES2 */

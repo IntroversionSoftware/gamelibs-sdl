@@ -48,6 +48,12 @@
 #define SWP_NOCOPYBITS 0
 #endif
 
+/* Dark mode support */
+#ifndef DWMWA_USE_IMMERSIVE_DARK_MODE
+#define DWMWA_USE_IMMERSIVE_DARK_MODE 20
+#endif
+typedef HRESULT(WINAPI *pfnDwmSetWindowAttribute)(HWND hwnd, DWORD dwAttribute, LPCVOID pvAttribute, DWORD cbAttribute);
+
 /* #define HIGHDPI_DEBUG */
 
 /* Fake window to help with DirectInput events. */
@@ -518,6 +524,18 @@ WIN_CreateWindow(_THIS, SDL_Window * window)
         return WIN_SetError("Couldn't create window");
     }
 
+    if (SDL_GetHintBoolean(SDL_HINT_WINDOWS_HONOR_DARK_MODE, SDL_FALSE)) {
+        void *pDwmApiDll = SDL_LoadObject("dwmapi.dll");
+        if (pDwmApiDll) {
+            pfnDwmSetWindowAttribute pDwmSetWindowAttribute = SDL_LoadFunction(pDwmApiDll, "DwmSetWindowAttribute");
+            if (pDwmSetWindowAttribute) {
+                BOOL value = TRUE;
+                pDwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &value, sizeof(value));
+            }
+            SDL_UnloadObject(pDwmApiDll);
+        }
+    }
+
     WIN_PumpEvents(_this);
 
     if (SetupWindowData(_this, window, hwnd, parent, SDL_TRUE) < 0) {
@@ -541,9 +559,10 @@ WIN_CreateWindow(_THIS, SDL_Window * window)
 
     /* The rest of this macro mess is for OpenGL or OpenGL ES windows */
 #if SDL_VIDEO_OPENGL_ES2
-    if (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES
+    if ((_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES ||
+         SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, SDL_FALSE)) &&
 #if SDL_VIDEO_OPENGL_WGL
-        && (!_this->gl_data || WIN_GL_UseEGL(_this))
+        (!_this->gl_data || WIN_GL_UseEGL(_this))
 #endif /* SDL_VIDEO_OPENGL_WGL */
     ) {
 #if SDL_VIDEO_OPENGL_EGL
