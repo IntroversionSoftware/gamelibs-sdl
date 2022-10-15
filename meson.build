@@ -60,6 +60,7 @@ sources = [
     'src/events/SDL_keyboard.c',
     'src/events/SDL_mouse.c',
     'src/events/SDL_quit.c',
+    'src/events/SDL_scancode_tables.c',
     'src/events/SDL_touch.c',
     'src/events/SDL_windowevents.c',
     'src/file/SDL_rwops.c',

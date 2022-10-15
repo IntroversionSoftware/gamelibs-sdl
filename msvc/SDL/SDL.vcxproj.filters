@@ -648,6 +648,9 @@
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_wii.c">
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\events\SDL_scancode_tables.c">
+      <Filter>src\events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\begin_code.h">
@@ -1411,6 +1414,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\joystick\hidapi\SDL_hidapi_nintendo.h">
       <Filter>src\joystick\hidapi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\events\SDL_scancode_tables_c.h">
+      <Filter>src\events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
