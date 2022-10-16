@@ -22,7 +22,7 @@
 #include "geniconv.h"
 
 #ifndef GENICONV_STANDALONE
-#include "../../../SDL_internal.h"
+#include "../SDL_internal.h"
 #else
 #include <stdlib.h>
 #define SDL_malloc malloc
