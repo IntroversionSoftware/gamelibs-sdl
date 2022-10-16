@@ -21,6 +21,8 @@
 
 #include "../SDL_sysurl.h"
 
+#ifndef __MACH__
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -67,5 +69,6 @@ SDL_SYS_OpenURL(const char *url)
     }
 }
 
-/* vi: set ts=4 sw=4 expandtab: */
+#endif
 
+/* vi: set ts=4 sw=4 expandtab: */

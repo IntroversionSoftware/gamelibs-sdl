@@ -135,6 +135,7 @@ SDL_SOURCES += \
     src/haptic/darwin/*c \
     src/joystick/darwin/*.c \
     src/joystick/iphoneos/*.m \
+    src/misc/macosx/*.m \
     src/power/macosx/*.c \
     src/render/metal/*.m \
     src/timer/unix/*.c \
