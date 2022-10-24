@@ -3642,6 +3642,7 @@ SDL_GL_ResetAttributes()
 
     _this->egl_platformattrib_callback = NULL;
     _this->egl_surfaceattrib_callback = NULL;
+    _this->egl_contextattrib_callback = NULL;
 
     _this->gl_config.red_size = 3;
     _this->gl_config.green_size = 3;
