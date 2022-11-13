@@ -228,6 +228,7 @@
 /* #undef HAVE_IBUS_IBUS_H */
 #define HAVE_IMMINTRIN_H 1
 #define HAVE_LIBUDEV_H 1
+#define HAVE_LINUX_INPUT_H 1
 /* #undef HAVE_LIBSAMPLERATE_H */
 /* #undef HAVE_LIBDECOR_H */
 
