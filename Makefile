@@ -74,7 +74,6 @@ SDL_SOURCES = \
     src/joystick/hidapi/*.c \
     src/joystick/virtual/*.c \
     src/libm/*.c \
-    src/loadso/dummy/*.c \
     src/locale/*.c \
     src/misc/*.c \
     src/power/*.c \
@@ -88,7 +87,6 @@ SDL_SOURCES = \
     src/stdlib/*.c \
     src/thread/*.c \
     src/timer/*.c \
-    src/timer/dummy/*.c \
     src/video/*.c \
     src/video/dummy/*.c \
     src/video/yuv2rgb/*.c \
