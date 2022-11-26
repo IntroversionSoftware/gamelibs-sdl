@@ -28,6 +28,10 @@
  *  \file SDL_config.h
  */
 
+#ifdef ANGLE_STATIC
+#define SDL_VIDEO_STATIC_ANGLE 1
+#endif
+
 /* Add any platform that doesn't build using the configure system. */
 #if defined(__WIN32__)
 #include "SDL_config_windows.h"
@@ -49,6 +53,8 @@
 #include "SDL_config_emscripten.h"
 #elif defined(__NGAGE__)
 #include "SDL_config_ngage.h"
+#elif defined(__linux__)
+#include "SDL_config_linux.h"
 #else
 /* This is a minimal configuration just to get SDL running on new platforms. */
 #include "SDL_config_minimal.h"
