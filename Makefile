@@ -67,7 +67,6 @@ SDL_SOURCES = \
     src/events/*.c \
     src/file/*.c \
     src/haptic/*.c \
-    src/haptic/dummy/*.c \
     src/hidapi/*.c \
     src/joystick/*.c \
     src/joystick/dummy/*.c \
