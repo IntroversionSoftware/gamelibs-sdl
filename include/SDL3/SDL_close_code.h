@@ -31,6 +31,9 @@
 #endif
 #undef SDL_begin_code_h
 
+#pragma pop_macro("malloc")
+#pragma pop_macro("free")
+
 /* Reset structure packing at previous byte alignment */
 #if defined(_MSC_VER) || defined(__MWERKS__) || defined(__BORLANDC__)
 #ifdef __BORLANDC__
