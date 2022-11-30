@@ -61,20 +61,16 @@ SDL_SOURCES = \
     src/atomic/*.c \
     src/audio/*.c \
     src/audio/disk/*.c \
-    src/audio/dummy/*.c \
     src/cpuinfo/*.c \
     src/dynapi/*.c \
     src/events/*.c \
     src/file/*.c \
     src/haptic/*.c \
-    src/haptic/dummy/*.c \
     src/hidapi/*.c \
     src/joystick/*.c \
-    src/joystick/dummy/*.c \
     src/joystick/hidapi/*.c \
     src/joystick/virtual/*.c \
     src/libm/*.c \
-    src/loadso/dummy/*.c \
     src/locale/*.c \
     src/misc/*.c \
     src/power/*.c \
@@ -84,13 +80,10 @@ SDL_SOURCES = \
     src/render/opengl/*.c \
     src/render/opengles2/*.c \
     src/sensor/*.c \
-    src/sensor/dummy/*.c \
     src/stdlib/*.c \
     src/thread/*.c \
     src/timer/*.c \
-    src/timer/dummy/*.c \
     src/video/*.c \
-    src/video/dummy/*.c \
     src/video/yuv2rgb/*.c \
 
 SDLMAIN_SOURCES =
