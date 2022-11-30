@@ -33,6 +33,15 @@
 #endif
 #define SDL_begin_code_h
 
+#pragma push_macro("malloc")
+#pragma push_macro("free")
+#ifdef malloc
+#undef malloc
+#endif
+#ifdef free
+#undef free
+#endif
+
 #ifndef SDL_DEPRECATED
 #  if defined(__GNUC__) && (__GNUC__ >= 4)  /* technically, this arrived in gcc 3.1, but oh well. */
 #    define SDL_DEPRECATED __attribute__((deprecated))
