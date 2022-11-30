@@ -133,10 +133,10 @@ SDL_SOURCES += \
     src/file/cocoa/*.m \
     src/filesystem/cocoa/*.m \
     src/haptic/darwin/*c \
+    src/joystick/apple/*.m \
     src/joystick/darwin/*.c \
-    src/joystick/iphoneos/*.m \
-    src/misc/macosx/*.m \
-    src/power/macosx/*.c \
+    src/misc/macos/*.m \
+    src/power/macos/*.c \
     src/render/metal/*.m \
     src/timer/unix/*.c \
     src/video/cocoa/*.m
