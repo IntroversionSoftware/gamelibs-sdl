@@ -263,6 +263,7 @@ static SDL_bool GetDisplayMode(_THIS, CGDisplayModeRef vidmode, SDL_bool vidmode
     mode->w = width;
     mode->h = height;
     mode->refresh_rate = refreshrate;
+    mode->is_native = (ioflags & kDisplayModeNativeFlag) ? 1 : 0;
     mode->driverdata = data;
     return SDL_TRUE;
 }
