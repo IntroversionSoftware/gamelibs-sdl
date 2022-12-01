@@ -1,8 +1,3 @@
-option('opengl',
-	type: 'combo',
-	choices: ['angle', 'core', 'compat'],
-	value: 'angle',
-	description: 'OpenGL API target')
 option('wayland',
     type: 'boolean',
     value: false,

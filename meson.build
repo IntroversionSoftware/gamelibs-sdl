@@ -12,23 +12,6 @@ link_deps = [
     dependency('threads'),
 ]
 
-opengl = get_option('opengl')
-
-if opengl != 'angle'
-    link_deps += [ dependency('gl') ]
-endif
-
-if target_machine.system() == 'linux'
-    c_flags += ['-D_LARGEFILE64_SOURCE']
-endif
-
-if target_machine.system() == 'windows'
-    link_deps += [
-        compiler.find_library('version'),
-        compiler.find_library('winmm'),
-    ]
-endif
-
 sdlmain_sources = []
 
 sources = [
@@ -194,6 +177,8 @@ if target_machine.system() == 'windows'
     link_deps += [
         compiler.find_library('imm32'),
         compiler.find_library('setupapi'),
+        compiler.find_library('version'),
+        compiler.find_library('winmm'),
     ]
     sdlmain_sources += [
         'src/main/windows/SDL_windows_main.c',
@@ -202,7 +187,6 @@ if target_machine.system() == 'windows'
         'src/audio/directsound/SDL_directsound.c',
         'src/audio/wasapi/SDL_wasapi.c',
         'src/audio/wasapi/SDL_wasapi_win32.c',
-        'src/audio/winmm/SDL_winmm.c',
         'src/core/windows/SDL_hid.c',
         'src/core/windows/SDL_immdevice.c',
         'src/core/windows/SDL_windows.c',
@@ -314,6 +298,8 @@ if target_machine.system() == 'linux'
         ]
         c_flags += ['-DENABLE_WAYLAND_SUPPORT']
     endif
+
+    c_flags += ['-D_LARGEFILE64_SOURCE']
 
     link_deps += [
         dependency('dbus-1'),
