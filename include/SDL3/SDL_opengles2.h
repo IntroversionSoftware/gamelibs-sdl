@@ -26,7 +26,7 @@
  */
 #include <SDL3/SDL_platform.h>
 
-#if !defined(_MSC_VER) && !defined(SDL_USE_BUILTIN_OPENGL_DEFINITIONS)
+#if !defined(_MSC_VER) && !defined(__MINGW32__) && !defined(SDL_USE_BUILTIN_OPENGL_DEFINITIONS)
 
 #ifdef __IOS__
 #include <OpenGLES/ES2/gl.h>
