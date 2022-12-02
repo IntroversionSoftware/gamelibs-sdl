@@ -1259,6 +1259,7 @@ SDL_EGL_CreateSurface(_THIS, SDL_Window *window, NativeWindowType nw)
     }
 
 #ifdef EGL_EXT_present_opaque
+#if 0
     if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_EXT_present_opaque")) {
         SDL_bool allow_transparent = SDL_FALSE;
         if (window && (window->flags & SDL_WINDOW_TRANSPARENT)) {
@@ -1267,6 +1268,7 @@ SDL_EGL_CreateSurface(_THIS, SDL_Window *window, NativeWindowType nw)
         attribs[attr++] = EGL_PRESENT_OPAQUE_EXT;
         attribs[attr++] = allow_transparent ? EGL_FALSE : EGL_TRUE;
     }
+#endif
 #endif
 
     if (_this->egl_surfaceattrib_callback) {
