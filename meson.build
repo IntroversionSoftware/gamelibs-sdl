@@ -39,7 +39,6 @@ sources = [
     'src/events/SDL_displayevents.c',
     'src/events/SDL_dropevents.c',
     'src/events/SDL_events.c',
-    'src/events/SDL_gesture.c',
     'src/events/SDL_keyboard.c',
     'src/events/SDL_keysym_to_scancode.c',
     'src/events/SDL_mouse.c',
