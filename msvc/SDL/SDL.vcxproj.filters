@@ -252,9 +252,6 @@
     <ClCompile Include="..\..\src\events\SDL_events.c">
       <Filter>src\events</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\events\SDL_gesture.c">
-      <Filter>src\events</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\events\SDL_keyboard.c">
       <Filter>src\events</Filter>
     </ClCompile>
@@ -735,9 +732,6 @@
       <Filter>src\events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\events\SDL_events_c.h">
-      <Filter>src\events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\events\SDL_gesture_c.h">
       <Filter>src\events</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\events\SDL_keyboard_c.h">
