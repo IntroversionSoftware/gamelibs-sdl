@@ -197,6 +197,7 @@ typedef unsigned int uintptr_t;
 #define HAVE_FMODF  1
 #define HAVE_LOGF   1
 #define HAVE_LOG10F 1
+#define HAVE_MODF   1
 #define HAVE_POWF   1
 #define HAVE_SINF   1
 #define HAVE_SQRTF  1
