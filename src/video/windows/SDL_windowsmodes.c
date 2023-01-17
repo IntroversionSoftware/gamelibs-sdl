@@ -195,6 +195,7 @@ static SDL_bool WIN_GetDisplayMode(_THIS, LPCWSTR deviceName, DWORD index, SDL_D
     mode->w = data->DeviceMode.dmPelsWidth;
     mode->h = data->DeviceMode.dmPelsHeight;
     mode->refresh_rate = WIN_GetRefreshRate(&data->DeviceMode);
+    mode->is_native = 0;
 
     /* Fill in the mode information */
     WIN_UpdateDisplayMode(_this, deviceName, index, mode);
@@ -379,6 +380,8 @@ static void WIN_AddDisplay(_THIS, HMONITOR hMonitor, const MONITORINFOEXW *info,
             display.name = WIN_StringToUTF8W(device.DeviceString);
         }
     }
+
+    mode.is_native = 1;
 
     display.desktop_mode = mode;
     display.current_mode = mode;

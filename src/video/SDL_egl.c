@@ -339,7 +339,7 @@ static int SDL_EGL_LoadLibraryInternal(_THIS, const char *egl_path)
 #if !defined(SDL_VIDEO_STATIC_ANGLE) && !defined(SDL_VIDEO_DRIVER_VITA)
     /* A funny thing, loading EGL.so first does not work on the Raspberry, so we load libGL* first */
     path = SDL_getenv("SDL_VIDEO_GL_DRIVER");
-    if (path != NULL) {
+    if (path != NULL && path[0] != '\0') {
         opengl_dll_handle = SDL_LoadObject(path);
     }
 
@@ -399,7 +399,7 @@ static int SDL_EGL_LoadLibraryInternal(_THIS, const char *egl_path)
             SDL_UnloadObject(egl_dll_handle);
         }
         path = SDL_getenv("SDL_VIDEO_EGL_DRIVER");
-        if (path == NULL) {
+        if (path == NULL || path[0] == '\0') {
             path = DEFAULT_EGL;
         }
         egl_dll_handle = SDL_LoadObject(path);
@@ -1255,11 +1255,13 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
     }
 
 #ifdef EGL_EXT_present_opaque
+#if 0
     if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_EXT_present_opaque")) {
         const SDL_bool allow_transparent = SDL_GetHintBoolean(SDL_HINT_VIDEO_EGL_ALLOW_TRANSPARENCY, SDL_FALSE);
         attribs[attr++] = EGL_PRESENT_OPAQUE_EXT;
         attribs[attr++] = allow_transparent ? EGL_FALSE : EGL_TRUE;
     }
+#endif
 #endif
 
     if (_this->egl_surfaceattrib_callback) {
