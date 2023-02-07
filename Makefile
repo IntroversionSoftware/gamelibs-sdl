@@ -50,7 +50,7 @@ endif
 
 prefix ?= /usr/local
 libdir := $(prefix)/lib
-includedir := $(prefix)/include/SDL
+includedir := $(prefix)/include/SDL2
 
 CFLAGS += -Isrc -Isrc/hidapi/hidapi -D_LARGEFILE64_SOURCE
 
