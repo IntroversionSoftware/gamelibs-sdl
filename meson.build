@@ -336,6 +336,7 @@ if target_machine.system() == 'linux'
         'src/core/linux/SDL_threadprio.c',
         'src/core/linux/SDL_udev.c',
         'src/events/imKStoUCS.c',
+        'src/events/SDL_keysym_to_scancode.c',
         'src/haptic/linux/SDL_syshaptic.c',
         'src/joystick/linux/SDL_sysjoystick.c',
         'src/joystick/steam/SDL_steamcontroller.c',
