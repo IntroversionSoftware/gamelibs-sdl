@@ -256,6 +256,7 @@ if target_machine.system() == 'linux'
         wayland_scanner = find_program(dep_wl_scanner.get_pkgconfig_variable('wayland_scanner'))
 
         protocols = [
+            'wayland-protocols/fractional-scale-v1.xml',
             'wayland-protocols/idle-inhibit-unstable-v1.xml',
             'wayland-protocols/keyboard-shortcuts-inhibit-unstable-v1.xml',
             'wayland-protocols/pointer-constraints-unstable-v1.xml',
