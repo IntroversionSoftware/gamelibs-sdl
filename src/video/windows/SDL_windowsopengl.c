@@ -714,6 +714,7 @@ SDL_GLContext WIN_GL_CreateContext(_THIS, SDL_Window *window)
         _this->GL_GetSwapInterval = WIN_GLES_GetSwapInterval;
         _this->GL_SwapWindow = WIN_GLES_SwapWindow;
         _this->GL_DeleteContext = WIN_GLES_DeleteContext;
+        _this->GL_GetEGLSurface = WIN_GLES_GetEGLSurface;
 
         if (WIN_GLES_LoadLibrary(_this, NULL) != 0) {
             return NULL;
@@ -763,10 +764,12 @@ SDL_GLContext WIN_GL_CreateContext(_THIS, SDL_Window *window)
             int attribs[15]; /* max 14 attributes plus terminator */
             int iattr = 0;
 
-            attribs[iattr++] = WGL_CONTEXT_MAJOR_VERSION_ARB;
-            attribs[iattr++] = _this->gl_config.major_version;
-            attribs[iattr++] = WGL_CONTEXT_MINOR_VERSION_ARB;
-            attribs[iattr++] = _this->gl_config.minor_version;
+            if (_this->gl_config.major_version != 0) {
+                attribs[iattr++] = WGL_CONTEXT_MAJOR_VERSION_ARB;
+                attribs[iattr++] = _this->gl_config.major_version;
+                attribs[iattr++] = WGL_CONTEXT_MINOR_VERSION_ARB;
+                attribs[iattr++] = _this->gl_config.minor_version;
+            }
 
             /* SDL profile bits match WGL profile bits */
             if (_this->gl_config.profile_mask != 0) {
