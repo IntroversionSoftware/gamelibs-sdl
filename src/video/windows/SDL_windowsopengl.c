@@ -605,6 +605,11 @@ static int WIN_GL_SetupWindowInternal(_THIS, SDL_Window *window)
     *iAttr++ = WGL_DOUBLE_BUFFER_ARB;
     *iAttr++ = _this->gl_config.double_buffer;
 
+    if (_this->gl_config.double_buffer) {
+        *iAttr++ = WGL_SWAP_METHOD_ARB;
+        *iAttr++ = WGL_SWAP_EXCHANGE_ARB;
+    }
+
     *iAttr++ = WGL_DEPTH_BITS_ARB;
     *iAttr++ = _this->gl_config.depth_size;
 
