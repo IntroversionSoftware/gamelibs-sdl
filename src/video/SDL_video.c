@@ -19,7 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "../SDL_internal.h"
+#include "SDL_internal.h"
 
 /* The high-level video driver subsystem */
 
@@ -3568,6 +3568,7 @@ void SDL_GL_DeduceMaxSupportedESProfile(int *major, int *minor)
     /* XXX This is fragile; it will break in the event of release of
      * new versions of OpenGL ES.
      */
+    #if 0
     if (SDL_GL_ExtensionSupported("GL_ARB_ES3_2_compatibility")) {
         *major = 3;
         *minor = 2;
@@ -3581,6 +3582,9 @@ void SDL_GL_DeduceMaxSupportedESProfile(int *major, int *minor)
         *major = 2;
         *minor = 0;
     }
+    #endif
+    *major = 3;
+    *minor = 2;
 #endif
 }
 
