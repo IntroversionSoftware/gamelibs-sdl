@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_X11
 
@@ -221,6 +221,7 @@ static SDL_bool SetXRandRModeInfo(Display *display, XRRScreenResources *res, RRC
                 mode->w = info->width;
                 mode->h = info->height;
             }
+            mode->is_native = 0;
             mode->refresh_rate = CalculateXRandRRefreshRate(info);
             ((SDL_DisplayModeData *)mode->driverdata)->xrandr_mode = modeID;
 #ifdef X11MODES_DEBUG
@@ -383,6 +384,7 @@ static int X11_AddXRandRDisplay(_THIS, Display *dpy, int screen, RROutput output
     if (*display_name) {
         display.name = display_name;
     }
+    mode.is_native = 1;
     display.desktop_mode = mode;
     display.current_mode = mode;
     display.driverdata = displaydata;

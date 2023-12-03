@@ -40,7 +40,7 @@
 #include "os2cp.h"
 
 #ifndef GENICONV_STANDALONE
-#include "../../../SDL_internal.h"
+#include "../SDL_internal.h"
 #else
 #include <stdio.h>
 #include <stdlib.h>
