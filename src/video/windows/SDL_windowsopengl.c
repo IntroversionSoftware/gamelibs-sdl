@@ -618,6 +618,11 @@ static bool WIN_GL_SetupWindowInternal(SDL_VideoDevice *_this, SDL_Window *windo
     *iAttr++ = WGL_DOUBLE_BUFFER_ARB;
     *iAttr++ = _this->gl_config.double_buffer;
 
+    if (_this->gl_config.double_buffer) {
+        *iAttr++ = WGL_SWAP_METHOD_ARB;
+        *iAttr++ = WGL_SWAP_EXCHANGE_ARB;
+    }
+
     *iAttr++ = WGL_DEPTH_BITS_ARB;
     *iAttr++ = _this->gl_config.depth_size;
 
