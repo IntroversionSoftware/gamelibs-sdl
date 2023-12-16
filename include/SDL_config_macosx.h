@@ -183,7 +183,7 @@
 
 /* Enable various video drivers */
 #define SDL_VIDEO_DRIVER_COCOA  1
-#define SDL_VIDEO_DRIVER_DUMMY  1
+//#define SDL_VIDEO_DRIVER_DUMMY  1
 #undef SDL_VIDEO_DRIVER_X11
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC "/opt/X11/lib/libX11.6.dylib"
 #define SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT "/opt/X11/lib/libXext.6.dylib"
@@ -224,8 +224,6 @@
 #ifndef SDL_VIDEO_RENDER_METAL
 #if SDL_PLATFORM_SUPPORTS_METAL
 #define SDL_VIDEO_RENDER_METAL    1
-#else
-#define SDL_VIDEO_RENDER_METAL    0
 #endif
 #endif
 
@@ -250,16 +248,12 @@
 #ifndef SDL_VIDEO_VULKAN
 #if SDL_PLATFORM_SUPPORTS_METAL
 #define SDL_VIDEO_VULKAN 1
-#else
-#define SDL_VIDEO_VULKAN 0
 #endif
 #endif
 
 #ifndef SDL_VIDEO_METAL
 #if SDL_PLATFORM_SUPPORTS_METAL
 #define SDL_VIDEO_METAL 1
-#else
-#define SDL_VIDEO_METAL 0
 #endif
 #endif
 
@@ -273,5 +267,10 @@
 #ifdef __ppc__
 #define SDL_ALTIVEC_BLITTERS    1
 #endif
+
+#define SDL_AUDIO_DISABLED 1
+#define SDL_SENSOR_DISABLED 1
+#define SDL_RENDER_DISABLED 1
+#define SDL_FILESYSTEM_DISABLED 1
 
 #endif /* SDL_config_macosx_h_ */
