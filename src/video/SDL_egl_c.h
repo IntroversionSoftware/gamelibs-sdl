@@ -53,6 +53,7 @@ typedef struct SDL_EGL_VideoData
     EGLBoolean(EGLAPIENTRY *eglInitialize) (EGLDisplay dpy, EGLint * major,
                                 EGLint * minor);
     EGLBoolean(EGLAPIENTRY  *eglTerminate) (EGLDisplay dpy);
+    EGLBoolean(EGLAPIENTRY *eglReleaseThread)(void);
 
     void *(EGLAPIENTRY *eglGetProcAddress) (const char * procName);
 
