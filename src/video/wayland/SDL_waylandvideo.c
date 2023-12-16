@@ -580,6 +580,7 @@ static void display_handle_done(void *data,
         native_mode.w = driverdata->native_width;
         native_mode.h = driverdata->native_height;
     }
+    native_mode.is_native = 1;
     native_mode.refresh_rate = (int)SDL_round(driverdata->refresh / 1000.0); /* mHz to Hz */
     native_mode.driverdata = driverdata->output;
 
@@ -602,6 +603,7 @@ static void display_handle_done(void *data,
         desktop_mode.w = driverdata->height;
         desktop_mode.h = driverdata->width;
     }
+    desktop_mode.is_native = 1;
     desktop_mode.refresh_rate = (int)SDL_round(driverdata->refresh / 1000.0); /* mHz to Hz */
     desktop_mode.driverdata = driverdata->output;
 
