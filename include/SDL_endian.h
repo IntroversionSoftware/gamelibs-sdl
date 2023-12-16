@@ -130,7 +130,7 @@ extern "C" {
  */
 
 /* various modern compilers may have builtin swap */
-#if defined(__GNUC__) || defined(__clang__)
+#if defined(__GNUC__)
 #   define HAS_BUILTIN_BSWAP16 (_SDL_HAS_BUILTIN(__builtin_bswap16)) || \
         (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8))
 #   define HAS_BUILTIN_BSWAP32 (_SDL_HAS_BUILTIN(__builtin_bswap32)) || \
