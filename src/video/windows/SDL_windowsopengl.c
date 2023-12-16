@@ -594,6 +594,9 @@ static int WIN_GL_SetupWindowInternal(_THIS, SDL_Window *window)
     *iAttr++ = WGL_BLUE_BITS_ARB;
     *iAttr++ = _this->gl_config.blue_size;
 
+    *iAttr++ = WGL_SUPPORT_OPENGL_ARB;
+    *iAttr++ = 1;
+
     if (_this->gl_config.alpha_size) {
         *iAttr++ = WGL_ALPHA_BITS_ARB;
         *iAttr++ = _this->gl_config.alpha_size;
