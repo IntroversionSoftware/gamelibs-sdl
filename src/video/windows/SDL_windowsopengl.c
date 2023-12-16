@@ -801,10 +801,12 @@ SDL_GLContext WIN_GL_CreateContext(SDL_VideoDevice *_this, SDL_Window *window)
             int attribs[15]; // max 14 attributes plus terminator
             int iattr = 0;
 
-            attribs[iattr++] = WGL_CONTEXT_MAJOR_VERSION_ARB;
-            attribs[iattr++] = _this->gl_config.major_version;
-            attribs[iattr++] = WGL_CONTEXT_MINOR_VERSION_ARB;
-            attribs[iattr++] = _this->gl_config.minor_version;
+            if (_this->gl_config.major_version != 0) {
+                attribs[iattr++] = WGL_CONTEXT_MAJOR_VERSION_ARB;
+                attribs[iattr++] = _this->gl_config.major_version;
+                attribs[iattr++] = WGL_CONTEXT_MINOR_VERSION_ARB;
+                attribs[iattr++] = _this->gl_config.minor_version;
+            }
 
             // SDL profile bits match WGL profile bits
             if (_this->gl_config.profile_mask != 0) {
