@@ -229,6 +229,7 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
     device->GL_GetSwapInterval = WIN_GL_GetSwapInterval;
     device->GL_SwapWindow = WIN_GL_SwapWindow;
     device->GL_DeleteContext = WIN_GL_DeleteContext;
+    device->GL_GetEGLSurface = NULL;
 #endif
 #ifdef SDL_VIDEO_OPENGL_EGL
 #ifdef SDL_VIDEO_OPENGL_WGL
@@ -244,6 +245,7 @@ static SDL_VideoDevice *WIN_CreateDevice(void)
         device->GL_GetSwapInterval = WIN_GLES_GetSwapInterval;
         device->GL_SwapWindow = WIN_GLES_SwapWindow;
         device->GL_DeleteContext = WIN_GLES_DeleteContext;
+        device->GL_GetEGLSurface = WIN_GLES_GetEGLSurface;
 #ifdef SDL_VIDEO_OPENGL_WGL
     }
 #endif
