@@ -586,7 +586,7 @@ static int WIN_GL_SetupWindowInternal(_THIS, SDL_Window *window)
     iAttr = &iAttribs[0];
 
     *iAttr++ = WGL_DRAW_TO_WINDOW_ARB;
-    *iAttr++ = GL_TRUE;
+    *iAttr++ = 1;
     *iAttr++ = WGL_RED_BITS_ARB;
     *iAttr++ = _this->gl_config.red_size;
     *iAttr++ = WGL_GREEN_BITS_ARB;
