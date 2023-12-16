@@ -286,6 +286,7 @@ static SDL_VideoDevice *X11_CreateDevice(void)
     device->GL_GetSwapInterval = X11_GL_GetSwapInterval;
     device->GL_SwapWindow = X11_GL_SwapWindow;
     device->GL_DeleteContext = X11_GL_DeleteContext;
+    device->GL_GetEGLSurface = NULL;
 #endif
 #ifdef SDL_VIDEO_OPENGL_EGL
 #ifdef SDL_VIDEO_OPENGL_GLX
@@ -301,6 +302,7 @@ static SDL_VideoDevice *X11_CreateDevice(void)
         device->GL_GetSwapInterval = X11_GLES_GetSwapInterval;
         device->GL_SwapWindow = X11_GLES_SwapWindow;
         device->GL_DeleteContext = X11_GLES_DeleteContext;
+        device->GL_GetEGLSurface = X11_GLES_GetEGLSurface;
 #ifdef SDL_VIDEO_OPENGL_GLX
     }
 #endif
