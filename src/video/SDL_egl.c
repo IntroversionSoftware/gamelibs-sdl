@@ -283,6 +283,7 @@ void SDL_EGL_UnloadLibrary(SDL_VideoDevice *_this)
     if (_this->egl_data) {
         if (_this->egl_data->egl_display) {
             _this->egl_data->eglTerminate(_this->egl_data->egl_display);
+            _this->egl_data->eglReleaseThread();
             _this->egl_data->egl_display = NULL;
         }
 
@@ -436,6 +437,7 @@ static bool SDL_EGL_LoadLibraryInternal(SDL_VideoDevice *_this, const char *egl_
     LOAD_FUNC(PFNEGLGETDISPLAYPROC, eglGetDisplay);
     LOAD_FUNC(PFNEGLINITIALIZEPROC, eglInitialize);
     LOAD_FUNC(PFNEGLTERMINATEPROC, eglTerminate);
+    LOAD_FUNC(PFNEGLRELEASETHREADPROC, eglReleaseThread);
     LOAD_FUNC(PFNEGLGETPROCADDRESSPROC, eglGetProcAddress);
     LOAD_FUNC(PFNEGLCHOOSECONFIGPROC, eglChooseConfig);
     LOAD_FUNC(PFNEGLCREATECONTEXTPROC, eglCreateContext);
