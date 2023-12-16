@@ -121,15 +121,20 @@
 #define LOAD_FUNC(NAME) \
     _this->egl_data->NAME = (void *)NAME;
 #else
-#define LOAD_FUNC(NAME)                                                               \
-    _this->egl_data->NAME = SDL_LoadFunction(_this->egl_data->egl_dll_handle, #NAME); \
-    if (!_this->egl_data->NAME) {                                                     \
-        return SDL_SetError("Could not retrieve EGL function " #NAME);                \
+#define LOAD_FUNC(NAME)                                                                    \
+    if (_this->egl_data->eglGetProcAddress) {                                              \
+        _this->egl_data->NAME = _this->egl_data->eglGetProcAddress(#NAME);                 \
+    }                                                                                      \
+    if (!_this->egl_data->NAME) {                                                          \
+        _this->egl_data->NAME = SDL_LoadFunction(_this->egl_data->egl_dll_handle, #NAME);  \
+    }                                                                                      \
+    if (!_this->egl_data->NAME) {                                                          \
+        return SDL_SetError("Could not retrieve EGL function " #NAME);                     \
     }
 #endif
 
 /* it is allowed to not have some of the EGL extensions on start - attempts to use them will fail later. */
-#define LOAD_FUNC_EGLEXT(NAME) \
+#define LOAD_FUNC_OPTIONAL(NAME) \
     _this->egl_data->NAME = _this->egl_data->eglGetProcAddress(#NAME);
 
 static const char *SDL_EGL_GetErrorName(EGLint eglErrorCode)
@@ -445,14 +450,14 @@ static int SDL_EGL_LoadLibraryInternal(_THIS, const char *egl_path)
     LOAD_FUNC(eglQueryAPI);
     LOAD_FUNC(eglQueryString);
     LOAD_FUNC(eglGetError);
-    LOAD_FUNC_EGLEXT(eglQueryDevicesEXT);
-    LOAD_FUNC_EGLEXT(eglGetPlatformDisplayEXT);
+    LOAD_FUNC_OPTIONAL(eglQueryDevicesEXT);
+    LOAD_FUNC_OPTIONAL(eglGetPlatformDisplayEXT);
     /* Atomic functions */
-    LOAD_FUNC_EGLEXT(eglCreateSyncKHR);
-    LOAD_FUNC_EGLEXT(eglDestroySyncKHR);
-    LOAD_FUNC_EGLEXT(eglDupNativeFenceFDANDROID);
-    LOAD_FUNC_EGLEXT(eglWaitSyncKHR);
-    LOAD_FUNC_EGLEXT(eglClientWaitSyncKHR);
+    LOAD_FUNC_OPTIONAL(eglCreateSyncKHR);
+    LOAD_FUNC_OPTIONAL(eglDestroySyncKHR);
+    LOAD_FUNC_OPTIONAL(eglDupNativeFenceFDANDROID);
+    LOAD_FUNC_OPTIONAL(eglWaitSyncKHR);
+    LOAD_FUNC_OPTIONAL(eglClientWaitSyncKHR);
     /* Atomic functions end */
 
     if (path) {
