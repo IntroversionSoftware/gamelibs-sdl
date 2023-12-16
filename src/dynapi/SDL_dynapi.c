@@ -19,6 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
+#include "SDL_internal.h"
 #include "SDL_config.h"
 #include "SDL_dynapi.h"
 
