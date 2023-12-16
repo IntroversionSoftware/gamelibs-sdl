@@ -37,6 +37,7 @@ typedef void *EGLDeviceEXT;
 typedef EGLDisplay (EGLAPIENTRYP PFNEGLGETDISPLAYPROC) (EGLNativeDisplayType display_id);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLINITIALIZEPROC) (EGLDisplay dpy, EGLint *major, EGLint *minor);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLTERMINATEPROC) (EGLDisplay dpy);
+typedef EGLBoolean (EGLAPIENTRYP PFNEGLRELEASETHREADPROC) (void);
 typedef __eglMustCastToProperFunctionPointerType (EGLAPIENTRYP PFNEGLGETPROCADDRESSPROC) (const char *procname);
 typedef EGLBoolean (EGLAPIENTRYP PFNEGLCHOOSECONFIGPROC) (EGLDisplay dpy, const EGLint *attrib_list, EGLConfig *configs, EGLint config_size, EGLint *num_config);
 typedef EGLContext (EGLAPIENTRYP PFNEGLCREATECONTEXTPROC) (EGLDisplay dpy, EGLConfig config, EGLContext share_context, const EGLint *attrib_list);
@@ -78,6 +79,7 @@ typedef struct SDL_EGL_VideoData
     PFNEGLGETDISPLAYPROC eglGetDisplay;
     PFNEGLINITIALIZEPROC eglInitialize;
     PFNEGLTERMINATEPROC eglTerminate;
+    PFNEGLRELEASETHREADPROC eglReleaseThread;
     PFNEGLGETPROCADDRESSPROC eglGetProcAddress;
     PFNEGLCHOOSECONFIGPROC eglChooseConfig;
     PFNEGLCREATECONTEXTPROC eglCreateContext;
