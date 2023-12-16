@@ -56,6 +56,7 @@ typedef struct SDL_DisplayMode
     int w;                      /**< width, in screen coordinates */
     int h;                      /**< height, in screen coordinates */
     int refresh_rate;           /**< refresh rate (or zero for unspecified) */
+    int is_native;              /**< is a native display mode (not scaled) */
     void *driverdata;           /**< driver-specific data, initialize to 0 */
 } SDL_DisplayMode;
 
