@@ -293,6 +293,10 @@ static int WIN_GL_ChoosePixelFormat(_THIS, HDC hdc, PIXELFORMATDESCRIPTOR *targe
             continue;
         }
 
+        if (pfd.dwFlags & (PFD_GENERIC_ACCELERATED | PFD_GENERIC_FORMAT)) {
+            continue;
+        }
+
         if (pfd.iLayerType != target->iLayerType) {
             continue;
         }
