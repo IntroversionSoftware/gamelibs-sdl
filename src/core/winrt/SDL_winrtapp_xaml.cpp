@@ -28,7 +28,7 @@
 #endif
 
 /* SDL includes */
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 #include "SDL.h"
 #include "../../video/winrt/SDL_winrtevents_c.h"
 #include "../../video/winrt/SDL_winrtvideo_cpp.h"
