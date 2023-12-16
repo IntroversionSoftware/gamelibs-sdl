@@ -280,6 +280,7 @@ void SDL_EGL_UnloadLibrary(_THIS)
     if (_this->egl_data) {
         if (_this->egl_data->egl_display) {
             _this->egl_data->eglTerminate(_this->egl_data->egl_display);
+            _this->egl_data->eglReleaseThread();
             _this->egl_data->egl_display = NULL;
         }
 
@@ -433,6 +434,7 @@ static int SDL_EGL_LoadLibraryInternal(_THIS, const char *egl_path)
     LOAD_FUNC(eglGetDisplay);
     LOAD_FUNC(eglInitialize);
     LOAD_FUNC(eglTerminate);
+    LOAD_FUNC(eglReleaseThread);
     LOAD_FUNC(eglGetProcAddress);
     LOAD_FUNC(eglChooseConfig);
     LOAD_FUNC(eglGetConfigAttrib);
