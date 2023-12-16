@@ -207,6 +207,7 @@
 
 #include "SDL_assert.h"
 #include "SDL_log.h"
+#include "SDL_stdinc.h"
 
 extern void SDL_InitMainThread(void);
 
