@@ -290,6 +290,10 @@ static bool WIN_GL_ChoosePixelFormat(SDL_VideoDevice *_this, HDC hdc, PIXELFORMA
             continue;
         }
 
+        if (pfd.dwFlags & (PFD_GENERIC_ACCELERATED | PFD_GENERIC_FORMAT)) {
+            continue;
+        }
+
         if (pfd.iLayerType != target->iLayerType) {
             continue;
         }
