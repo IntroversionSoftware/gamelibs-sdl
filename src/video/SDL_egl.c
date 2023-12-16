@@ -1281,6 +1281,7 @@ EGLSurface SDL_EGL_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, Nat
     }
 
 #ifdef EGL_EXT_present_opaque
+#if 0
     if (SDL_EGL_HasExtension(_this, SDL_EGL_DISPLAY_EXTENSION, "EGL_EXT_present_opaque")) {
         bool allow_transparent = false;
         if (window && (window->flags & SDL_WINDOW_TRANSPARENT)) {
@@ -1289,6 +1290,7 @@ EGLSurface SDL_EGL_CreateSurface(SDL_VideoDevice *_this, SDL_Window *window, Nat
         attribs[attr++] = EGL_PRESENT_OPAQUE_EXT;
         attribs[attr++] = allow_transparent ? EGL_FALSE : EGL_TRUE;
     }
+#endif
 #endif
 
     if (_this->egl_surfaceattrib_callback) {
