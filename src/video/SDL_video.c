@@ -1944,19 +1944,6 @@ int SDL_RecreateWindow(SDL_Window *window, Uint32 flags)
         SDL_HideWindow(window);
     }
 
-    /* Tear down the old native window */
-    SDL_DestroyWindowSurface(window);
-
-    if (_this->checked_texture_framebuffer) { /* never checked? No framebuffer to destroy. Don't risk calling the wrong implementation. */
-        if (_this->DestroyWindowFramebuffer) {
-            _this->DestroyWindowFramebuffer(_this, window);
-        }
-    }
-
-    if (_this->DestroyWindow && !(flags & SDL_WINDOW_FOREIGN)) {
-        _this->DestroyWindow(_this, window);
-    }
-
     if ((window->flags & SDL_WINDOW_OPENGL) != (flags & SDL_WINDOW_OPENGL)) {
         if (flags & SDL_WINDOW_OPENGL) {
             need_gl_load = SDL_TRUE;
@@ -1985,6 +1972,19 @@ int SDL_RecreateWindow(SDL_Window *window, Uint32 flags)
 
     if (need_vulkan_unload) {
         SDL_Vulkan_UnloadLibrary();
+    }
+
+    /* Tear down the old native window */
+    SDL_DestroyWindowSurface(window);
+
+    if (_this->checked_texture_framebuffer) { /* never checked? No framebuffer to destroy. Don't risk calling the wrong implementation. */
+        if (_this->DestroyWindowFramebuffer) {
+            _this->DestroyWindowFramebuffer(_this, window);
+        }
+    }
+
+    if (_this->DestroyWindow && !(flags & SDL_WINDOW_FOREIGN)) {
+        _this->DestroyWindow(_this, window);
     }
 
     if (need_gl_load) {
@@ -3295,6 +3295,13 @@ void SDL_DestroyWindow(SDL_Window *window)
         }
     }
 
+    if (window->flags & SDL_WINDOW_OPENGL) {
+        SDL_GL_UnloadLibrary();
+    }
+    if (window->flags & SDL_WINDOW_VULKAN) {
+        SDL_Vulkan_UnloadLibrary();
+    }
+
     SDL_DestroyWindowSurface(window);
     if (_this->checked_texture_framebuffer) { /* never checked? No framebuffer to destroy. Don't risk calling the wrong implementation. */
         if (_this->DestroyWindowFramebuffer) {
@@ -3303,12 +3310,6 @@ void SDL_DestroyWindow(SDL_Window *window)
     }
     if (_this->DestroyWindow) {
         _this->DestroyWindow(_this, window);
-    }
-    if (window->flags & SDL_WINDOW_OPENGL) {
-        SDL_GL_UnloadLibrary();
-    }
-    if (window->flags & SDL_WINDOW_VULKAN) {
-        SDL_Vulkan_UnloadLibrary();
     }
 
     display = SDL_GetDisplayForWindow(window);
