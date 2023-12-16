@@ -22,6 +22,7 @@
 
 #if defined(SDL_VIDEO_DRIVER_WINDOWS) && defined(SDL_VIDEO_OPENGL_EGL) && !defined(__XBOXONE__) && !defined(__XBOXSERIES__)
 
+#include "SDL_hints.h"
 #include "SDL_windowsvideo.h"
 #include "SDL_windowsopengles.h"
 #include "SDL_windowsopengl.h"
@@ -33,7 +34,8 @@ int WIN_GLES_LoadLibrary(_THIS, const char *path)
 {
 
     /* If the profile requested is not GL ES, switch over to WIN_GL functions  */
-    if (_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES) {
+    if (_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES &&
+        !SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, SDL_FALSE)) {
 #ifdef SDL_VIDEO_OPENGL_WGL
         WIN_GLES_UnloadLibrary(_this);
         _this->GL_LoadLibrary = WIN_GL_LoadLibrary;
@@ -65,7 +67,8 @@ SDL_GLContext WIN_GLES_CreateContext(_THIS, SDL_Window *window)
     SDL_WindowData *data = (SDL_WindowData *)window->driverdata;
 
 #ifdef SDL_VIDEO_OPENGL_WGL
-    if (_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES) {
+    if (_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES &&
+        !SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, SDL_FALSE)) {
         /* Switch to WGL based functions */
         WIN_GLES_UnloadLibrary(_this);
         _this->GL_LoadLibrary = WIN_GL_LoadLibrary;
