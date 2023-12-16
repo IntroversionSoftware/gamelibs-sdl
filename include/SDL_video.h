@@ -282,7 +282,8 @@ typedef enum SDL_GLattr
     SDL_GL_CONTEXT_RELEASE_BEHAVIOR,    /**< sets context the release behavior; defaults to 1. (>= SDL 2.0.4) */
     SDL_GL_CONTEXT_RESET_NOTIFICATION,
     SDL_GL_CONTEXT_NO_ERROR,
-    SDL_GL_FLOATBUFFERS
+    SDL_GL_FLOATBUFFERS,
+    SDL_GL_EGL_PLATFORM
 } SDL_GLattr;
 
 typedef enum SDL_GLprofile
