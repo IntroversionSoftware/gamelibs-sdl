@@ -273,11 +273,11 @@ typedef unsigned int uintptr_t;
 #define SDL_HAPTIC_XINPUT   1
 
 /* Enable the sensor driver */
-#ifdef HAVE_SENSORSAPI_H
-#define SDL_SENSOR_WINDOWS  1
-#else
-#define SDL_SENSOR_DUMMY    1
-#endif
+//#ifdef HAVE_SENSORSAPI_H
+//#define SDL_SENSOR_WINDOWS  1
+//#else
+//#define SDL_SENSOR_DUMMY    1
+//#endif
 
 /* Enable various shared object loading systems */
 #define SDL_LOADSO_WINDOWS  1
@@ -310,12 +310,12 @@ typedef unsigned int uintptr_t;
 #ifndef SDL_VIDEO_OPENGL_WGL
 #define SDL_VIDEO_OPENGL_WGL    1
 #endif
-#ifndef SDL_VIDEO_RENDER_OGL
-#define SDL_VIDEO_RENDER_OGL    1
-#endif
-#ifndef SDL_VIDEO_RENDER_OGL_ES2
-#define SDL_VIDEO_RENDER_OGL_ES2    1
-#endif
+//#ifndef SDL_VIDEO_RENDER_OGL
+//#define SDL_VIDEO_RENDER_OGL    1
+//#endif
+//#ifndef SDL_VIDEO_RENDER_OGL_ES2
+//#define SDL_VIDEO_RENDER_OGL_ES2    1
+//#endif
 #ifndef SDL_VIDEO_OPENGL_ES2
 #define SDL_VIDEO_OPENGL_ES2    1
 #endif
