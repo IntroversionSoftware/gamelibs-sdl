@@ -216,6 +216,10 @@ static Uint32 SDL_DefaultGraphicsBackends(SDL_VideoDevice *_this)
     return 0;
 }
 
+static SDL_VideoDevice *_this = NULL;
+static SDL_atomic_t SDL_messagebox_count;
+
+#if !defined(SDL_RENDER_DISABLED)
 static int SDL_CreateWindowTexture(SDL_VideoDevice *_this, SDL_Window *window, Uint32 *format, void **pixels, int *pitch)
 {
     SDL_RendererInfo info;
@@ -334,9 +338,6 @@ static int SDL_CreateWindowTexture(SDL_VideoDevice *_this, SDL_Window *window, U
     return 0;
 }
 
-static SDL_VideoDevice *_this = NULL;
-static SDL_atomic_t SDL_messagebox_count;
-
 static int SDL_UpdateWindowTexture(SDL_VideoDevice *unused, SDL_Window *window, const SDL_Rect *rects, int numrects)
 {
     SDL_WindowTextureData *data;
@@ -386,6 +387,7 @@ static void SDL_DestroyWindowTexture(SDL_VideoDevice *unused, SDL_Window *window
     SDL_free(data->pixels);
     SDL_free(data);
 }
+#endif /* !SDL_RENDER_DISABLED */
 
 static int SDLCALL cmpmodes(const void *A, const void *B)
 {
@@ -2657,6 +2659,7 @@ static SDL_Surface *SDL_CreateWindowFramebuffer(SDL_Window *window)
 
     SDL_GetWindowSizeInPixels(window, &w, &h);
 
+#if !defined(SDL_RENDER_DISABLED)
     /* This will switch the video backend from using a software surface to
        using a GPU texture through the 2D render API, if we think this would
        be more efficient. This only checks once, on demand. */
@@ -2715,6 +2718,7 @@ static SDL_Surface *SDL_CreateWindowFramebuffer(SDL_Window *window)
 
         _this->checked_texture_framebuffer = SDL_TRUE; /* don't check this again. */
     }
+#endif
 
     if (!created_framebuffer) {
         if (!_this->CreateWindowFramebuffer || !_this->UpdateWindowFramebuffer) {
