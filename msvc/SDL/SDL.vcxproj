@@ -392,8 +392,7 @@
     <ClCompile Include="..\..\src\render\software\SDL_render_sw.c" />
     <ClCompile Include="..\..\src\render\software\SDL_rotate.c" />
     <ClCompile Include="..\..\src\SDL.c">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-      <PrecompiledHeaderFile>SDL_internal.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(AllowPCH)'!='false'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\src\SDL_assert.c" />
     <ClCompile Include="..\..\src\SDL_dataqueue.c" />
@@ -492,8 +491,8 @@
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\include;$(ProjectDir)..\..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAs>CompileAsC</CompileAs>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>SDL_internal.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(AllowPCH)'!='false'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(AllowPCH)'!='false'">SDL_internal.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
