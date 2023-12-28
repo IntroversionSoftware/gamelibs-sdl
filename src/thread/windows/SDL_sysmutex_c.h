@@ -20,6 +20,9 @@
 */
 #include "SDL_internal.h"
 
+#ifndef SDL_sysmutex_c_h_
+#define SDL_sysmutex_c_h_
+
 #include "../../core/windows/SDL_windows.h"
 
 #include "SDL_mutex.h"
@@ -73,5 +76,7 @@ typedef struct SDL_mutex_cs
 {
     CRITICAL_SECTION cs;
 } SDL_mutex_cs;
+
+#endif
 
 /* vi: set ts=4 sw=4 expandtab: */
