@@ -44,7 +44,7 @@
 #define __FIReference_1_int_Release   __FIReference_1_INT32_Release
 #endif
 
-struct joystick_hwdata
+struct wgi_joystick_hwdata
 {
     __x_ABI_CWindows_CGaming_CInput_CIRawGameController *controller;
     __x_ABI_CWindows_CGaming_CInput_CIGameController *gamecontroller;
@@ -761,14 +761,14 @@ static SDL_JoystickID WGI_JoystickGetDeviceInstanceID(int device_index)
 static int WGI_JoystickOpen(SDL_Joystick *joystick, int device_index)
 {
     WindowsGamingInputControllerState *state = &wgi.controllers[device_index];
-    struct joystick_hwdata *hwdata;
+    struct wgi_joystick_hwdata *hwdata;
     boolean wireless = SDL_FALSE;
 
-    hwdata = (struct joystick_hwdata *)SDL_calloc(1, sizeof(*hwdata));
+    hwdata = (struct wgi_joystick_hwdata *)SDL_calloc(1, sizeof(*hwdata));
     if (!hwdata) {
         return SDL_OutOfMemory();
     }
-    joystick->hwdata = hwdata;
+    joystick->wgi_hwdata = hwdata;
 
     hwdata->controller = state->controller;
     __x_ABI_CWindows_CGaming_CInput_CIRawGameController_AddRef(hwdata->controller);
@@ -831,7 +831,7 @@ static int WGI_JoystickOpen(SDL_Joystick *joystick, int device_index)
 
 static int WGI_JoystickRumble(SDL_Joystick *joystick, Uint16 low_frequency_rumble, Uint16 high_frequency_rumble)
 {
-    struct joystick_hwdata *hwdata = joystick->hwdata;
+    struct wgi_joystick_hwdata *hwdata = joystick->wgi_hwdata;
 
     if (hwdata->gamepad) {
         HRESULT hr;
@@ -851,7 +851,7 @@ static int WGI_JoystickRumble(SDL_Joystick *joystick, Uint16 low_frequency_rumbl
 
 static int WGI_JoystickRumbleTriggers(SDL_Joystick *joystick, Uint16 left_rumble, Uint16 right_rumble)
 {
-    struct joystick_hwdata *hwdata = joystick->hwdata;
+    struct wgi_joystick_hwdata *hwdata = joystick->wgi_hwdata;
 
     if (hwdata->gamepad) {
         HRESULT hr;
@@ -871,7 +871,7 @@ static int WGI_JoystickRumbleTriggers(SDL_Joystick *joystick, Uint16 left_rumble
 
 static Uint32 WGI_JoystickGetCapabilities(SDL_Joystick *joystick)
 {
-    struct joystick_hwdata *hwdata = joystick->hwdata;
+    struct wgi_joystick_hwdata *hwdata = joystick->wgi_hwdata;
 
     if (hwdata->gamepad) {
         /* FIXME: Can WGI even tell us if trigger rumble is supported? */
@@ -922,7 +922,7 @@ static Uint8 ConvertHatValue(__x_ABI_CWindows_CGaming_CInput_CGameControllerSwit
 
 static void WGI_JoystickUpdate(SDL_Joystick *joystick)
 {
-    struct joystick_hwdata *hwdata = joystick->hwdata;
+    struct wgi_joystick_hwdata *hwdata = joystick->wgi_hwdata;
     HRESULT hr;
     UINT32 nbuttons = SDL_min(joystick->nbuttons, SDL_MAX_UINT8);
     boolean *buttons = NULL;
@@ -980,7 +980,7 @@ static void WGI_JoystickUpdate(SDL_Joystick *joystick)
 
 static void WGI_JoystickClose(SDL_Joystick *joystick)
 {
-    struct joystick_hwdata *hwdata = joystick->hwdata;
+    struct wgi_joystick_hwdata *hwdata = joystick->wgi_hwdata;
 
     if (hwdata) {
         if (hwdata->controller) {
@@ -997,7 +997,7 @@ static void WGI_JoystickClose(SDL_Joystick *joystick)
         }
         SDL_free(hwdata);
     }
-    joystick->hwdata = NULL;
+    joystick->wgi_hwdata = NULL;
 }
 
 static void WGI_JoystickQuit(void)
