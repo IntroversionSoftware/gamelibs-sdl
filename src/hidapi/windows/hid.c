@@ -92,15 +92,6 @@ extern "C" {
 #define calloc SDL_calloc
 #define free SDL_free
 #define malloc SDL_malloc
-#define memcpy SDL_memcpy
-#define memset SDL_memset
-#define strcmp SDL_strcmp
-#define strlen SDL_strlen
-#define strstr SDL_strstr
-#define strtol SDL_strtol
-#define wcscmp SDL_wcscmp
-#define _wcsdup SDL_wcsdup
-
 
 #undef MIN
 #define MIN(x,y) ((x) < (y)? (x): (y))
@@ -193,7 +184,7 @@ IsWindowsVersionOrGreater(WORD wMajorVersion, WORD wMinorVersion, WORD wServiceP
 			VER_MINORVERSION, VER_GREATER_EQUAL ),
 		VER_SERVICEPACKMAJOR, VER_GREATER_EQUAL );
 
-	memset(&osvi, 0, sizeof(osvi));
+	SDL_memset(&osvi, 0, sizeof(osvi));
 	osvi.dwOSVersionInfoSize = sizeof( osvi );
 	osvi.dwMajorVersion = wMajorVersion;
 	osvi.dwMinorVersion = wMinorVersion;
@@ -213,9 +204,9 @@ static hid_device *new_hid_device()
 	dev->last_error_num = 0;
 	dev->read_pending = FALSE;
 	dev->read_buf = NULL;
-	memset(&dev->ol, 0, sizeof(dev->ol));
+	SDL_memset(&dev->ol, 0, sizeof(dev->ol));
 	dev->ol.hEvent = CreateEvent(NULL, FALSE, FALSE /*initial state f=nonsignaled*/, NULL);
-	memset(&dev->write_ol, 0, sizeof(dev->write_ol));
+	SDL_memset(&dev->write_ol, 0, sizeof(dev->write_ol));
 	dev->write_ol.hEvent = CreateEvent(NULL, FALSE, FALSE /*initial state f=nonsignaled*/, NULL);
 
 	return dev;
@@ -380,7 +371,7 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 		return NULL;
 
 	/* Initialize the Windows objects. */
-	memset(&devinfo_data, 0x0, sizeof(devinfo_data));
+	SDL_memset(&devinfo_data, 0x0, sizeof(devinfo_data));
 	devinfo_data.cbSize = sizeof(SP_DEVINFO_DATA);
 	device_interface_data.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
 
@@ -437,7 +428,7 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 		}
 
 		/* XInput devices don't get real HID reports and are better handled by the raw input driver */
-		if (strstr(device_interface_detail_data->DevicePath, "&ig_") != NULL) {
+		if (SDL_strstr(device_interface_detail_data->DevicePath, "&ig_") != NULL) {
 			goto cont;
 		}
 
@@ -461,7 +452,7 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 			if (!res)
 				goto cont;
 
-			if (strcmp(driver_name, "HIDClass") == 0) {
+			if (SDL_strcmp(driver_name, "HIDClass") == 0) {
 				/* See if there's a driver bound. */
 				res = SetupDiGetDeviceRegistryPropertyA(device_info_set, &devinfo_data,
 				           SPDRP_DRIVER, NULL, (PBYTE)driver_name, sizeof(driver_name), NULL);
@@ -558,9 +549,9 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 			cur_dev->next = NULL;
 			str = device_interface_detail_data->DevicePath;
 			if (str) {
-				len = strlen(str);
+				len = SDL_strlen(str);
 				cur_dev->path = (char*) calloc(len+1, sizeof(char));
-				memcpy(cur_dev->path, str, len+1);
+				SDL_memcpy(cur_dev->path, str, len+1);
 			}
 			else
 				cur_dev->path = NULL;
@@ -569,21 +560,21 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 			hidp_res = HidD_GetSerialNumberString(write_handle, wstr, sizeof(wstr));
 			wstr[WSTR_LEN-1] = 0x0000;
 			if (hidp_res) {
-				cur_dev->serial_number = _wcsdup(wstr);
+				cur_dev->serial_number = SDL_wcsdup(wstr);
 			}
 
 			/* Manufacturer String */
 			hidp_res = HidD_GetManufacturerString(write_handle, wstr, sizeof(wstr));
 			wstr[WSTR_LEN-1] = 0x0000;
 			if (hidp_res) {
-				cur_dev->manufacturer_string = _wcsdup(wstr);
+				cur_dev->manufacturer_string = SDL_wcsdup(wstr);
 			}
 
 			/* Product String */
 			hidp_res = HidD_GetProductString(write_handle, wstr, sizeof(wstr));
 			wstr[WSTR_LEN-1] = 0x0000;
 			if (hidp_res) {
-				cur_dev->product_string = _wcsdup(wstr);
+				cur_dev->product_string = SDL_wcsdup(wstr);
 			}
 
 			/* VID/PID */
@@ -600,11 +591,11 @@ struct hid_device_info HID_API_EXPORT * HID_API_CALL hid_enumerate(unsigned shor
 			   in the path, it's set to -1. */
 			cur_dev->interface_number = -1;
 			if (cur_dev->path) {
-				char *interface_component = strstr(cur_dev->path, "&mi_");
+				char *interface_component = SDL_strstr(cur_dev->path, "&mi_");
 				if (interface_component) {
 					char *hex_str = interface_component + 4;
 					char *endptr = NULL;
-					cur_dev->interface_number = strtol(hex_str, &endptr, 16);
+					cur_dev->interface_number = SDL_strtol(hex_str, &endptr, 16);
 					if (endptr == hex_str) {
 						/* The parsing failed. Set interface_number to -1. */
 						cur_dev->interface_number = -1;
@@ -659,7 +650,7 @@ HID_API_EXPORT hid_device * HID_API_CALL hid_open(unsigned short vendor_id, unsi
 		if (cur_dev->vendor_id == vendor_id &&
 		    cur_dev->product_id == product_id) {
 			if (serial_number) {
-				if (wcscmp(serial_number, cur_dev->serial_number) == 0) {
+				if (SDL_wcscmp(serial_number, cur_dev->serial_number) == 0) {
 					path_to_open = cur_dev->path;
 					break;
 				}
@@ -777,8 +768,8 @@ static int hid_write_timeout(hid_device *dev, const unsigned char *data, size_t 
 		/* Create a temporary buffer and copy the user's data
 		   into it, padding the rest with zeros. */
 		buf = (unsigned char *) malloc(dev->output_report_length);
-		memcpy(buf, data, length);
-		memset(buf + length, 0, dev->output_report_length - length);
+		SDL_memcpy(buf, data, length);
+		SDL_memset(buf + length, 0, dev->output_report_length - length);
 		length = dev->output_report_length;
 	}
 
@@ -834,7 +825,7 @@ int HID_API_EXPORT HID_API_CALL hid_read_timeout(hid_device *dev, unsigned char 
 	if (!dev->read_pending) {
 		/* Start an Overlapped I/O read. */
 		dev->read_pending = TRUE;
-		memset(dev->read_buf, 0, dev->input_report_length);
+		SDL_memset(dev->read_buf, 0, dev->input_report_length);
 		ResetEvent(ev);
 		res = ReadFile(dev->device_handle, dev->read_buf, (DWORD)dev->input_report_length, &bytes_read, &dev->ol);
 		
@@ -874,12 +865,12 @@ int HID_API_EXPORT HID_API_CALL hid_read_timeout(hid_device *dev, unsigned char 
 			   HID spec, we'll skip over this byte. */
 			bytes_read--;
 			copy_len = length > bytes_read ? bytes_read : length;
-			memcpy(data, dev->read_buf+1, copy_len);
+			SDL_memcpy(data, dev->read_buf+1, copy_len);
 		}
 		else {
 			/* Copy the whole buffer, report number and all. */
 			copy_len = length > bytes_read ? bytes_read : length;
-			memcpy(data, dev->read_buf, copy_len);
+			SDL_memcpy(data, dev->read_buf, copy_len);
 		}
 	}
 	
@@ -929,7 +920,7 @@ int HID_API_EXPORT HID_API_CALL hid_get_feature_report(hid_device *dev, unsigned
 	DWORD bytes_returned;
 
 	OVERLAPPED ol;
-	memset(&ol, 0, sizeof(ol));
+	SDL_memset(&ol, 0, sizeof(ol));
 
 	res = DeviceIoControl(dev->device_handle,
 		IOCTL_HID_GET_FEATURE,
@@ -1067,7 +1058,7 @@ int __cdecl main(int argc, char* argv[])
 	UNREFERENCED_PARAMETER(argv);
 
 	/* Set up the command buffer. */
-	memset(buf,0x00,sizeof(buf));
+	SDL_memset(buf,0x00,sizeof(buf));
 	buf[0] = 0;
 	buf[1] = 0x81;
 	
