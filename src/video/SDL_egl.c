@@ -76,6 +76,7 @@
 #elif defined(SDL_VIDEO_DRIVER_WINDOWS) || defined(SDL_VIDEO_DRIVER_WINRT)
 /* EGL AND OpenGL ES support via ANGLE */
 #define DEFAULT_EGL "libEGL.dll"
+#define DEFAULT_OGL "opengl32.dll"
 #define DEFAULT_OGL_ES2 "libGLESv2.dll"
 #define DEFAULT_OGL_ES_PVR "libGLES_CM.dll"
 #define DEFAULT_OGL_ES     "libGLESv1_CM.dll"
@@ -120,15 +121,20 @@
 #define LOAD_FUNC(NAME) \
     _this->egl_data->NAME = (void *)NAME;
 #else
-#define LOAD_FUNC(NAME)                                                               \
-    _this->egl_data->NAME = SDL_LoadFunction(_this->egl_data->egl_dll_handle, #NAME); \
-    if (!_this->egl_data->NAME) {                                                     \
-        return SDL_SetError("Could not retrieve EGL function " #NAME);                \
+#define LOAD_FUNC(NAME)                                                                    \
+    if (_this->egl_data->eglGetProcAddress) {                                              \
+        _this->egl_data->NAME = _this->egl_data->eglGetProcAddress(#NAME);                 \
+    }                                                                                      \
+    if (!_this->egl_data->NAME) {                                                          \
+        _this->egl_data->NAME = SDL_LoadFunction(_this->egl_data->egl_dll_handle, #NAME);  \
+    }                                                                                      \
+    if (!_this->egl_data->NAME) {                                                          \
+        return SDL_SetError("Could not retrieve EGL function " #NAME);                     \
     }
 #endif
 
 /* it is allowed to not have some of the EGL extensions on start - attempts to use them will fail later. */
-#define LOAD_FUNC_EGLEXT(NAME) \
+#define LOAD_FUNC_OPTIONAL(NAME) \
     _this->egl_data->NAME = _this->egl_data->eglGetProcAddress(#NAME);
 
 static const char *SDL_EGL_GetErrorName(EGLint eglErrorCode)
@@ -242,7 +248,7 @@ SDL_bool SDL_EGL_HasExtension(_THIS, SDL_EGL_ExtensionType type, const char *ext
     return SDL_FALSE;
 }
 
-void *SDL_EGL_GetProcAddress(_THIS, const char *proc)
+void *SDL_EGL_GetProcAddressInternal(_THIS, const char *proc)
 {
     void *retval = NULL;
     if (_this->egl_data) {
@@ -274,6 +280,7 @@ void SDL_EGL_UnloadLibrary(_THIS)
     if (_this->egl_data) {
         if (_this->egl_data->egl_display) {
             _this->egl_data->eglTerminate(_this->egl_data->egl_display);
+            _this->egl_data->eglReleaseThread();
             _this->egl_data->egl_display = NULL;
         }
 
@@ -427,6 +434,7 @@ static int SDL_EGL_LoadLibraryInternal(_THIS, const char *egl_path)
     LOAD_FUNC(eglGetDisplay);
     LOAD_FUNC(eglInitialize);
     LOAD_FUNC(eglTerminate);
+    LOAD_FUNC(eglReleaseThread);
     LOAD_FUNC(eglGetProcAddress);
     LOAD_FUNC(eglChooseConfig);
     LOAD_FUNC(eglGetConfigAttrib);
@@ -444,14 +452,14 @@ static int SDL_EGL_LoadLibraryInternal(_THIS, const char *egl_path)
     LOAD_FUNC(eglQueryAPI);
     LOAD_FUNC(eglQueryString);
     LOAD_FUNC(eglGetError);
-    LOAD_FUNC_EGLEXT(eglQueryDevicesEXT);
-    LOAD_FUNC_EGLEXT(eglGetPlatformDisplayEXT);
+    LOAD_FUNC_OPTIONAL(eglQueryDevicesEXT);
+    LOAD_FUNC_OPTIONAL(eglGetPlatformDisplayEXT);
     /* Atomic functions */
-    LOAD_FUNC_EGLEXT(eglCreateSyncKHR);
-    LOAD_FUNC_EGLEXT(eglDestroySyncKHR);
-    LOAD_FUNC_EGLEXT(eglDupNativeFenceFDANDROID);
-    LOAD_FUNC_EGLEXT(eglWaitSyncKHR);
-    LOAD_FUNC_EGLEXT(eglClientWaitSyncKHR);
+    LOAD_FUNC_OPTIONAL(eglCreateSyncKHR);
+    LOAD_FUNC_OPTIONAL(eglDestroySyncKHR);
+    LOAD_FUNC_OPTIONAL(eglDupNativeFenceFDANDROID);
+    LOAD_FUNC_OPTIONAL(eglWaitSyncKHR);
+    LOAD_FUNC_OPTIONAL(eglClientWaitSyncKHR);
     /* Atomic functions end */
 
     if (path) {
@@ -515,7 +523,7 @@ int SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_di
          * Khronos doc: "EGL_BAD_DISPLAY is generated if display is not an EGL display connection, unless display is EGL_NO_DISPLAY and name is EGL_EXTENSIONS."
          * Therefore SDL_EGL_GetVersion() shouldn't work with uninitialized display.
          * - it actually doesn't work on Android that has 1.5 egl client
-         * - it works on desktop X11 (using SDL_VIDEO_X11_FORCE_EGL=1) */
+         * - it works on desktop X11 (using SDL_VIDEO_FORCE_EGL=1) */
         SDL_EGL_GetVersion(_this);
 
         if (_this->egl_data->egl_version_major == 1 && _this->egl_data->egl_version_minor == 5) {
@@ -523,10 +531,19 @@ int SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_di
         }
 
         if (_this->egl_data->eglGetPlatformDisplay) {
-            _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplay(platform, (void *)(uintptr_t)native_display, NULL);
+            EGLAttrib *attribs = NULL;
+            if (_this->egl_platformattrib_callback) {
+                attribs = _this->egl_platformattrib_callback();
+                if (!attribs) {
+                    _this->gl_config.driver_loaded = 0;
+                    *_this->gl_config.driver_path = '\0';
+                    return SDL_SetError("EGL platform attribute callback returned NULL pointer");
+                }
+            }
+            _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplay(platform, (void *)(uintptr_t)native_display, attribs);
         } else {
             if (SDL_EGL_HasExtension(_this, SDL_EGL_CLIENT_EXTENSION, "EGL_EXT_platform_base")) {
-                _this->egl_data->eglGetPlatformDisplayEXT = SDL_EGL_GetProcAddress(_this, "eglGetPlatformDisplayEXT");
+                _this->egl_data->eglGetPlatformDisplayEXT = SDL_EGL_GetProcAddressInternal(_this, "eglGetPlatformDisplayEXT");
                 if (_this->egl_data->eglGetPlatformDisplayEXT) {
                     _this->egl_data->egl_display = _this->egl_data->eglGetPlatformDisplayEXT(platform, (void *)(uintptr_t)native_display, NULL);
                 }
@@ -535,7 +552,9 @@ int SDL_EGL_LoadLibrary(_THIS, const char *egl_path, NativeDisplayType native_di
     }
 #endif
     /* Try the implementation-specific eglGetDisplay even if eglGetPlatformDisplay fails */
-    if ((_this->egl_data->egl_display == EGL_NO_DISPLAY) && (_this->egl_data->eglGetDisplay)) {
+    if ((_this->egl_data->egl_display == EGL_NO_DISPLAY) &&
+        (_this->egl_data->eglGetDisplay) &&
+        SDL_GetHintBoolean(SDL_HINT_VIDEO_EGL_ALLOW_GETDISPLAY_FALLBACK, SDL_TRUE)) {
         _this->egl_data->egl_display = _this->egl_data->eglGetDisplay(native_display);
     }
     if (_this->egl_data->egl_display == EGL_NO_DISPLAY) {
@@ -935,8 +954,8 @@ int SDL_EGL_ChooseConfig(_THIS)
 
 SDL_GLContext SDL_EGL_CreateContext(_THIS, EGLSurface egl_surface)
 {
-    /* max 14 values plus terminator. */
-    EGLint attribs[15];
+    /* max 16 key+value pairs plus terminator. */
+    EGLint attribs[33];
     int attr = 0;
 
     EGLContext egl_context, share_context = EGL_NO_CONTEXT;
@@ -1024,6 +1043,29 @@ SDL_GLContext SDL_EGL_CreateContext(_THIS, EGLSurface egl_surface)
         }
     }
 #endif
+
+    if (_this->egl_contextattrib_callback) {
+        const int maxAttribs = sizeof(attribs) / sizeof(attribs[0]);
+        EGLint *userAttribs, *userAttribP;
+        userAttribs = _this->egl_contextattrib_callback();
+        if (!userAttribs) {
+            _this->gl_config.driver_loaded = 0;
+            *_this->gl_config.driver_path = '\0';
+            SDL_SetError("EGL context attribute callback returned NULL pointer");
+            return NULL;
+        }
+
+        for (userAttribP = userAttribs; *userAttribP != EGL_NONE; ) {
+            if (attr + 3 >= maxAttribs) {
+                _this->gl_config.driver_loaded = 0;
+                *_this->gl_config.driver_path = '\0';
+                SDL_SetError("EGL context attribute callback returned too many attributes");
+                return NULL;
+            }
+            attribs[attr++] = *userAttribP++;
+            attribs[attr++] = *userAttribP++;
+        }
+    }
 
     attribs[attr++] = EGL_NONE;
 
@@ -1129,13 +1171,6 @@ int SDL_EGL_SetSwapInterval(_THIS, int interval)
         return SDL_SetError("EGL not initialized");
     }
 
-    /* FIXME: Revisit this check when EGL_EXT_swap_control_tear is published:
-     * https://github.com/KhronosGroup/EGL-Registry/pull/113
-     */
-    if (interval < 0) {
-        return SDL_SetError("Late swap tearing currently unsupported");
-    }
-
     status = _this->egl_data->eglSwapInterval(_this->egl_data->egl_display, interval);
     if (status == EGL_TRUE) {
         _this->egl_data->egl_swapinterval = interval;
@@ -1183,8 +1218,8 @@ EGLSurface *SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
     EGLint format_wanted;
     EGLint format_got;
 #endif
-    /* max 2 key+value pairs, plus terminator. */
-    EGLint attribs[5];
+    /* max 16 key+value pairs, plus terminator. */
+    EGLint attribs[33];
     int attr = 0;
 
     EGLSurface *surface;
@@ -1224,6 +1259,29 @@ EGLSurface *SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
         attribs[attr++] = allow_transparent ? EGL_FALSE : EGL_TRUE;
     }
 #endif
+
+    if (_this->egl_surfaceattrib_callback) {
+        const int maxAttribs = sizeof(attribs) / sizeof(attribs[0]);
+        EGLint *userAttribs, *userAttribP;
+        userAttribs = _this->egl_surfaceattrib_callback();
+        if (!userAttribs) {
+            _this->gl_config.driver_loaded = 0;
+            *_this->gl_config.driver_path = '\0';
+            SDL_SetError("EGL surface attribute callback returned NULL pointer");
+            return EGL_NO_SURFACE;
+        }
+
+        for (userAttribP = userAttribs; *userAttribP != EGL_NONE; ) {
+            if (attr + 3 >= maxAttribs) {
+                _this->gl_config.driver_loaded = 0;
+                *_this->gl_config.driver_path = '\0';
+                SDL_SetError("EGL surface attribute callback returned too many attributes");
+                return EGL_NO_SURFACE;
+            }
+            attribs[attr++] = *userAttribP++;
+            attribs[attr++] = *userAttribP++;
+        }
+    }
 
     attribs[attr++] = EGL_NONE;
 
