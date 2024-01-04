@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../SDL_internal.h"
+#include "SDL_internal.h"
 
 #ifndef SDL_sysjoystick_h_
 #define SDL_sysjoystick_h_
@@ -68,6 +68,8 @@ typedef struct _SDL_JoystickSensorInfo
 } SDL_JoystickSensorInfo;
 
 #define _guarded SDL_GUARDED_BY(SDL_joystick_lock)
+
+struct wgi_joystick_hwdata;
 
 struct _SDL_Joystick
 {
@@ -125,7 +127,10 @@ struct _SDL_Joystick
 
     struct _SDL_JoystickDriver *driver _guarded;
 
-    struct joystick_hwdata *hwdata _guarded; /* Driver dependent information */
+    union {
+        struct joystick_hwdata *hwdata _guarded; /* Driver dependent information */
+        struct wgi_joystick_hwdata *wgi_hwdata _guarded;
+    };
 
     int ref_count _guarded; /* Reference count for multiple opens */
 
