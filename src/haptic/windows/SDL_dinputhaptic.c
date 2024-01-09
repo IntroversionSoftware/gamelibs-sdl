@@ -18,12 +18,13 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 
 #include "SDL.h"
 #include "SDL_error.h"
 #include "SDL_haptic.h"
 #include "../SDL_syshaptic.h"
+#include "../../core/windows/SDL_directx.h"
 
 #ifdef SDL_HAPTIC_DINPUT
 
@@ -1162,7 +1163,6 @@ int SDL_DINPUT_HapticStopAll(SDL_Haptic *haptic)
 
 #else /* !SDL_HAPTIC_DINPUT */
 
-typedef struct DIDEVICEINSTANCE DIDEVICEINSTANCE;
 typedef struct SDL_hapticlist_item SDL_hapticlist_item;
 
 int SDL_DINPUT_HapticInit(void)
