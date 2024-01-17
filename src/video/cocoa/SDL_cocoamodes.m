@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 
 #ifdef SDL_VIDEO_DRIVER_COCOA
 
@@ -274,6 +274,7 @@ static SDL_bool GetDisplayMode(_THIS, CGDisplayModeRef vidmode, SDL_bool vidmode
     mode->w = width;
     mode->h = height;
     mode->refresh_rate = refreshrate;
+    mode->is_native = (ioflags & kDisplayModeNativeFlag) ? 1 : 0;
     mode->driverdata = data;
     return SDL_TRUE;
 }
