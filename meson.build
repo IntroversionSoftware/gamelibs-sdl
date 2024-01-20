@@ -168,7 +168,9 @@ sources = [
     'src/video/dummy/SDL_nullevents.c',
     'src/video/dummy/SDL_nullframebuffer.c',
     'src/video/dummy/SDL_nullvideo.c',
-    'src/video/yuv2rgb/yuv_rgb.c',
+    'src/video/yuv2rgb/yuv_rgb_lsx.c',
+    'src/video/yuv2rgb/yuv_rgb_sse.c',
+    'src/video/yuv2rgb/yuv_rgb_std.c',
 ]
 
 if target_machine.system() != 'windows'

@@ -642,9 +642,6 @@
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_ps3.c">
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\video\yuv2rgb\yuv_rgb.c">
-      <Filter>src\video\yuv2rgb</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_wii.c">
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
@@ -653,6 +650,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\joystick\SDL_steam_virtual_gamepad.c">
       <Filter>src\joystick</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\video\yuv2rgb\yuv_rgb_lsx.c">
+      <Filter>src\video\yuv2rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\video\yuv2rgb\yuv_rgb_sse.c">
+      <Filter>src\video\yuv2rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\video\yuv2rgb\yuv_rgb_std.c">
+      <Filter>src\video\yuv2rgb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1403,18 +1409,6 @@
     <ClInclude Include="..\..\include\SDL_hidapi.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb.h">
-      <Filter>src\video\yuv2rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_lsx_func.h">
-      <Filter>src\video\yuv2rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_sse_func.h">
-      <Filter>src\video\yuv2rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_std_func.h">
-      <Filter>src\video\yuv2rgb</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\joystick\hidapi\SDL_hidapi_nintendo.h">
       <Filter>src\joystick\hidapi</Filter>
     </ClInclude>
@@ -1423,6 +1417,33 @@
     </ClInclude>
     <ClInclude Include="..\..\src\joystick\SDL_steam_virtual_gamepad.h">
       <Filter>src\joystick</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb.h">
+      <Filter>src\video\yuv2rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_common.h">
+      <Filter>src\video\yuv2rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_internal.h">
+      <Filter>src\video\yuv2rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_lsx.h">
+      <Filter>src\video\yuv2rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_lsx_func.h">
+      <Filter>src\video\yuv2rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_sse.h">
+      <Filter>src\video\yuv2rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_sse_func.h">
+      <Filter>src\video\yuv2rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_std.h">
+      <Filter>src\video\yuv2rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\video\yuv2rgb\yuv_rgb_std_func.h">
+      <Filter>src\video\yuv2rgb</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
