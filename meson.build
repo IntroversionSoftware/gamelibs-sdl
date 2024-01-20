@@ -18,21 +18,25 @@ build_incdirs = ['src', 'src/hidapi/hidapi']
 sources = [
 	'src/SDL.c',
 	'src/SDL_assert.c',
-	'src/SDL_dataqueue.c',
 	'src/SDL_error.c',
 	'src/SDL_guid.c',
+	'src/SDL_hashtable.c',
 	'src/SDL_hints.c',
 	'src/SDL_list.c',
 	'src/SDL_log.c',
+	'src/SDL_properties.c',
 	'src/SDL_utils.c',
 	'src/atomic/SDL_atomic.c',
 	'src/atomic/SDL_spinlock.c',
 	'src/audio/SDL_audio.c',
 	'src/audio/SDL_audiocvt.c',
 	'src/audio/SDL_audiodev.c',
+	'src/audio/SDL_audioqueue.c',
+	'src/audio/SDL_audioresample.c',
 	'src/audio/SDL_audiotypecvt.c',
 	'src/audio/SDL_mixer.c',
 	'src/audio/SDL_wave.c',
+	'src/core/SDL_core_unsupported.c',
 	'src/core/SDL_runapp.c',
 	'src/cpuinfo/SDL_cpuinfo.c',
 	'src/dynapi/SDL_dynapi.c',
@@ -44,6 +48,7 @@ sources = [
 	'src/events/SDL_keyboard.c',
 	'src/events/SDL_keysym_to_scancode.c',
 	'src/events/SDL_mouse.c',
+	'src/events/SDL_pen.c',
 	'src/events/SDL_quit.c',
 	'src/events/SDL_scancode_tables.c',
 	'src/events/SDL_touch.c',
@@ -52,6 +57,7 @@ sources = [
 	'src/joystick/controller_type.c',
 	'src/joystick/SDL_gamepad.c',
 	'src/joystick/SDL_joystick.c',
+	'src/joystick/SDL_steam_virtual_gamepad.c',
 	'src/haptic/SDL_haptic.c',
 	'src/hidapi/SDL_hidapi.c',
 	'src/libm/e_atan2.c',
@@ -76,11 +82,25 @@ sources = [
 	'src/libm/s_sin.c',
 	'src/libm/s_tan.c',
 	'src/locale/SDL_locale.c',
+	'src/main/SDL_main_callbacks.c',
 	'src/misc/SDL_url.c',
 	'src/power/SDL_power.c',
 	'src/render/SDL_d3dmath.c',
 	'src/render/SDL_render.c',
+	'src/render/SDL_render_unsupported.c',
 	'src/render/SDL_yuv_sw.c',
+	'src/render/direct3d/SDL_render_d3d.c',
+	'src/render/direct3d/SDL_shaders_d3d.c',
+	'src/render/direct3d11/SDL_render_d3d11.c',
+	'src/render/direct3d11/SDL_shaders_d3d11.c',
+	'src/render/direct3d12/SDL_render_d3d12.c',
+	'src/render/direct3d12/SDL_shaders_d3d12.c',
+	'src/render/opengl/SDL_render_gl.c',
+	'src/render/opengl/SDL_shaders_gl.c',
+	'src/render/opengles2/SDL_render_gles2.c',
+	'src/render/opengles2/SDL_shaders_gles2.c',
+	'src/render/ps2/SDL_render_ps2.c',
+	'src/render/psp/SDL_render_psp.c',
 	'src/render/software/SDL_blendfillrect.c',
 	'src/render/software/SDL_blendline.c',
 	'src/render/software/SDL_blendpoint.c',
@@ -89,6 +109,9 @@ sources = [
 	'src/render/software/SDL_render_sw.c',
 	'src/render/software/SDL_rotate.c',
 	'src/render/software/SDL_triangle.c',
+	'src/render/vitagxm/SDL_render_vita_gxm.c',
+	'src/render/vitagxm/SDL_render_vita_gxm_memory.c',
+	'src/render/vitagxm/SDL_render_vita_gxm_tools.c',
 	'src/sensor/SDL_sensor.c',
 	'src/stdlib/SDL_crc16.c',
 	'src/stdlib/SDL_crc32.c',
@@ -117,10 +140,12 @@ sources = [
 	'src/video/SDL_pixels.c',
 	'src/video/SDL_rect.c',
 	'src/video/SDL_RLEaccel.c',
-	'src/video/SDL_shape.c',
 	'src/video/SDL_stretch.c',
 	'src/video/SDL_surface.c',
 	'src/video/SDL_video.c',
+	'src/video/SDL_video_capture.c',
+	'src/video/SDL_video_capture_v4l2.c',
+	'src/video/SDL_video_unsupported.c',
 	'src/video/SDL_vulkan_utils.c',
 	'src/video/SDL_yuv.c',
 	'src/video/yuv2rgb/yuv_rgb.c',
@@ -141,7 +166,7 @@ test_intrinsics = true
 subdir('meson_utilities')
 
 if not use_msvc
-	c_flags += [ '-W', '-Wno-sign-compare' ]
+	c_flags += [ '-W', '-Wno-sign-compare', '-Wno-unused-parameter' ]
 endif
 
 if has_altivec
@@ -286,6 +311,7 @@ if target_machine.system() == 'linux'
 		sources += [
 			'src/haptic/linux/SDL_syshaptic.c',
 			'src/core/linux/SDL_evdev.c',
+			'src/core/linux/SDL_evdev_capabilities.c',
 			'src/core/linux/SDL_evdev_kbd.c',
 			'src/joystick/linux/SDL_sysjoystick.c',
 			'src/joystick/steam/SDL_steamcontroller.c'
@@ -504,6 +530,10 @@ if target_machine.system() == 'linux'
 		endif
 	endif
 elif target_machine.system() == 'darwin'
+
+	if compiler.has_argument('-Wno-error=deprecated-declarations')
+		c_flags += '-Wno-error=deprecated-declarations'
+	endif
 	
 	c_flags += '-D_THREAD_SAFE'
 	
@@ -570,26 +600,6 @@ elif target_machine.system() == 'windows'
 	endif
 endif
 
-if has_d3d
-	sources += [ 'src/render/direct3d/SDL_render_d3d.c', 'src/render/direct3d/SDL_shaders_d3d.c']
-endif
-
-if has_d3d11
-	sources += [ 'src/render/direct3d11/SDL_render_d3d11.c', 'src/render/direct3d11/SDL_shaders_d3d11.c']
-endif
-
-if has_d3d12
-	sources += [ 'src/render/direct3d12/SDL_render_d3d12.c', 'src/render/direct3d12/SDL_shaders_d3d12.c']
-endif
-
-if has_ogl
-	sources += [ 'src/render/opengl/SDL_render_gl.c', 'src/render/opengl/SDL_shaders_gl.c']
-endif
-
-if has_gles2
-	sources += [ 'src/render/opengles2/SDL_render_gles2.c', 'src/render/opengles2/SDL_shaders_gles2.c']
-endif
-
 if target_machine.system() == 'netbsd'
 	sources += 'src/audio/netbsd/SDL_netbsdaudio.c'
 endif
@@ -617,6 +627,7 @@ if target_machine.system() == 'windows'
 		'src/core/windows/SDL_xinput.c',
 		'src/filesystem/windows/SDL_sysfilesystem.c',
 		'src/hidapi/windows/hid.c',
+		'src/hidapi/windows/hidapi_descriptor_reconstruct.c',
 		'src/joystick/windows/SDL_dinputjoystick.c',
 		'src/joystick/windows/SDL_rawinputjoystick.c',
 		'src/joystick/windows/SDL_windows_gaming_input.c',
@@ -643,7 +654,6 @@ if target_machine.system() == 'windows'
 		'src/video/windows/SDL_windowsmouse.c',
 		'src/video/windows/SDL_windowsopengl.c',
 		'src/video/windows/SDL_windowsopengles.c',
-		'src/video/windows/SDL_windowsshape.c',
 		'src/video/windows/SDL_windowsvideo.c',
 		'src/video/windows/SDL_windowsvulkan.c',
 		'src/video/windows/SDL_windowswindow.c',
@@ -672,11 +682,8 @@ elif target_machine.system() == 'linux'
 	]
 
 	sources += [
-		'src/core/linux/SDL_evdev_capabilities.c',
 		'src/core/linux/SDL_sandbox.c',
 		'src/core/linux/SDL_threadprio.c',
-		'src/events/imKStoUCS.c',
-		'src/events/SDL_keysym_to_scancode.c',
 		'src/power/linux/SDL_syspower.c',
 	]
 elif target_machine.system() == 'darwin'

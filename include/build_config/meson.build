@@ -1,6 +1,41 @@
 configuration = configuration_data()
 configuration.set('HAVE_LIBC', true)
 
+# headers
+has_headers = []
+
+if has_libudev
+	has_headers += '#include <libudev.h>'
+endif
+
+if has_linux_input
+	has_headers += '#include <linux/input.h>'
+endif
+
+
+headers = ['alloca.h', 'ctype.h', 'float.h', 'iconv.h', 'inttypes.h', 'limits.h',
+			'malloc.h', 'math.h', 'memory.h', 'signal.h', 'stdarg.h', 'stddef.h',
+			'stdint.h', 'stdio.h', 'stdlib.h', 'strings.h', 'string.h', 'sys/types.h',
+			'wchar.h', 'libunwind.h']
+
+
+foreach header : headers
+	refName = header.replace('.', '_').replace('/', '_')
+	header_availability = compiler.has_header(header)
+	if header_availability
+		has_headers += '#include <' +  header + '>'
+	endif
+	configuration.set('HAVE_' + refName.to_upper(), header_availability)
+endforeach
+
+if compiler.has_header('pthread_np.h')
+	configuration.set('HAVE_PTHREAD_NP_H', true)
+		
+	result = compiler.has_function('pthread_set_name_np', prefix : '#include <pthread.h>; #include <pthread_np.h>')
+	configuration.set('HAVE_PTHREAD_SET_NAME_NP', result)
+endif
+
+
 configuration.set('SDL_DISABLE_MMX', not has_mmx)
 configuration.set('SDL_DISABLE_SSE', not has_sse)
 configuration.set('SDL_DISABLE_SSE2', not has_sse2)
@@ -66,12 +101,7 @@ if target_machine.system() != 'windows'
 	result = compiler.has_function('pthread_setname_np', prefix : '#include<pthread.h>')
 	configuration.set('HAVE_PTHREAD_SETNAME_NP', result)
 	
-	if compiler.has_header('pthread_np.h')
-		configuration.set('HAVE_PTHREAD_NP_H', true)
-		
-		result = compiler.has_function('pthread_set_name_np', prefix : '#include <pthread.h>; #include <pthread_np.h>')
-		configuration.set('HAVE_PTHREAD_SET_NAME_NP', result)
-	endif
+
 endif
 
 if target_machine.system() == 'linux'
@@ -318,32 +348,27 @@ configuration.set('SDL_VIDEO_OPENGL_ES2', has_gles2)
 configuration.set('SDL_VIDEO_RENDER_OGL_ES2', has_gles2)
 
 
-has_headers = []
-
-if has_libudev
-	has_headers += '#include <libudev.h>'
-endif
-
-if has_linux_input
-	has_headers += '#include <linux/input.h>'
-endif
-
-headers = ['alloca.h', 'ctype.h', 'float.h', 'iconv.h', 'inttypes.h', 'limits.h',
-			'malloc.h', 'math.h', 'memory.h', 'signal.h', 'stdarg.h', 'stddef.h',
-			'stdint.h', 'stdio.h', 'stdlib.h', 'strings.h', 'string.h', 'sys/types.h',
-			'wchar.h', 'libunwind.h']
 
 
-foreach header : headers
-	refName = header.replace('.', '_').replace('/', '_')
-	header_availability = compiler.has_header(header)
-	if header_availability
-		has_headers += '#include <' +  header + '>'
-	endif
-	configuration.set('HAVE_' + refName.to_upper(), header_availability)
-endforeach
 
-functions = ['alloca', 'malloc', 'calloc', 'realloc', 'free', 'bsearch', 'qsort', 'abs', 'bcopy', 'memset', 'memcpy', 'memmove', 'memcmp', 'wcslen', '_wcsdup', 'wcsdup', 'wcslcat', 'wcslcpy', 'wcsstr', 'wcscmp', 'wcsncmp', 'wcscasecmp', '_wcsicmp', 'wcsncasecmp', '_wcsnicmp', 'strlen', 'strlcpy', 'strlcat', '_strrev', '_strupr', '_strlwr', 'index', 'rindex', 'strchr', 'strrchr', 'strstr', 'strtok_r', 'itoa', '_ltoa', '_uitoa', '_ultoa', '_i64toa', '_ui64toa', 'strtol', 'strtoul', 'strtoll', 'strtoull', 'strtod', 'atoi', 'atof', 'strcmp', 'strncmp', '_stricmp', 'strcasecmp', '_strnicmp', 'strncasecmp', 'strcasestr', 'sscanf', 'vsscanf', 'vsnprintf', 'fopen64', 'fseeko', 'fseeko64', '_Exit', 'acos', 'acosf', 'asin', 'asinf', 'atan', 'atanf', 'atan2', 'atan2f', 'ceil', 'ceilf', 'copysign', 'copysignf', 'cos', 'cosf', 'exp', 'expf', 'fabs', 'fabsf', 'floor', 'floorf', 'fmod', 'fmodf', 'log', 'logf', 'log10', 'log10f', 'lround', 'lroundf', 'modf', 'modff', 'pow', 'powf', 'round', 'roundf', 'scalbn', 'scalbnf', 'sin', 'sinf', 'sqrt', 'sqrtf', 'tan', 'tanf', 'trunc', 'truncf', 'getenv', 'setenv', 'putenv', 'unsetenv', '_Exit']
+
+functions = ['alloca', 'malloc', 'calloc', 'realloc', 'free', 'bsearch',
+			 'qsort', 'abs', 'bcopy', 'memset', 'memcpy', 'memmove', 'memcmp',
+			 'wcslen', '_wcsdup', 'wcsdup', 'wcslcat', 'wcslcpy', 'wcsstr',
+			 'wcscmp', 'wcsncmp', 'wcscasecmp', '_wcsicmp', 'wcsncasecmp',
+			 '_wcsnicmp', 'strlen', 'strlcpy', 'strlcat', '_strrev', '_strupr',
+			 '_strlwr', 'index', 'rindex', 'strchr', 'strrchr', 'strstr', 'strtok_r',
+			 'itoa', '_ltoa', '_uitoa', '_ultoa', '_i64toa', '_ui64toa', 'strtol',
+			 'strtoul', 'strtoll', 'strtoull', 'strtod', 'atoi', 'atof', 'strcmp',
+			 'strncmp', '_stricmp', 'strcasecmp', '_strnicmp', 'strncasecmp',
+			 'strcasestr', 'sscanf', 'vsscanf', 'vsnprintf', 'fopen64', 'fseeko',
+			 'fseeko64', '_Exit', 'acos', 'acosf', 'asin', 'asinf', 'atan', 'atanf',
+			 'atan2', 'atan2f', 'ceil', 'ceilf', 'copysign', 'copysignf', 'cos', 'cosf',
+			 'exp', 'expf', 'fabs', 'fabsf', 'floor', 'floorf', 'fmod', 'fmodf', 'log', 'logf',
+			 'log10', 'log10f', 'lround', 'lroundf', 'modf', 'modff', 'pow', 'powf', 'round',
+			 'roundf', 'scalbn', 'scalbnf', 'sin', 'sinf', 'sqrt', 'sqrtf', 'tan', 'tanf',
+			 'trunc', 'truncf', 'getenv', 'setenv', 'putenv', 'unsetenv', '_Exit'
+]
 
 foreach function : functions
 	configuration.set('HAVE_' + function.to_upper(),  compiler.has_function(function, prefix : has_headers))
