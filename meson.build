@@ -764,7 +764,7 @@ endif
 
 #generate headers
 
-subdir('include')
+subdir('include/build_config')
 
 incdirs = include_directories(incdirs)
 build_incdirs = include_directories(build_incdirs)
