@@ -660,6 +660,9 @@
     <ClCompile Include="..\..\src\video\yuv2rgb\yuv_rgb_std.c">
       <Filter>src\video\yuv2rgb</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_steamdeck.c">
+      <Filter>src\joystick\hidapi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\begin_code.h">
