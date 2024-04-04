@@ -1,4 +1,4 @@
-project('SDL 3', ['c', 'objc', 'nasm'],
+project('SDL 3', ['c', 'objc'],
     default_options : [ 'c_std=c11' ],
     version: '3.0.0'
 )
@@ -578,11 +578,8 @@ elif target_machine.system() == 'windows'
 
     has_xinput = compiler.has_header('xinput.h')
 
-    if build_machine.cpu() != 'aarch64'
-        has_dinput = compiler.has_header('dinput.h')
-
-        link_deps += compiler.find_library('dinput8')
-    endif
+    has_dinput = compiler.has_header('dinput.h')
+    link_deps += compiler.find_library('dinput8')
     
     if has_xinput or has_dinput
         sources += [
