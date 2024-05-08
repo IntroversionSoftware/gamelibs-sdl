@@ -80,6 +80,10 @@ configuration.set('SDL_VIDEO_DRIVER_X11', has_x11)
 configuration.set('SDL_VIDEO_DRIVER_VIVANTE', has_vivante)
 configuration.set('SDL_VIDEO_DRIVER_VIVANTE_VDK', has_vivante_vdk)
 
+configuration.set('SDL_LIBDECOR_VERSION_MAJOR', 0)
+configuration.set('SDL_LIBDECOR_VERSION_MINOR', 0)
+configuration.set('SDL_LIBDECOR_VERSION_PATCH', 0)
+
 if target_machine.system() != 'windows'
     configuration.set('DYNAPI_NEEDS_DLOPEN', true)
     configuration.set('SDL_THREAD_PTHREAD', true)
@@ -348,6 +352,8 @@ configuration.set('SDL_VIDEO_OPENGL_ES2', has_gles2)
 configuration.set('SDL_VIDEO_RENDER_OGL_ES2', has_gles2)
 
 
+# camera configuration
+configuration.set('SDL_CAMERA_DRIVER_DISK', false)
 
 
 
