@@ -87,6 +87,8 @@ configuration.set('SDL_LIBDECOR_VERSION_PATCH', 0)
 if target_machine.system() != 'windows'
     configuration.set('DYNAPI_NEEDS_DLOPEN', true)
     configuration.set('SDL_THREAD_PTHREAD', true)
+    configuration.set('SDL_FSOPS_POSIX', true)
+    configuration.set('SDL_TIME_UNIX', true)
     configuration.set('SDL_TIMER_UNIX', true)
     configuration.set('HAVE_CLOCK_GETTIME', compiler.has_function('clock_gettime'))
     configuration.set('HAVE_DLOPEN', compiler.has_function('dlopen', prefix : '#include<dlfcn.h>'))
@@ -104,8 +106,6 @@ if target_machine.system() != 'windows'
 
     result = compiler.has_function('pthread_setname_np', prefix : '#include<pthread.h>')
     configuration.set('HAVE_PTHREAD_SETNAME_NP', result)
-    
-
 endif
 
 if target_machine.system() == 'linux'
@@ -197,7 +197,6 @@ if target_machine.system() == 'linux'
     endif
 
 elif target_machine.system() == 'darwin'
-    
 
     configuration.set('SDL_FRAMEWORK_COCOA', true)
     configuration.set('SDL_FRAMEWORK_CARBON', true)
@@ -268,6 +267,8 @@ elif target_machine.system() == 'windows'
     configuration.set('SDL_THREAD_GENERIC_COND_SUFFIX', true)
     configuration.set('SDL_THREAD_GENERIC_RWLOCK_SUFFIX', true)
     configuration.set('SDL_THREAD_WINDOWS', true)
+    configuration.set('SDL_FSOPS_WINDOWS', true)
+    configuration.set('SDL_TIME_WINDOWS', true)
     configuration.set('SDL_TIMER_WINDOWS', true)
     configuration.set('SDL_POWER_WINDOWS', true)
     configuration.set('SDL_FILESYSTEM_WINDOWS', true)

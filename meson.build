@@ -40,6 +40,7 @@ sources = [
     'src/core/SDL_core_unsupported.c',
     'src/core/SDL_runapp.c',
     'src/cpuinfo/SDL_cpuinfo.c',
+    'src/dialog/SDL_dialog_utils.c',
     'src/dynapi/SDL_dynapi.c',
     'src/events/imKStoUCS.c',
     'src/events/SDL_clipboardevents.c',
@@ -177,14 +178,17 @@ sources = [
     'src/joystick/hidapi/SDL_hidapi_xboxone.c',
     'src/joystick/hidapi/SDL_hidapijoystick.c',
 
-	'src/main/generic/SDL_sysmain_callbacks.c',
+    'src/main/generic/SDL_sysmain_callbacks.c',
 
     'src/thread/generic/SDL_syscond.c',
-    'src/thread/generic/SDL_sysmutex.c',
+    #'src/thread/generic/SDL_sysmutex.c',
     'src/thread/generic/SDL_sysrwlock.c',
-    'src/thread/generic/SDL_syssem.c',
-    'src/thread/generic/SDL_systhread.c',
-    'src/thread/generic/SDL_systls.c',
+    #'src/thread/generic/SDL_syssem.c',
+    #'src/thread/generic/SDL_systhread.c',
+    #'src/thread/generic/SDL_systls.c',
+	
+	# TODO steam storage
+    'src/storage/generic/SDL_genericstorage.c',
 ]
 
 if get_option('opengl') != 'angle'
@@ -657,7 +661,9 @@ if target_machine.system() == 'windows'
         'src/core/windows/SDL_immdevice.c',
         'src/core/windows/SDL_windows.c',
         'src/core/windows/SDL_xinput.c',
+        'src/dialog/windows/SDL_windowsdialog.c',
         'src/filesystem/windows/SDL_sysfilesystem.c',
+        'src/filesystem/windows/SDL_sysfsops.c',
         'src/joystick/windows/SDL_dinputjoystick.c',
         'src/joystick/windows/SDL_rawinputjoystick.c',
         'src/joystick/windows/SDL_windows_gaming_input.c',
@@ -674,6 +680,7 @@ if target_machine.system() == 'windows'
         'src/thread/windows/SDL_syssem.c',
         'src/thread/windows/SDL_systhread.c',
         'src/thread/windows/SDL_systls.c',
+        'src/time/windows/SDL_systime.c',
         'src/timer/windows/SDL_systimer.c',
         'src/video/windows/SDL_windowsclipboard.c',
         'src/video/windows/SDL_windowsevents.c',
@@ -684,6 +691,8 @@ if target_machine.system() == 'windows'
         'src/video/windows/SDL_windowsmouse.c',
         'src/video/windows/SDL_windowsopengl.c',
         'src/video/windows/SDL_windowsopengles.c',
+        'src/video/windows/SDL_windowsrawinput.c',
+        'src/video/windows/SDL_windowsshape.c',
         'src/video/windows/SDL_windowsvideo.c',
         'src/video/windows/SDL_windowsvulkan.c',
         'src/video/windows/SDL_windowswindow.c',
@@ -714,7 +723,12 @@ elif target_machine.system() == 'linux'
     sources += [
         'src/core/linux/SDL_sandbox.c',
         'src/core/linux/SDL_threadprio.c',
+        'src/dialog/unix/SDL_portaldialog.c',
+        'src/dialog/unix/SDL_unixdialog.c',
+        'src/dialog/unix/SDL_zenitydialog.c',
+        'src/filesystem/posix/SDL_sysfsops.c',
         'src/power/linux/SDL_syspower.c',
+        'src/time/unix/SDL_systime.c',
     ]
 elif target_machine.system() == 'darwin'
     add_languages('objc', required: true)
@@ -742,13 +756,16 @@ elif target_machine.system() == 'darwin'
     ]
     sources += [
         'src/audio/coreaudio/SDL_coreaudio.m',
+        'src/dialog/cocoa/SDL_cocoadialog.m',
         'src/file/cocoa/SDL_rwopsbundlesupport.m',
         'src/filesystem/cocoa/SDL_sysfilesystem.m',
+        'src/filesystem/posix/SDL_sysfsops.c',
         'src/misc/macos/SDL_sysurl.m',
         'src/haptic/darwin/SDL_syshaptic.c',
         'src/locale/macos/SDL_syslocale.m',
         'src/joystick/apple/SDL_iokitjoystick.c',
         'src/render/metal/SDL_render_metal.m',
+        'src/time/unix/SDL_systime.c',
         'src/timer/unix/SDL_systimer.c',
         'src/power/macos/SDL_syspower.c',
         'src/video/cocoa/SDL_cocoaclipboard.m',
