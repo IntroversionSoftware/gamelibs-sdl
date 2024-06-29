@@ -19,6 +19,9 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
+#ifndef SDL_hidapi_nintendo_h_
+#define SDL_hidapi_nintendo_h_
+
 /* These are values used in the controller type byte of the controller GUID */
 
 /* These values come directly out of the hardware, so don't change them */
@@ -47,5 +50,7 @@ typedef enum
     k_eWiiExtensionControllerType_Gamepad = 130,
     k_eWiiExtensionControllerType_WiiUPro = 131,
 } EWiiExtensionControllerType;
+
+#endif
 
 /* vi: set ts=4 sw=4 expandtab: */
