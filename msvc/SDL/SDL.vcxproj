@@ -337,19 +337,35 @@
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_combined.c" />
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_gamecube.c" />
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_luna.c" />
-    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_ps3.c" />
-    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_ps4.c" />
-    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_ps5.c" />
+    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_ps3.c">
+      <IncludeInUnityFile>false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_ps4.c">
+      <IncludeInUnityFile>false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_ps5.c">
+      <IncludeInUnityFile>false</IncludeInUnityFile>
+    </ClCompile>
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_rumble.c" />
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_shield.c" />
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_stadia.c" />
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_steam.c" />
     <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_steamdeck.c" />
-    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_switch.c" />
-    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_wii.c" />
-    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_xbox360.c" />
-    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_xbox360w.c" />
-    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_xboxone.c" />
+    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_switch.c">
+      <IncludeInUnityFile>false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_wii.c">
+      <IncludeInUnityFile>false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_xbox360.c">
+      <IncludeInUnityFile>false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_xbox360w.c">
+      <IncludeInUnityFile>false</IncludeInUnityFile>
+    </ClCompile>
+    <ClCompile Include="..\..\src\joystick\hidapi\SDL_hidapi_xboxone.c">
+      <IncludeInUnityFile>false</IncludeInUnityFile>
+    </ClCompile>
     <ClCompile Include="..\..\src\joystick\SDL_gamecontroller.c" />
     <ClCompile Include="..\..\src\joystick\SDL_joystick.c" />
     <ClCompile Include="..\..\src\joystick\SDL_steam_virtual_gamepad.c" />
