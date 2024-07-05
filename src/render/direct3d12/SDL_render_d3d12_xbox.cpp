@@ -19,8 +19,8 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "../../SDL_internal.h"
-#if SDL_VIDEO_RENDER_D3D12 && (defined(__XBOXONE__) || defined(__XBOXSERIES__))
+#include "SDL_internal.h"
+#if SDL_VIDEO_RENDER_D3D12 && !SDL_RENDER_DISABLED && (defined(__XBOXONE__) || defined(__XBOXSERIES__))
 #include "SDL_render_d3d12_xbox.h"
 #include "../../core/windows/SDL_windows.h"
 #include <XGameRuntime.h>
@@ -74,7 +74,7 @@ D3D12_XBOX_CreateDevice(ID3D12Device **device, SDL_bool createDebug)
         WIN_SetErrorFromHRESULT(SDL_COMPOSE_ERROR("[xbox] dxgiAdapter->EnumOutputs"), result);
         goto done;
     }
-    
+
     /* Set frame interval */
     result = (*device)->SetFrameIntervalX(dxgiOutput, D3D12XBOX_FRAME_INTERVAL_60_HZ, 1, D3D12XBOX_FRAME_INTERVAL_FLAG_NONE);
     if (FAILED(result)) {
