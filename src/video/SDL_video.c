@@ -3329,10 +3329,12 @@ void SDL_DestroyWindow(SDL_Window *window)
         SDL_SetMouseFocus(NULL);
     }
 
+#if !defined(SDL_RENDER_DISABLED)
     renderer = SDL_GetRenderer(window);
     if (renderer) {
         SDL_DestroyRendererWithoutFreeing(renderer);
     }
+#endif
 
     SDL_DestroyWindowSurface(window);
 
