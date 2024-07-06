@@ -242,12 +242,7 @@ typedef unsigned int uintptr_t;
 /* Enable various process implementations */
 #define SDL_PROCESS_WINDOWS 1
 
-/* Enable the sensor driver */
-#ifdef HAVE_SENSORSAPI_H
-#define SDL_SENSOR_WINDOWS 1
-#else
-#define SDL_SENSOR_DUMMY 1
-#endif
+#define SDL_SENSOR_DUMMY    1
 
 /* Enable various shared object loading systems */
 #define SDL_LOADSO_WINDOWS 1
@@ -301,7 +296,6 @@ typedef unsigned int uintptr_t;
 #define SDL_FSOPS_WINDOWS 1
 
 /* Enable the camera driver */
-#define SDL_CAMERA_DRIVER_MEDIAFOUNDATION 1
 #define SDL_CAMERA_DRIVER_DUMMY 1
 
 #endif /* SDL_build_config_windows_h_ */
