@@ -1,7 +1,7 @@
 /*
     SDL_ngage_main.c, originally for SDL 1.2 by Hannu Viitala
 */
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 
 /* Include the SDL main definition header */
 #include "SDL_main.h"
