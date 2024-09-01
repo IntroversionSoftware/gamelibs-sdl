@@ -56,7 +56,9 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>SDL_internal.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>
-        ..\..\src\;
+        $(ProjectDir)..\..\src\;
+        $(ProjectDir)..\..\include\;
+        $(ProjectDir)..\..\include\build_config;
         %(AdditionalIncludeDirectories)
       </AdditionalIncludeDirectories>
     </ClCompile>
