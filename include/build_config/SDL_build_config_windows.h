@@ -218,31 +218,17 @@ typedef unsigned int uintptr_t;
 #endif
 
 /* Enable various audio drivers */
-#if defined(HAVE_MMDEVICEAPI_H) && defined(HAVE_AUDIOCLIENT_H)
-#define SDL_AUDIO_DRIVER_WASAPI 1
-#endif
-#define SDL_AUDIO_DRIVER_DSOUND 1
-#define SDL_AUDIO_DRIVER_DISK 1
 #define SDL_AUDIO_DRIVER_DUMMY 1
 
 /* Enable various input drivers */
-#define SDL_JOYSTICK_DINPUT 1
-#ifdef HAVE_GAMEINPUT_H
-#define SDL_JOYSTICK_GAMEINPUT 1
-#endif
-#define SDL_JOYSTICK_HIDAPI 1
-#define SDL_JOYSTICK_RAWINPUT 1
-#define SDL_JOYSTICK_VIRTUAL 1
-#ifdef HAVE_WINDOWS_GAMING_INPUT_H
-#define SDL_JOYSTICK_WGI 1
-#endif
-#define SDL_JOYSTICK_XINPUT 1
-#define SDL_HAPTIC_DINPUT 1
+#define SDL_JOYSTICK_DISABLED 1
+#define SDL_HAPTIC_DISABLED 1
+#define SDL_HIDAPI_DISABLED 1
 
 /* Enable various process implementations */
 #define SDL_PROCESS_WINDOWS 1
 
-#define SDL_SENSOR_DUMMY    1
+#define SDL_SENSOR_DISABLED 1
 
 /* Enable various shared object loading systems */
 #define SDL_LOADSO_WINDOWS 1
