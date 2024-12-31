@@ -30,6 +30,7 @@
 #define COBJMACROS
 #include "windows.gaming.input.h"
 #include <cfgmgr32.h>
+#include <combaseapi.h>
 #include <objidlbase.h>
 #include <roapi.h>
 #include <initguid.h>
