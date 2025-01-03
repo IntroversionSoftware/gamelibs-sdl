@@ -33,7 +33,7 @@ bool WIN_GLES_LoadLibrary(SDL_VideoDevice *_this, const char *path)
 {
 
     // If the profile requested is not GL ES, switch over to WIN_GL functions
-    if (_this->gl_config.profile_mask != SDL_GL_CONTEXT_PROFILE_ES &&
+    if (
         !SDL_GetHintBoolean(SDL_HINT_VIDEO_FORCE_EGL, false)) {
 #ifdef SDL_VIDEO_OPENGL_WGL
         WIN_GLES_UnloadLibrary(_this);
