@@ -260,6 +260,7 @@ if target_machine.system() == 'linux'
         wayland_scanner = find_program(dep_wl_scanner.get_pkgconfig_variable('wayland_scanner'))
 
         protocols = [
+            'wayland-protocols/cursor-shape-v1.xml',
             'wayland-protocols/fractional-scale-v1.xml',
             'wayland-protocols/idle-inhibit-unstable-v1.xml',
             'wayland-protocols/keyboard-shortcuts-inhibit-unstable-v1.xml',
@@ -274,6 +275,7 @@ if target_machine.system() == 'linux'
             'wayland-protocols/xdg-decoration-unstable-v1.xml',
             'wayland-protocols/xdg-output-unstable-v1.xml',
             'wayland-protocols/xdg-shell.xml',
+            'wayland-protocols/xdg-toplevel-icon-v1.xml',
         ]
 
         wl_protos_src = []
@@ -354,6 +356,7 @@ if target_machine.system() == 'linux'
         'src/video/wayland/SDL_waylandmessagebox.c',
         'src/video/wayland/SDL_waylandmouse.c',
         'src/video/wayland/SDL_waylandopengles.c',
+        'src/video/wayland/SDL_waylandshmbuffer.c',
         'src/video/wayland/SDL_waylandtouch.c',
         'src/video/wayland/SDL_waylandvideo.c',
         'src/video/wayland/SDL_waylandvulkan.c',
