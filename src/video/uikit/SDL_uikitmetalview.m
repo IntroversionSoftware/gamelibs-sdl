@@ -26,7 +26,7 @@
  * backed view.
  */
 
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 
 #if defined(SDL_VIDEO_DRIVER_UIKIT) && (defined(SDL_VIDEO_VULKAN) || defined(SDL_VIDEO_METAL))
 

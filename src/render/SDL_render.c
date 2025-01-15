@@ -18,8 +18,9 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../SDL_internal.h"
+#include "SDL_internal.h"
 
+#if !defined(SDL_RENDER_DISABLED)
 /* The SDL 2D rendering system */
 
 #include "SDL_hints.h"
@@ -4581,5 +4582,7 @@ int SDL_RenderSetVSync(SDL_Renderer *renderer, int vsync)
     }
     return 0;
 }
+
+#endif /* !SDL_RENDER_DISABLED */
 
 /* vi: set ts=4 sw=4 expandtab: */
