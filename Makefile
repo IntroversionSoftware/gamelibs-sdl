@@ -211,7 +211,7 @@ install: $(INSTALL_TARGETS)
 clean:
 	$(RM) -r $(OBJ_DIR)
 
-distclean: clean
+distclean:
 	$(RM) -r $(BUILD_DIR)
 
 $(OBJ_DIR)/$(SDL_LIB): $(SDL_OBJECTS) | $$(@D)/.
