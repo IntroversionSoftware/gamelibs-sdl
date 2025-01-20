@@ -18,7 +18,7 @@
      misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
-#include "../../SDL_internal.h"
+#include "SDL_internal.h"
 
 #if defined(SDL_VIDEO_DRIVER_WINDOWS) && !defined(__XBOXONE__) && !defined(__XBOXSERIES__)
 
@@ -181,6 +181,7 @@ static SDL_bool WIN_GetDisplayMode(_THIS, LPCWSTR deviceName, DWORD index, SDL_D
     mode->format = SDL_PIXELFORMAT_UNKNOWN;
     mode->w = data->DeviceMode.dmPelsWidth;
     mode->h = data->DeviceMode.dmPelsHeight;
+    mode->is_native = 0;
     mode->refresh_rate = data->DeviceMode.dmDisplayFrequency;
 
     /* Fill in the mode information */
@@ -347,6 +348,8 @@ static void WIN_AddDisplay(_THIS, HMONITOR hMonitor, const MONITORINFOEXW *info,
             display.name = WIN_StringToUTF8W(device.DeviceString);
         }
     }
+
+    mode.is_native = 1;
 
     display.desktop_mode = mode;
     display.current_mode = mode;
