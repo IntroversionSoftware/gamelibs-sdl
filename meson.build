@@ -323,7 +323,10 @@ if target_machine.system() == 'linux'
 
     link_deps += [
         dependency('dbus-1'),
+        dependency('egl'),
+        dependency('ext2fs'),
         dependency('libdrm'),
+        dependency('libudev'),
         compiler.find_library('dl'),
     ]
 
