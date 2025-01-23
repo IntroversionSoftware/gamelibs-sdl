@@ -277,6 +277,9 @@
     <Filter Include="src\thread\generic">
       <UniqueIdentifier>{6360cedf-c569-46ae-8663-a965bbcec529}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\sensor\dummy">
+      <UniqueIdentifier>{f3016a08-9a70-4e37-96bc-5ebd64e9c5ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\SDL.c">
@@ -1043,6 +1046,9 @@
     </ClCompile>
     <ClCompile Include="..\src\thread\generic\SDL_systls.c">
       <Filter>src\thread\generic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\sensor\dummy\SDL_dummysensor.c">
+      <Filter>src\sensor\dummy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2197,6 +2203,9 @@
     </ClInclude>
     <ClInclude Include="..\include\build_config\SDL_build_config_linux.h">
       <Filter>include\build_config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\sensor\dummy\SDL_dummysensor.h">
+      <Filter>src\sensor\dummy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

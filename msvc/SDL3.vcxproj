@@ -120,7 +120,9 @@ python.exe gen_revision.py</Command>
     <ClCompile Include="..\src\haptic\windows\SDL_dinputhaptic.c" />
     <ClCompile Include="..\src\haptic\windows\SDL_windowshaptic.c" />
     <ClCompile Include="..\src\hidapi\SDL_hidapi.c" />
-    <ClCompile Include="..\src\hidapi\windows\hid.c" />
+    <ClCompile Include="..\src\hidapi\windows\hid.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\src\io\generic\SDL_asyncio_generic.c" />
     <ClCompile Include="..\src\io\SDL_asyncio.c" />
     <ClCompile Include="..\src\io\SDL_iostream.c" />
@@ -237,6 +239,7 @@ python.exe gen_revision.py</Command>
     <ClCompile Include="..\src\SDL_log.c" />
     <ClCompile Include="..\src\SDL_properties.c" />
     <ClCompile Include="..\src\SDL_utils.c" />
+    <ClCompile Include="..\src\sensor\dummy\SDL_dummysensor.c" />
     <ClCompile Include="..\src\sensor\SDL_sensor.c" />
     <ClCompile Include="..\src\sensor\windows\SDL_windowssensor.c" />
     <ClCompile Include="..\src\stdlib\SDL_crc16.c" />
@@ -258,11 +261,19 @@ python.exe gen_revision.py</Command>
     <ClCompile Include="..\src\storage\SDL_storage.c" />
     <ClCompile Include="..\src\storage\steam\SDL_steamstorage.c" />
     <ClCompile Include="..\src\thread\generic\SDL_syscond.c" />
-    <ClCompile Include="..\src\thread\generic\SDL_sysmutex.c" />
+    <ClCompile Include="..\src\thread\generic\SDL_sysmutex.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\src\thread\generic\SDL_sysrwlock.c" />
-    <ClCompile Include="..\src\thread\generic\SDL_syssem.c" />
-    <ClCompile Include="..\src\thread\generic\SDL_systhread.c" />
-    <ClCompile Include="..\src\thread\generic\SDL_systls.c" />
+    <ClCompile Include="..\src\thread\generic\SDL_syssem.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\thread\generic\SDL_systhread.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\thread\generic\SDL_systls.c">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\src\thread\SDL_thread.c" />
     <ClCompile Include="..\src\thread\windows\SDL_syscond_cv.c" />
     <ClCompile Include="..\src\thread\windows\SDL_sysmutex.c" />
@@ -596,6 +607,7 @@ python.exe gen_revision.py</Command>
     <ClInclude Include="..\src\SDL_log_c.h" />
     <ClInclude Include="..\src\SDL_properties_c.h" />
     <ClInclude Include="..\src\SDL_utils_c.h" />
+    <ClInclude Include="..\src\sensor\dummy\SDL_dummysensor.h" />
     <ClInclude Include="..\src\sensor\SDL_sensor_c.h" />
     <ClInclude Include="..\src\sensor\SDL_syssensor.h" />
     <ClInclude Include="..\src\sensor\windows\SDL_windowssensor.h" />

@@ -223,7 +223,7 @@ typedef unsigned int uintptr_t;
 #endif
 //#define SDL_AUDIO_DRIVER_DSOUND 1
 //#define SDL_AUDIO_DRIVER_DISK 1
-//#define SDL_AUDIO_DRIVER_DUMMY 1
+#define SDL_AUDIO_DRIVER_DUMMY 1
 
 /* Enable various input drivers */
 #define SDL_JOYSTICK_DINPUT 1
@@ -245,9 +245,8 @@ typedef unsigned int uintptr_t;
 /* Enable the sensor driver */
 #ifdef HAVE_SENSORSAPI_H
 //#define SDL_SENSOR_WINDOWS 1
-#else
-//#define SDL_SENSOR_DUMMY 1
 #endif
+#define SDL_SENSOR_DUMMY 1
 
 /* Enable various shared object loading systems */
 #define SDL_LOADSO_WINDOWS 1
@@ -307,5 +306,6 @@ typedef unsigned int uintptr_t;
 #define SDL_LEAN_AND_MEAN 1
 #define SDL_RENDER_DISABLED 1
 #define SDL_GPU_DISABLED 1
+#define SDL_SENSOR_DISABLED 1
 
 #endif /* SDL_build_config_windows_h_ */
