@@ -1363,9 +1363,11 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
             style &= ~WS_MAXIMIZE;
         }
 
-        // Disable corner rounding & border color (Windows 11+) so the window fills the full screen
-        data->windowed_mode_corner_rounding = WIN_UpdateCornerRoundingForHWND(hwnd, DWMWCP_DONOTROUND);
-        data->dwma_border_color = WIN_UpdateBorderColorForHWND(hwnd, DWMWA_COLOR_NONE);
+        if (fullscreen == SDL_FULLSCREEN_OP_ENTER) {
+            // Disable corner rounding & border color (Windows 11+) so the window fills the full screen
+            data->windowed_mode_corner_rounding = WIN_UpdateCornerRoundingForHWND(hwnd, DWMWCP_DONOTROUND);
+            data->dwma_border_color = WIN_UpdateBorderColorForHWND(hwnd, DWMWA_COLOR_NONE);
+        }
     } else {
         BOOL menu;
 
