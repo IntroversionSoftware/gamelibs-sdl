@@ -51,6 +51,8 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\include\build_config;$(ProjectDir)..\include;$(ProjectDir)..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Condition="'$(AllowPCH)'!='false'">
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>SDL_internal.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -79,7 +81,7 @@ python.exe gen_revision.py</Command>
     <ClCompile Include="..\src\camera\SDL_camera.c" />
     <ClCompile Include="..\src\core\SDL_core_unsupported.c" />
     <ClCompile Include="..\src\core\windows\pch.c">
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(AllowPCH)'!='false'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\src\core\windows\SDL_hid.c" />
     <ClCompile Include="..\src\core\windows\SDL_immdevice.c" />
