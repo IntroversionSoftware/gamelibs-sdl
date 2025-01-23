@@ -20,6 +20,8 @@
         https://github.com/libusb/hidapi .
 ********************************************************/
 
+#include "SDL_internal.h"
+
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 /* Do not warn about wcsncpy usage.
    https://docs.microsoft.com/cpp/c-runtime-library/security-features-in-the-crt */
