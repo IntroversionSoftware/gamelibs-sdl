@@ -150,9 +150,9 @@
 #define HAVE_GCC_ATOMICS 1
 
 /* Enable various audio drivers */
-#define SDL_AUDIO_DRIVER_COREAUDIO 1
-#define SDL_AUDIO_DRIVER_DISK 1
-#define SDL_AUDIO_DRIVER_DUMMY 1
+//#define SDL_AUDIO_DRIVER_COREAUDIO 1
+//#define SDL_AUDIO_DRIVER_DISK 1
+//#define SDL_AUDIO_DRIVER_DUMMY 1
 
 /* Enable various input drivers */
 #define SDL_JOYSTICK_HIDAPI 1
@@ -186,19 +186,19 @@
 
 /* Enable various video drivers */
 #define SDL_VIDEO_DRIVER_COCOA 1
-#define SDL_VIDEO_DRIVER_DUMMY 1
-#define SDL_VIDEO_DRIVER_OFFSCREEN 1
-#undef SDL_VIDEO_DRIVER_X11
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC "/opt/X11/lib/libX11.6.dylib"
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT "/opt/X11/lib/libXext.6.dylib"
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 "/opt/X11/lib/libXi.6.dylib"
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR "/opt/X11/lib/libXrandr.2.dylib"
-#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS "/opt/X11/lib/libXss.1.dylib"
-#define SDL_VIDEO_DRIVER_X11_XDBE 1
-#define SDL_VIDEO_DRIVER_X11_XRANDR 1
-#define SDL_VIDEO_DRIVER_X11_XSCRNSAVER 1
-#define SDL_VIDEO_DRIVER_X11_XSHAPE 1
-#define SDL_VIDEO_DRIVER_X11_HAS_XKBLOOKUPKEYSYM 1
+//#define SDL_VIDEO_DRIVER_DUMMY 1
+//#define SDL_VIDEO_DRIVER_OFFSCREEN 1
+//#undef SDL_VIDEO_DRIVER_X11
+//#define SDL_VIDEO_DRIVER_X11_DYNAMIC "/opt/X11/lib/libX11.6.dylib"
+//#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XEXT "/opt/X11/lib/libXext.6.dylib"
+//#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XINPUT2 "/opt/X11/lib/libXi.6.dylib"
+//#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XRANDR "/opt/X11/lib/libXrandr.2.dylib"
+//#define SDL_VIDEO_DRIVER_X11_DYNAMIC_XSS "/opt/X11/lib/libXss.1.dylib"
+//#define SDL_VIDEO_DRIVER_X11_XDBE 1
+//#define SDL_VIDEO_DRIVER_X11_XRANDR 1
+//#define SDL_VIDEO_DRIVER_X11_XSCRNSAVER 1
+//#define SDL_VIDEO_DRIVER_X11_XSHAPE 1
+//#define SDL_VIDEO_DRIVER_X11_HAS_XKBLOOKUPKEYSYM 1
 
 #ifdef MAC_OS_X_VERSION_10_8
 /*
@@ -210,8 +210,8 @@
 #define SDL_VIDEO_DRIVER_X11_SUPPORTS_GENERIC_EVENTS 1
 #endif
 
-#define SDL_VIDEO_RENDER_OGL 1
-#define SDL_VIDEO_RENDER_OGL_ES2 1
+//#define SDL_VIDEO_RENDER_OGL 1
+//#define SDL_VIDEO_RENDER_OGL_ES2 1
 
 /* Metal only supported on 64-bit architectures with 10.11+ */
 #if TARGET_RT_64_BIT && (MAC_OS_X_VERSION_MAX_ALLOWED >= 101100)
@@ -219,7 +219,7 @@
 #endif
 
 #ifdef SDL_PLATFORM_SUPPORTS_METAL
-#define SDL_VIDEO_RENDER_METAL 1
+//#define SDL_VIDEO_RENDER_METAL 1
 #endif
 
 /* Enable OpenGL support */
@@ -232,10 +232,10 @@
 /* Enable Vulkan and Metal support */
 #ifdef SDL_PLATFORM_SUPPORTS_METAL
 #define SDL_VIDEO_METAL 1
-#define SDL_GPU_METAL 1
+//#define SDL_GPU_METAL 1
 #define SDL_VIDEO_VULKAN 1
-#define SDL_GPU_VULKAN 1
-#define SDL_VIDEO_RENDER_GPU 1
+//#define SDL_GPU_VULKAN 1
+//#define SDL_VIDEO_RENDER_GPU 1
 #endif
 
 /* Enable system power support */
@@ -246,12 +246,16 @@
 #define SDL_FSOPS_POSIX 1
 
 /* enable camera support */
-#define SDL_CAMERA_DRIVER_COREMEDIA 1
-#define SDL_CAMERA_DRIVER_DUMMY 1
+//#define SDL_CAMERA_DRIVER_COREMEDIA 1
+//#define SDL_CAMERA_DRIVER_DUMMY 1
 
 /* Enable assembly routines */
 #ifdef __ppc__
 #define SDL_ALTIVEC_BLITTERS 1
 #endif
+
+#define SDL_LEAN_AND_MEAN 1
+#define SDL_RENDER_DISABLED 1
+#define SDL_GPU_DISABLED 1
 
 #endif /* SDL_build_config_macos_h_ */

@@ -28,8 +28,12 @@
 #ifdef _MBCS
 #undef _MBCS
 #endif
+#ifndef _UNICODE
 #define _UNICODE
+#endif
+#ifndef UNICODE
 #define UNICODE
+#endif
 // End SDL modifications
 
 #include <windows.h>
