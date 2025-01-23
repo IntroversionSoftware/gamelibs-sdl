@@ -222,10 +222,10 @@ typedef unsigned int uintptr_t;
 
 /* Enable various audio drivers */
 #if defined(HAVE_MMDEVICEAPI_H) && defined(HAVE_AUDIOCLIENT_H)
-#define SDL_AUDIO_DRIVER_WASAPI 1
+//#define SDL_AUDIO_DRIVER_WASAPI 1
 #endif
-#define SDL_AUDIO_DRIVER_DSOUND 1
-#define SDL_AUDIO_DRIVER_DISK 1
+//#define SDL_AUDIO_DRIVER_DSOUND 1
+//#define SDL_AUDIO_DRIVER_DISK 1
 #define SDL_AUDIO_DRIVER_DUMMY 1
 
 /* Enable various input drivers */
@@ -247,10 +247,9 @@ typedef unsigned int uintptr_t;
 
 /* Enable the sensor driver */
 #ifdef HAVE_SENSORSAPI_H
-#define SDL_SENSOR_WINDOWS 1
-#else
-#define SDL_SENSOR_DUMMY 1
+//#define SDL_SENSOR_WINDOWS 1
 #endif
+#define SDL_SENSOR_DUMMY 1
 
 /* Enable various shared object loading systems */
 #define SDL_LOADSO_WINDOWS 1
@@ -267,34 +266,34 @@ typedef unsigned int uintptr_t;
 #define SDL_TIMER_WINDOWS 1
 
 /* Enable various video drivers */
-#define SDL_VIDEO_DRIVER_DUMMY 1
-#define SDL_VIDEO_DRIVER_OFFSCREEN 1
+//#define SDL_VIDEO_DRIVER_DUMMY 1
+//#define SDL_VIDEO_DRIVER_OFFSCREEN 1
 #define SDL_VIDEO_DRIVER_WINDOWS 1
-#define SDL_VIDEO_RENDER_D3D 1
-#ifdef HAVE_D3D11_H
-#define SDL_VIDEO_RENDER_D3D11 1
-#endif
-#define SDL_VIDEO_RENDER_D3D12 1
+//#define SDL_VIDEO_RENDER_D3D 1
+//#ifdef HAVE_D3D11_H
+//#define SDL_VIDEO_RENDER_D3D11 1
+//#endif
+//#define SDL_VIDEO_RENDER_D3D12 1
 
 /* Enable OpenGL support */
 #define SDL_VIDEO_OPENGL 1
 #define SDL_VIDEO_OPENGL_WGL 1
-#define SDL_VIDEO_RENDER_OGL 1
-#define SDL_VIDEO_RENDER_OGL_ES2 1
+//#define SDL_VIDEO_RENDER_OGL 1
+//#define SDL_VIDEO_RENDER_OGL_ES2 1
 #define SDL_VIDEO_OPENGL_ES2 1
 #define SDL_VIDEO_OPENGL_EGL 1
 
 /* Enable Vulkan support */
 #define SDL_VIDEO_VULKAN 1
-#define SDL_VIDEO_RENDER_VULKAN 1
+//#define SDL_VIDEO_RENDER_VULKAN 1
 
 /* Enable GPU support */
-#ifdef HAVE_D3D11_H
-#define SDL_GPU_D3D11 1
-#endif
-#define SDL_GPU_D3D12 1
-#define SDL_GPU_VULKAN 1
-#define SDL_VIDEO_RENDER_GPU 1
+//#ifdef HAVE_D3D11_H
+//#define SDL_GPU_D3D11 1
+//#endif
+//#define SDL_GPU_D3D12 1
+//#define SDL_GPU_VULKAN 1
+//#define SDL_VIDEO_RENDER_GPU 1
 
 /* Enable system power support */
 #define SDL_POWER_WINDOWS 1
@@ -304,7 +303,12 @@ typedef unsigned int uintptr_t;
 #define SDL_FSOPS_WINDOWS 1
 
 /* Enable the camera driver */
-#define SDL_CAMERA_DRIVER_MEDIAFOUNDATION 1
-#define SDL_CAMERA_DRIVER_DUMMY 1
+//#define SDL_CAMERA_DRIVER_MEDIAFOUNDATION 1
+//#define SDL_CAMERA_DRIVER_DUMMY 1
+
+#define SDL_LEAN_AND_MEAN 1
+#define SDL_RENDER_DISABLED 1
+#define SDL_GPU_DISABLED 1
+#define SDL_SENSOR_DISABLED 1
 
 #endif /* SDL_build_config_windows_h_ */
