@@ -61,6 +61,10 @@ typedef struct WindowsGamingInputControllerState
     int steam_virtual_gamepad_slot;
 } WindowsGamingInputControllerState;
 
+#if NTDDI_VERSION < NTDDI_WIN8
+DECLARE_HANDLE(CO_MTA_USAGE_COOKIE);
+#endif
+
 typedef HRESULT(WINAPI *CoIncrementMTAUsage_t)(CO_MTA_USAGE_COOKIE *pCookie);
 typedef HRESULT(WINAPI *RoGetActivationFactory_t)(HSTRING activatableClassId, REFIID iid, void **factory);
 typedef HRESULT(WINAPI *WindowsCreateStringReference_t)(PCWSTR sourceString, UINT32 length, HSTRING_HEADER *hstringHeader, HSTRING *string);
