@@ -9,6 +9,10 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|ARM64">
       <Configuration>Release</Configuration>
       <Platform>ARM64</Platform>
@@ -16,10 +20,6 @@
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -129,7 +129,6 @@ python.exe gen_revision.py</Command>
     <ClCompile Include="..\src\io\windows\SDL_asyncio_windows_ioring.c" />
     <ClCompile Include="..\src\joystick\controller_type.c" />
     <ClCompile Include="..\src\joystick\gdk\SDL_gameinputjoystick.c" />
-    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapijoystick.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_combined.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_gamecube.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_luna.c" />
@@ -140,21 +139,22 @@ python.exe gen_revision.py</Command>
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_shield.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_stadia.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_steam.c" />
-    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_steamdeck.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_steam_hori.c" />
+    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_steamdeck.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_switch.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_wii.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_xbox360.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_xbox360w.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_xboxone.c" />
+    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapijoystick.c" />
     <ClCompile Include="..\src\joystick\SDL_gamepad.c" />
     <ClCompile Include="..\src\joystick\SDL_joystick.c" />
     <ClCompile Include="..\src\joystick\SDL_steam_virtual_gamepad.c" />
     <ClCompile Include="..\src\joystick\virtual\SDL_virtualjoystick.c" />
     <ClCompile Include="..\src\joystick\windows\SDL_dinputjoystick.c" />
     <ClCompile Include="..\src\joystick\windows\SDL_rawinputjoystick.c" />
-    <ClCompile Include="..\src\joystick\windows\SDL_windowsjoystick.c" />
     <ClCompile Include="..\src\joystick\windows\SDL_windows_gaming_input.c" />
+    <ClCompile Include="..\src\joystick\windows\SDL_windowsjoystick.c" />
     <ClCompile Include="..\src\joystick\windows\SDL_xinputjoystick.c" />
     <ClCompile Include="..\src\libm\e_atan2.c" />
     <ClCompile Include="..\src\libm\e_exp.c" />
@@ -211,10 +211,10 @@ python.exe gen_revision.py</Command>
     <ClCompile Include="..\src\render\gpu\SDL_pipeline_gpu.c" />
     <ClCompile Include="..\src\render\gpu\SDL_render_gpu.c" />
     <ClCompile Include="..\src\render\gpu\SDL_shaders_gpu.c" />
-    <ClCompile Include="..\src\render\opengles2\SDL_render_gles2.c" />
-    <ClCompile Include="..\src\render\opengles2\SDL_shaders_gles2.c" />
     <ClCompile Include="..\src\render\opengl\SDL_render_gl.c" />
     <ClCompile Include="..\src\render\opengl\SDL_shaders_gl.c" />
+    <ClCompile Include="..\src\render\opengles2\SDL_render_gles2.c" />
+    <ClCompile Include="..\src\render\opengles2\SDL_shaders_gles2.c" />
     <ClCompile Include="..\src\render\SDL_d3dmath.c" />
     <ClCompile Include="..\src\render\SDL_render.c" />
     <ClCompile Include="..\src\render\SDL_render_unsupported.c" />
@@ -281,10 +281,10 @@ python.exe gen_revision.py</Command>
     <ClCompile Include="..\src\thread\windows\SDL_syssem.c" />
     <ClCompile Include="..\src\thread\windows\SDL_systhread.c" />
     <ClCompile Include="..\src\thread\windows\SDL_systls.c" />
-    <ClCompile Include="..\src\timer\SDL_timer.c" />
-    <ClCompile Include="..\src\timer\windows\SDL_systimer.c" />
     <ClCompile Include="..\src\time\SDL_time.c" />
     <ClCompile Include="..\src\time\windows\SDL_systime.c" />
+    <ClCompile Include="..\src\timer\SDL_timer.c" />
+    <ClCompile Include="..\src\timer\windows\SDL_systimer.c" />
     <ClCompile Include="..\src\tray\SDL_tray_utils.c" />
     <ClCompile Include="..\src\tray\windows\SDL_tray.c" />
     <ClCompile Include="..\src\video\dummy\SDL_nullevents.c" />
@@ -390,13 +390,13 @@ python.exe gen_revision.py</Command>
     <ClInclude Include="..\include\SDL3\SDL_mutex.h" />
     <ClInclude Include="..\include\SDL3\SDL_oldnames.h" />
     <ClInclude Include="..\include\SDL3\SDL_opengl.h" />
+    <ClInclude Include="..\include\SDL3\SDL_opengl_glext.h" />
     <ClInclude Include="..\include\SDL3\SDL_opengles.h" />
     <ClInclude Include="..\include\SDL3\SDL_opengles2.h" />
     <ClInclude Include="..\include\SDL3\SDL_opengles2_gl2.h" />
     <ClInclude Include="..\include\SDL3\SDL_opengles2_gl2ext.h" />
     <ClInclude Include="..\include\SDL3\SDL_opengles2_gl2platform.h" />
     <ClInclude Include="..\include\SDL3\SDL_opengles2_khrplatform.h" />
-    <ClInclude Include="..\include\SDL3\SDL_opengl_glext.h" />
     <ClInclude Include="..\include\SDL3\SDL_pen.h" />
     <ClInclude Include="..\include\SDL3\SDL_pixels.h" />
     <ClInclude Include="..\include\SDL3\SDL_platform.h" />
@@ -435,11 +435,11 @@ python.exe gen_revision.py</Command>
     <ClInclude Include="..\src\audio\directsound\SDL_directsound.h" />
     <ClInclude Include="..\src\audio\disk\SDL_diskaudio.h" />
     <ClInclude Include="..\src\audio\dummy\SDL_dummyaudio.h" />
+    <ClInclude Include="..\src\audio\SDL_audio_c.h" />
+    <ClInclude Include="..\src\audio\SDL_audio_channel_converters.h" />
     <ClInclude Include="..\src\audio\SDL_audiodev_c.h" />
     <ClInclude Include="..\src\audio\SDL_audioqueue.h" />
     <ClInclude Include="..\src\audio\SDL_audioresample.h" />
-    <ClInclude Include="..\src\audio\SDL_audio_c.h" />
-    <ClInclude Include="..\src\audio\SDL_audio_channel_converters.h" />
     <ClInclude Include="..\src\audio\SDL_sysaudio.h" />
     <ClInclude Include="..\src\audio\SDL_wave.h" />
     <ClInclude Include="..\src\audio\wasapi\SDL_wasapi.h" />
@@ -504,9 +504,9 @@ python.exe gen_revision.py</Command>
     <ClInclude Include="..\src\io\SDL_sysasyncio.h" />
     <ClInclude Include="..\src\joystick\controller_list.h" />
     <ClInclude Include="..\src\joystick\controller_type.h" />
-    <ClInclude Include="..\src\joystick\hidapi\SDL_hidapijoystick_c.h" />
     <ClInclude Include="..\src\joystick\hidapi\SDL_hidapi_nintendo.h" />
     <ClInclude Include="..\src\joystick\hidapi\SDL_hidapi_rumble.h" />
+    <ClInclude Include="..\src\joystick\hidapi\SDL_hidapijoystick_c.h" />
     <ClInclude Include="..\src\joystick\hidapi\steam\controller_constants.h" />
     <ClInclude Include="..\src\joystick\hidapi\steam\controller_structs.h" />
     <ClInclude Include="..\src\joystick\SDL_gamepad_c.h" />
@@ -576,10 +576,10 @@ python.exe gen_revision.py</Command>
     <ClInclude Include="..\src\render\gpu\shaders\tri_texture.vert.sm50.dxbc.h" />
     <ClInclude Include="..\src\render\gpu\shaders\tri_texture.vert.sm60.dxil.h" />
     <ClInclude Include="..\src\render\gpu\shaders\tri_texture.vert.spv.h" />
-    <ClInclude Include="..\src\render\opengles2\SDL_gles2funcs.h" />
-    <ClInclude Include="..\src\render\opengles2\SDL_shaders_gles2.h" />
     <ClInclude Include="..\src\render\opengl\SDL_glfuncs.h" />
     <ClInclude Include="..\src\render\opengl\SDL_shaders_gl.h" />
+    <ClInclude Include="..\src\render\opengles2\SDL_gles2funcs.h" />
+    <ClInclude Include="..\src\render\opengles2\SDL_shaders_gles2.h" />
     <ClInclude Include="..\src\render\SDL_d3dmath.h" />
     <ClInclude Include="..\src\render\SDL_render_debug_font.h" />
     <ClInclude Include="..\src\render\SDL_sysrender.h" />
@@ -625,8 +625,8 @@ python.exe gen_revision.py</Command>
     <ClInclude Include="..\src\thread\SDL_thread_c.h" />
     <ClInclude Include="..\src\thread\windows\SDL_sysmutex_c.h" />
     <ClInclude Include="..\src\thread\windows\SDL_systhread_c.h" />
-    <ClInclude Include="..\src\timer\SDL_timer_c.h" />
     <ClInclude Include="..\src\time\SDL_time_c.h" />
+    <ClInclude Include="..\src\timer\SDL_timer_c.h" />
     <ClInclude Include="..\src\tray\SDL_tray_utils.h" />
     <ClInclude Include="..\src\video\directx\d3d12.h" />
     <ClInclude Include="..\src\video\directx\d3d12sdklayers.h" />
@@ -646,7 +646,6 @@ python.exe gen_revision.py</Command>
     <ClInclude Include="..\src\video\khronos\GLES3\gl32.h" />
     <ClInclude Include="..\src\video\khronos\GLES3\gl3platform.h" />
     <ClInclude Include="..\src\video\khronos\KHR\khrplatform.h" />
-    <ClInclude Include="..\src\video\khronos\vk_video\vulkan_video_codecs_common.h" />
     <ClInclude Include="..\src\video\khronos\vk_video\vulkan_video_codec_av1std.h" />
     <ClInclude Include="..\src\video\khronos\vk_video\vulkan_video_codec_av1std_decode.h" />
     <ClInclude Include="..\src\video\khronos\vk_video\vulkan_video_codec_h264std.h" />
@@ -655,6 +654,7 @@ python.exe gen_revision.py</Command>
     <ClInclude Include="..\src\video\khronos\vk_video\vulkan_video_codec_h265std.h" />
     <ClInclude Include="..\src\video\khronos\vk_video\vulkan_video_codec_h265std_decode.h" />
     <ClInclude Include="..\src\video\khronos\vk_video\vulkan_video_codec_h265std_encode.h" />
+    <ClInclude Include="..\src\video\khronos\vk_video\vulkan_video_codecs_common.h" />
     <ClInclude Include="..\src\video\khronos\vulkan\vk_icd.h" />
     <ClInclude Include="..\src\video\khronos\vulkan\vk_layer.h" />
     <ClInclude Include="..\src\video\khronos\vulkan\vk_platform.h" />
