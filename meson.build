@@ -398,6 +398,7 @@ if target_machine.system() == 'linux'
         dependency('dbus-1'),
         dependency('egl'),
         dependency('ext2fs'),
+        dependency('gbm'),
         dependency('libdrm'),
         dependency('libudev'),
         dependency('libpipewire-0.3'),

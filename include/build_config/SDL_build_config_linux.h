@@ -80,16 +80,16 @@
 #define HAVE_MEMCMP 1
 #define HAVE_WCSLEN 1
 #define HAVE_WCSNLEN 1
-#define HAVE_WCSLCPY 1
-#define HAVE_WCSLCAT 1
+//#define HAVE_WCSLCPY 1
+//#define HAVE_WCSLCAT 1
 #define HAVE_WCSSTR 1
 #define HAVE_WCSCMP 1
 #define HAVE_WCSNCMP 1
 #define HAVE_WCSTOL 1
 #define HAVE_STRLEN 1
 #define HAVE_STRNLEN 1
-#define HAVE_STRLCPY 1
-#define HAVE_STRLCAT 1
+//#define HAVE_STRLCPY 1
+//#define HAVE_STRLCAT 1
 #define HAVE_STRPBRK 1
 /* #undef HAVE__STRREV */
 #define HAVE_INDEX 1
