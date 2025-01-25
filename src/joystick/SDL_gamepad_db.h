@@ -29,6 +29,7 @@
    Alternatively, you can use the app located in test/controllermap
  */
 static const char *s_GamepadMappings[] = {
+#if 0
 #ifdef SDL_JOYSTICK_PRIVATE
     SDL_PRIVATE_GAMEPAD_DEFINITIONS
 #endif
@@ -871,6 +872,7 @@ static const char *s_GamepadMappings[] = {
 #endif
 #ifdef SDL_JOYSTICK_N3DS
     "000000004e696e74656e646f20334400,Nintendo 3DS,crc:3210,a:b1,b:b0,back:b2,dpdown:b7,dpleft:b5,dpright:b4,dpup:b6,leftshoulder:b9,lefttrigger:b14,leftx:a0,lefty:a1,rightshoulder:b8,righttrigger:b15,rightx:a2,righty:a3,start:b3,x:b11,y:b10,hint:!SDL_GAMECONTROLLER_USE_BUTTON_LABELS:=1,",
+#endif
 #endif
     NULL
 };
