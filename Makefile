@@ -224,7 +224,7 @@ ALL_TARGETS := $(OBJ_DIR)/$(SDL_LIB)
 
 all: $(ALL_TARGETS)
 
-$(OBJ_DIR)/include/SDL3/SDL_revision.h: .force-revision
+$(OBJ_DIR)/include/SDL3/SDL_revision.h:
 	$(QUIET_GEN)$(PYTHON) msvc/gen_revision.py $@
 
 $(includedir)/%.h: include/%.h
@@ -271,4 +271,4 @@ $(OBJ_DIR)/.cflags: .force-cflags | $$(@D)/.
         echo "$$FLAGS" > $(OBJ_DIR)/.cflags; \
     fi
 
-.PHONY: .force-cflags .force-revision
+.PHONY: .force-cflags
