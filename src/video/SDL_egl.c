@@ -1201,13 +1201,6 @@ bool SDL_EGL_SetSwapInterval(SDL_VideoDevice *_this, int interval)
         return SDL_SetError("EGL not initialized");
     }
 
-    /* FIXME: Revisit this check when EGL_EXT_swap_control_tear is published:
-     * https://github.com/KhronosGroup/EGL-Registry/pull/113
-     */
-    if (interval < 0) {
-        return SDL_SetError("Late swap tearing currently unsupported");
-    }
-
     status = _this->egl_data->eglSwapInterval(_this->egl_data->egl_display, interval);
     if (status == EGL_TRUE) {
         _this->egl_data->egl_swapinterval = interval;
