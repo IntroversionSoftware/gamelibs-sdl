@@ -1435,6 +1435,8 @@ bool SDL_RunOnMainThread(SDL_MainThreadCallback callback, void *userdata, bool w
         return true;
     }
 
+    SDL_SendWakeupEvent();
+
     SDL_WaitSemaphore(entry->semaphore);
 
     switch (SDL_GetAtomicInt(&entry->state)) {
