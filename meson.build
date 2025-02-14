@@ -405,11 +405,11 @@ if target_machine.system() == 'linux'
 
     link_deps += [
         dependency('dbus-1'),
-        dependency('egl'),
-        dependency('ext2fs'),
-        dependency('gbm'),
+        #dependency('egl'),
+        #dependency('ext2fs'),
+        #dependency('gbm'),
         dependency('libdrm'),
-        dependency('libudev'),
+        #dependency('libudev'),
         dependency('libpipewire-0.3'),
         compiler.find_library('dl'),
     ]
