@@ -484,6 +484,7 @@ if target_machine.system() == 'linux'
         'src/video/x11/SDL_x11xfixes.c',
         'src/video/x11/SDL_x11xinput2.c',
         'src/video/x11/SDL_x11xsync.c',
+        'src/video/x11/SDL_x11xtest.c',
         'src/video/x11/xsettings-client.c',
     ]
 endif
