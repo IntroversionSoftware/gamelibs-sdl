@@ -532,6 +532,7 @@ static void SDL_TARGETING("ssse3") SDL_Convert_Swap32_SSSE3(Uint32 *dst, const U
 
 #ifdef SDL_NEON_INTRINSICS
 
+#if 0
 // C99 requires that all code modifying floating point environment should
 // be guarded by the STDC FENV_ACCESS pragma; otherwise, it's undefined
 // behavior. However, the compiler support for this pragma is bad.
@@ -547,6 +548,7 @@ static void SDL_TARGETING("ssse3") SDL_Convert_Swap32_SSSE3(Uint32 *dst, const U
 // GCC does not support the pragma at all
 #else
 #pragma STDC FENV_ACCESS ON
+#endif
 #endif
 
 static void SDL_Convert_S8_to_F32_NEON(float *dst, const Sint8 *src, int num_samples)
@@ -814,6 +816,7 @@ static void SDL_Convert_Swap32_NEON(Uint32 *dst, const Uint32 *src, int num_samp
     })
 }
 
+#if 0
 #if defined(__clang__)
 #if __clang_major__ >= 12
 #if defined(__aarch64__)
@@ -826,6 +829,7 @@ static void SDL_Convert_Swap32_NEON(Uint32 *dst, const Uint32 *src, int num_samp
 //
 #else
 #pragma STDC FENV_ACCESS DEFAULT
+#endif
 #endif
 
 #endif
