@@ -88,6 +88,9 @@
     <Filter Include="src\haptic\dummy">
       <UniqueIdentifier>{0557e1ef-6aa3-4407-ba56-82a27e31a74d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\haptic\hidapi">
+      <UniqueIdentifier>{8f657354-b0cd-457f-af9f-497390d9ffc6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\haptic\windows">
       <UniqueIdentifier>{8de1d93c-f16e-449f-9276-ed4a64e5c662}</UniqueIdentifier>
     </Filter>
@@ -444,6 +447,12 @@
     <ClCompile Include="..\src\haptic\dummy\SDL_syshaptic.c">
       <Filter>src\haptic\dummy</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\haptic\hidapi\SDL_hidapihaptic.c">
+      <Filter>src\haptic\hidapi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\haptic\hidapi\SDL_hidapihaptic_lg4ff.c">
+      <Filter>src\haptic\hidapi</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\haptic\SDL_haptic.c">
       <Filter>src\haptic</Filter>
     </ClCompile>
@@ -477,10 +486,16 @@
     <ClCompile Include="..\src\joystick\gdk\SDL_gameinputjoystick.c">
       <Filter>src\joystick\gdk</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_8bitdo.c">
+      <Filter>src\joystick\hidapi</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_combined.c">
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_gamecube.c">
+      <Filter>src\joystick\hidapi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_lg4ff.c">
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_luna.c">
@@ -1495,6 +1510,12 @@
     </ClInclude>
     <ClInclude Include="..\src\gpu\vulkan\SDL_gpu_vulkan_vkfuncs.h">
       <Filter>src\gpu\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\haptic\hidapi\SDL_hidapihaptic.h">
+      <Filter>src\haptic\hidapi</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\haptic\hidapi\SDL_hidapihaptic_c.h">
+      <Filter>src\haptic\hidapi</Filter>
     </ClInclude>
     <ClInclude Include="..\src\haptic\SDL_haptic_c.h">
       <Filter>src\haptic</Filter>

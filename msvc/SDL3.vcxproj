@@ -118,6 +118,8 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClCompile Include="..\src\gpu\SDL_gpu.c" />
     <ClCompile Include="..\src\gpu\vulkan\SDL_gpu_vulkan.c" />
     <ClCompile Include="..\src\haptic\dummy\SDL_syshaptic.c" />
+    <ClCompile Include="..\src\haptic\hidapi\SDL_hidapihaptic.c" />
+    <ClCompile Include="..\src\haptic\hidapi\SDL_hidapihaptic_lg4ff.c" />
     <ClCompile Include="..\src\haptic\SDL_haptic.c" />
     <ClCompile Include="..\src\haptic\windows\SDL_dinputhaptic.c" />
     <ClCompile Include="..\src\haptic\windows\SDL_windowshaptic.c" />
@@ -131,8 +133,10 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClCompile Include="..\src\io\windows\SDL_asyncio_windows_ioring.c" />
     <ClCompile Include="..\src\joystick\controller_type.c" />
     <ClCompile Include="..\src\joystick\gdk\SDL_gameinputjoystick.c" />
+    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_8bitdo.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_combined.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_gamecube.c" />
+    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_lg4ff.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_luna.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_ps3.c" />
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_ps4.c" />
@@ -486,6 +490,8 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClInclude Include="..\src\gpu\d3d12\D3D12_Blit.h" />
     <ClInclude Include="..\src\gpu\SDL_sysgpu.h" />
     <ClInclude Include="..\src\gpu\vulkan\SDL_gpu_vulkan_vkfuncs.h" />
+    <ClInclude Include="..\src\haptic\hidapi\SDL_hidapihaptic.h" />
+    <ClInclude Include="..\src\haptic\hidapi\SDL_hidapihaptic_c.h" />
     <ClInclude Include="..\src\haptic\SDL_haptic_c.h" />
     <ClInclude Include="..\src\haptic\SDL_syshaptic.h" />
     <ClInclude Include="..\src\haptic\windows\SDL_dinputhaptic_c.h" />

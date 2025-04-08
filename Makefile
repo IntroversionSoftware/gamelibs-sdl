@@ -80,6 +80,7 @@ SDL_SOURCES = \
     src/gpu/vulkan/*.c \
     src/haptic/*.c \
     src/haptic/dummy/*.c \
+    src/haptic/hidapi/*.c \
     src/hidapi/*.c \
     src/io/*.c \
     src/io/generic/*.c \
