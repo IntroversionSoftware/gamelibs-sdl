@@ -283,6 +283,9 @@
     <Filter Include="src\video\yuv2rgb">
       <UniqueIdentifier>{4e522830-f532-4a7b-ba88-376611e298d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\joystick\dummy">
+      <UniqueIdentifier>{7d6cf9f4-1f83-4deb-95c5-38c67a14ca59}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\atomic\SDL_atomic.c">
@@ -1076,6 +1079,9 @@
     </ClCompile>
     <ClCompile Include="..\src\video\yuv2rgb\yuv_rgb_std.c">
       <Filter>src\video\yuv2rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\joystick\dummy\SDL_sysjoystick.c">
+      <Filter>src\joystick\dummy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
