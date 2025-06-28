@@ -355,6 +355,7 @@ if target_machine.system() == 'linux'
             'wayland-protocols/input-timestamps-unstable-v1.xml',
             'wayland-protocols/keyboard-shortcuts-inhibit-unstable-v1.xml',
             'wayland-protocols/pointer-constraints-unstable-v1.xml',
+            'wayland-protocols/pointer-warp-v1.xml',
             'wayland-protocols/primary-selection-unstable-v1.xml',
             'wayland-protocols/relative-pointer-unstable-v1.xml',
             'wayland-protocols/tablet-v2.xml',
