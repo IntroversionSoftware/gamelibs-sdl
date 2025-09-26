@@ -25,27 +25,45 @@
 
 #ifdef SDL_VIDEO_VULKAN
 #ifdef SDL_VIDEO_DRIVER_ANDROID
+#ifndef VK_USE_PLATFORM_ANDROID_KHR
 #define VK_USE_PLATFORM_ANDROID_KHR
 #endif
+#endif
 #ifdef SDL_VIDEO_DRIVER_COCOA
+#ifndef VK_USE_PLATFORM_METAL_EXT
 #define VK_USE_PLATFORM_METAL_EXT
+#endif
+#ifndef VK_USE_PLATFORM_MACOS_MVK
 #define VK_USE_PLATFORM_MACOS_MVK
 #endif
+#endif
 #ifdef SDL_VIDEO_DRIVER_UIKIT
+#ifndef VK_USE_PLATFORM_METAL_EXT
 #define VK_USE_PLATFORM_METAL_EXT
+#endif
+#ifndef VK_USE_PLATFORM_IOS_MVK
 #define VK_USE_PLATFORM_IOS_MVK
 #endif
+#endif
 #ifdef SDL_VIDEO_DRIVER_WAYLAND
+#ifndef VK_USE_PLATFORM_WAYLAND_KHR
 #define VK_USE_PLATFORM_WAYLAND_KHR
+#endif
 #include "wayland/SDL_waylanddyn.h"
 #endif
 #ifdef SDL_VIDEO_DRIVER_WINDOWS
+#ifndef VK_USE_PLATFORM_WIN32_KHR
 #define VK_USE_PLATFORM_WIN32_KHR
+#endif
 #include "../core/windows/SDL_windows.h"
 #endif
 #ifdef SDL_VIDEO_DRIVER_X11
+#ifndef VK_USE_PLATFORM_XLIB_KHR
 #define VK_USE_PLATFORM_XLIB_KHR
+#endif
+#ifndef VK_USE_PLATFORM_XCB_KHR
 #define VK_USE_PLATFORM_XCB_KHR
+#endif
 #endif
 
 #define VK_NO_PROTOTYPES
