@@ -420,13 +420,21 @@ if target_machine.system() == 'linux'
     c_flags += ['-D_LARGEFILE64_SOURCE', '-D_GNU_SOURCE']
 
     link_deps += [
-        dependency('dbus-1'),
-        #dependency('egl'),
-        #dependency('ext2fs'),
-        #dependency('gbm'),
-        dependency('libdrm'),
-        #dependency('libudev'),
-        dependency('libpipewire-0.3'),
+        dependency('dbus-1').partial_dependency(includes: true, compile_args: true),
+        dependency('ext2fs').partial_dependency(includes: true, compile_args: true),
+        dependency('gbm').partial_dependency(includes: true, compile_args: true),
+        dependency('gl').partial_dependency(includes: true, compile_args: true),
+        dependency('glx').partial_dependency(includes: true, compile_args: true),
+        dependency('libdrm').partial_dependency(includes: true, compile_args: true),
+        dependency('libpipewire-0.3').partial_dependency(includes: true, compile_args: true),
+        dependency('libudev').partial_dependency(includes: true, compile_args: true),
+        dependency('x11').partial_dependency(includes: true, compile_args: true),
+        dependency('xcursor').partial_dependency(includes: true, compile_args: true),
+        dependency('xext').partial_dependency(includes: true, compile_args: true),
+        dependency('xi').partial_dependency(includes: true, compile_args: true),
+        dependency('xkbcommon').partial_dependency(includes: true, compile_args: true),
+        dependency('xrandr').partial_dependency(includes: true, compile_args: true),
+        dependency('xscrnsaver').partial_dependency(includes: true, compile_args: true),
         compiler.find_library('dl'),
     ]
 
