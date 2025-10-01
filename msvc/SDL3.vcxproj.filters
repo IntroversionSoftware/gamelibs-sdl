@@ -112,6 +112,9 @@
     <Filter Include="src\joystick">
       <UniqueIdentifier>{0ae36794-fc58-4371-904b-0c2656104ad2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\joystick\dummy">
+      <UniqueIdentifier>{7d6cf9f4-1f83-4deb-95c5-38c67a14ca59}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\joystick\gdk">
       <UniqueIdentifier>{4074eb6c-2367-4adc-936a-4ba0b34b610b}</UniqueIdentifier>
     </Filter>
@@ -482,6 +485,9 @@
     </ClCompile>
     <ClCompile Include="..\src\joystick\controller_type.c">
       <Filter>src\joystick</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\joystick\dummy\SDL_sysjoystick.c">
+      <Filter>src\joystick\dummy</Filter>
     </ClCompile>
     <ClCompile Include="..\src\joystick\gdk\SDL_gameinputjoystick.cpp">
       <Filter>src\joystick\gdk</Filter>
