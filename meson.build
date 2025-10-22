@@ -460,6 +460,7 @@ if target_machine.system() == 'linux'
         #'src/hidapi/libusb/hid.c',
         'src/hidapi/linux/hid.c',
         'src/joystick/linux/SDL_sysjoystick.c',
+        'src/power/linux/SDL_syspower.c',
         'src/video/kmsdrm/SDL_kmsdrmdyn.c',
         'src/video/kmsdrm/SDL_kmsdrmevents.c',
         'src/video/kmsdrm/SDL_kmsdrmmouse.c',
