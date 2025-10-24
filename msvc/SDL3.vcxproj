@@ -323,6 +323,7 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClCompile Include="..\src\video\SDL_pixels.c" />
     <ClCompile Include="..\src\video\SDL_rect.c" />
     <ClCompile Include="..\src\video\SDL_RLEaccel.c" />
+    <ClCompile Include="..\src\video\SDL_rotate.c" />
     <ClCompile Include="..\src\video\SDL_stb.c" />
     <ClCompile Include="..\src\video\SDL_stretch.c" />
     <ClCompile Include="..\src\video\SDL_surface.c" />
