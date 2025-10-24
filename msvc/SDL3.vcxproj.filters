@@ -1002,6 +1002,9 @@
     <ClCompile Include="..\src\video\SDL_RLEaccel.c">
       <Filter>src\video</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\video\SDL_rotate.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\video\SDL_stb.c">
       <Filter>src\video</Filter>
     </ClCompile>

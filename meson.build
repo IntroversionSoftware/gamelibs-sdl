@@ -222,6 +222,7 @@ sources = [
     'src/video/SDL_fillrect.c',
     'src/video/SDL_pixels.c',
     'src/video/SDL_rect.c',
+    'src/video/SDL_rotate.c',
     'src/video/SDL_RLEaccel.c',
     'src/video/SDL_stb.c',
     'src/video/SDL_stretch.c',
