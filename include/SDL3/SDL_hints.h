@@ -4506,6 +4506,41 @@ extern "C" {
 #define SDL_HINT_WINDOWS_ERASE_BACKGROUND_MODE "SDL_WINDOWS_ERASE_BACKGROUND_MODE"
 
 /**
+ * A variable controlling the type of system backdrop used for SDL windows on
+ * Windows 11.
+ *
+ * The variable can be set to the following values:
+ *
+ * - "0": Let the system decide which backdrop to use. (default)
+ * - "1": No window backdrop.
+ * - "2": Use the Mica backdrop.
+ * - "3": Use the Acrylic backdrop.
+ * - "4": Use the alternate Mica backdrop.
+ *
+ * This hint should be set before creating a window.
+ *
+ * \since This hint is available since SDL 3.2.0.
+ */
+#define SDL_HINT_WINDOWS_SYSTEM_BACKDROP_TYPE "SDL_WINDOWS_SYSTEM_BACKDROP_TYPE"
+
+/**
+ * A variable controlling whether Windows 11 corner rounding is applied to
+ * SDL windows.
+ *
+ * The variable can be set to the following values:
+ *
+ * - "0": Default rounding mode
+ * - "1": Disable corner rounding
+ * - "2": Enable corner rounding
+ * - "3": Small corner rounding
+ *
+ * This hint should be set before creating a window.
+ *
+ * \since This hint is available since SDL 3.2.0.
+ */
+#define SDL_HINT_WINDOWS_CORNER_ROUNDING "SDL_WINDOWS_CORNER_ROUNDING"
+
+/**
  * A variable controlling whether X11 windows are marked as override-redirect.
  *
  * If set, this _might_ increase framerate at the expense of the desktop not
