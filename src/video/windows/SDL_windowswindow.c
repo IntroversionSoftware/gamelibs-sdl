@@ -43,6 +43,10 @@
 #include <shobjidl.h>
 #endif
 
+static void WIN_UpdateWindowBackdropForHWND(SDL_VideoDevice *_this, HWND hwnd, DWM_SYSTEMBACKDROP_TYPE_PREFERENCE policy);
+static void WIN_UpdateCornerRoundingForHWND(SDL_VideoDevice *_this, HWND hwnd, DWM_WINDOW_CORNER_PREFERENCE cornerPref);
+static void WIN_UpdateBorderColorForHWND(SDL_VideoDevice *_this, HWND hwnd, COLORREF colorRef);
+
 // Windows CE compatibility
 #ifndef SWP_NOCOPYBITS
 #define SWP_NOCOPYBITS 0
@@ -726,6 +730,8 @@ bool WIN_CreateWindow(SDL_VideoDevice *_this, SDL_Window *window, SDL_Properties
         }
 
         WIN_UpdateDarkModeForHWND(hwnd);
+        WIN_UpdateCornerRoundingForHWND(_this, hwnd, DWMWCP_DEFAULT);
+        WIN_UpdateWindowBackdropForHWND(_this, hwnd, DWMSBT_DEFAULT);
 
         WIN_PumpEventsForHWND(_this, hwnd);
 
@@ -1223,11 +1229,24 @@ void WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
     }
 }
 
+static int WIN_GetNumericHintRanged(const char *name, int min, int max, int default_value)
+{
+    const char *hint = SDL_GetHint(name);
+    int value = default_value;
+    if (hint && hint[0])
+        value = SDL_atoi(hint);
+    if (value < min || value > max) {
+        value = default_value;
+    }
+    return value;
+}
+
 static void WIN_UpdateWindowBackdropForHWND(SDL_VideoDevice *_this, HWND hwnd, DWM_SYSTEMBACKDROP_TYPE_PREFERENCE policy)
 {
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_VideoData *videodata = _this->internal;
     if (videodata->DwmSetWindowAttribute) {
+        policy = (DWM_SYSTEMBACKDROP_TYPE_PREFERENCE)WIN_GetNumericHintRanged(SDL_HINT_WINDOWS_SYSTEM_BACKDROP_TYPE, DWMSBT_DEFAULT, DWMSBT_MICA_ALT, (int)policy);
         videodata->DwmSetWindowAttribute(hwnd, DWMWA_SYSTEMBACKDROP_TYPE, &policy, sizeof(policy));
     }
 #endif
@@ -1238,6 +1257,7 @@ static void WIN_UpdateCornerRoundingForHWND(SDL_VideoDevice *_this, HWND hwnd, D
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
     SDL_VideoData *videodata = _this->internal;
     if (videodata->DwmSetWindowAttribute) {
+        cornerPref = (DWM_WINDOW_CORNER_PREFERENCE)WIN_GetNumericHintRanged(SDL_HINT_WINDOWS_CORNER_ROUNDING, DWMWCP_DEFAULT, DWMWCP_ROUNDSMALL, (int)cornerPref);
         videodata->DwmSetWindowAttribute(hwnd, DWMWA_WINDOW_CORNER_PREFERENCE, &cornerPref, sizeof(cornerPref));
     }
 #endif
