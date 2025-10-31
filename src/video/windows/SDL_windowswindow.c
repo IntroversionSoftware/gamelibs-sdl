@@ -1223,6 +1223,16 @@ void WIN_RestoreWindow(SDL_VideoDevice *_this, SDL_Window *window)
     }
 }
 
+static void WIN_UpdateWindowBackdropForHWND(SDL_VideoDevice *_this, HWND hwnd, DWM_SYSTEMBACKDROP_TYPE_PREFERENCE policy)
+{
+#if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
+    SDL_VideoData *videodata = _this->internal;
+    if (videodata->DwmSetWindowAttribute) {
+        videodata->DwmSetWindowAttribute(hwnd, DWMWA_SYSTEMBACKDROP_TYPE, &policy, sizeof(policy));
+    }
+#endif
+}
+
 static void WIN_UpdateCornerRoundingForHWND(SDL_VideoDevice *_this, HWND hwnd, DWM_WINDOW_CORNER_PREFERENCE cornerPref)
 {
 #if !defined(SDL_PLATFORM_XBOXONE) && !defined(SDL_PLATFORM_XBOXSERIES)
@@ -1308,11 +1318,13 @@ SDL_FullscreenResult WIN_SetWindowFullscreen(SDL_VideoDevice *_this, SDL_Window 
         // Disable corner rounding & border color (Windows 11+) so the window fills the full screen
         WIN_UpdateCornerRoundingForHWND(_this, hwnd, DWMWCP_DONOTROUND);
         WIN_UpdateBorderColorForHWND(_this, hwnd, DWMWA_COLOR_NONE);
+        WIN_UpdateWindowBackdropForHWND(_this, hwnd, DWMSBT_NONE);
     } else {
         BOOL menu;
 
         WIN_UpdateCornerRoundingForHWND(_this, hwnd, DWMWCP_DEFAULT);
         WIN_UpdateBorderColorForHWND(_this, hwnd, DWMWA_COLOR_DEFAULT);
+        WIN_UpdateWindowBackdropForHWND(_this, hwnd, DWMSBT_DEFAULT);
 
         /* Restore window-maximization state, as applicable.
            Special care is taken to *not* do this if and when we're
