@@ -482,6 +482,18 @@ typedef enum {
     DWMWCP_ROUNDSMALL = 3
 } DWM_WINDOW_CORNER_PREFERENCE;
 
+// Window backdrop type (Win 11+)
+#ifndef DWMWA_SYSTEMBACKDROP_TYPE
+#define DWMWA_SYSTEMBACKDROP_TYPE 38
+#endif
+typedef enum {
+    DWMSBT_DEFAULT = 0,
+    DWMSBT_NONE = 1,
+    DWMSBT_MICA = 2,
+    DWMSBT_ACRYLIC = 3,
+    DWMSBT_MICA_ALT = 4
+} DWM_SYSTEMBACKDROP_TYPE_PREFERENCE;
+
 // Border Color support (Win 11+)
 #ifndef DWMWA_BORDER_COLOR
 #define DWMWA_BORDER_COLOR 34
