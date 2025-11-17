@@ -53,7 +53,6 @@
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)..\include\build_config;$(ProjectDir)..\include;$(ProjectDir)..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Condition="'$(AllowPCH)'!='false'">
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>SDL_internal.h</PrecompiledHeaderFile>
     </ClCompile>
     <PreBuildEvent>
@@ -134,6 +133,7 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClCompile Include="..\src\io\SDL_iostream.c" />
     <ClCompile Include="..\src\io\windows\SDL_asyncio_windows_ioring.c" />
     <ClCompile Include="..\src\joystick\controller_type.c" />
+    <ClCompile Include="..\src\joystick\dummy\SDL_sysjoystick.c" />
     <ClCompile Include="..\src\joystick\gdk\SDL_gameinputjoystick.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
