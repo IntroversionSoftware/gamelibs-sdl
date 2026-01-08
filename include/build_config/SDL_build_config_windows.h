@@ -224,27 +224,31 @@ typedef unsigned int uintptr_t;
 #define SDL_AUDIO_DRIVER_DUMMY 1
 
 /* Enable various input drivers */
-#define SDL_JOYSTICK_DINPUT 1
-#ifdef HAVE_GAMEINPUT_H
-#define SDL_JOYSTICK_GAMEINPUT 1
-#endif
-#define SDL_JOYSTICK_HIDAPI 1
-#define SDL_JOYSTICK_RAWINPUT 1
-#define SDL_JOYSTICK_VIRTUAL 1
-#ifdef HAVE_WINDOWS_GAMING_INPUT_H
-#define SDL_JOYSTICK_WGI 1
-#endif
-#define SDL_JOYSTICK_XINPUT 1
-#define SDL_HAPTIC_DINPUT 1
+//#define SDL_JOYSTICK_DINPUT 1
+//#ifdef HAVE_GAMEINPUT_H
+//#define SDL_JOYSTICK_GAMEINPUT 1
+//#endif
+//#define SDL_JOYSTICK_HIDAPI 1
+//#define SDL_JOYSTICK_RAWINPUT 1
+//#define SDL_JOYSTICK_VIRTUAL 1
+//#ifdef HAVE_WINDOWS_GAMING_INPUT_H
+//#define SDL_JOYSTICK_WGI 1
+//#endif
+//#define SDL_JOYSTICK_XINPUT 1
+//#define SDL_HAPTIC_DINPUT 1
+#define SDL_JOYSTICK_DISABLED 1
+#define SDL_HAPTIC_DISABLED 1
+#define SDL_HIDAPI_DISABLED 1
 
 /* Enable various process implementations */
 #define SDL_PROCESS_WINDOWS 1
 
 /* Enable the sensor driver */
-#ifdef HAVE_SENSORSAPI_H
+//#ifdef HAVE_SENSORSAPI_H
 //#define SDL_SENSOR_WINDOWS 1
-#endif
-#define SDL_SENSOR_DUMMY 1
+//#endif
+//#define SDL_SENSOR_DUMMY 1
+#define SDL_SENSOR_DISABLED 1
 
 /* Enable various shared object loading systems */
 #define SDL_LOADSO_WINDOWS 1
@@ -304,6 +308,5 @@ typedef unsigned int uintptr_t;
 #define SDL_LEAN_AND_MEAN 1
 #define SDL_RENDER_DISABLED 1
 #define SDL_GPU_DISABLED 1
-#define SDL_SENSOR_DISABLED 1
 
 #endif /* SDL_build_config_windows_h_ */
