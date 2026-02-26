@@ -229,27 +229,27 @@ static char *FindHIDInterfacePath(Uint16 vid, Uint16 pid, int collection_index)
          i++) {
 
         DWORD requiredSize = 0;
-        SetupDiGetDeviceInterfaceDetail(
+        SetupDiGetDeviceInterfaceDetailW(
             deviceInfoSet, &deviceInterfaceData,
             NULL, 0, &requiredSize, NULL
         );
 
-        PSP_DEVICE_INTERFACE_DETAIL_DATA deviceDetail =
-            (PSP_DEVICE_INTERFACE_DETAIL_DATA)SDL_malloc(requiredSize);
+        PSP_DEVICE_INTERFACE_DETAIL_DATA_W deviceDetail =
+            (PSP_DEVICE_INTERFACE_DETAIL_DATA_W)SDL_malloc(requiredSize);
         if (!deviceDetail) {
             continue;
         }
 
         deviceDetail->cbSize = sizeof(*deviceDetail);
 
-        if (!SetupDiGetDeviceInterfaceDetail(
+        if (!SetupDiGetDeviceInterfaceDetailW(
                 deviceInfoSet, &deviceInterfaceData,
                 deviceDetail, requiredSize, NULL, NULL)) {
             SDL_free(deviceDetail);
             continue;
         }
 
-        HANDLE hDevice = CreateFile(
+        HANDLE hDevice = CreateFileW(
             deviceDetail->DevicePath,
             GENERIC_READ | GENERIC_WRITE,
             FILE_SHARE_READ | FILE_SHARE_WRITE,
@@ -292,18 +292,20 @@ static char *FindHIDInterfacePath(Uint16 vid, Uint16 pid, int collection_index)
 
         if ((caps.InputReportByteLength == 64 && caps.OutputReportByteLength == 64) ||
             (caps.InputReportByteLength == 37 && caps.OutputReportByteLength == 37)) {
+            char *device_path_utf8 = SDL_iconv_wchar_utf8(deviceDetail->DevicePath);
 
             char col_str[16];
             SDL_snprintf(col_str, sizeof(col_str), "col%02d", collection_index);
 
-            if (SDL_strcasestr(deviceDetail->DevicePath, col_str)) {
-                char *result = SDL_strdup(deviceDetail->DevicePath);
+            if (SDL_strcasestr(device_path_utf8, col_str)) {
                 HidD_FreePreparsedData(preparsedData);
                 CloseHandle(hDevice);
                 SDL_free(deviceDetail);
                 SetupDiDestroyDeviceInfoList(deviceInfoSet);
-                return result;
+                return device_path_utf8;
             }
+
+            SDL_free(device_path_utf8);
         }
 
         HidD_FreePreparsedData(preparsedData);
