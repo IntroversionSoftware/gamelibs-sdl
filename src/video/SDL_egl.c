@@ -533,6 +533,13 @@ bool SDL_EGL_LoadLibraryOnly(SDL_VideoDevice *_this, const char *egl_path)
         return false;
     }
 
+    // Initialise apitype from the current profile mask so that any MakeCurrent
+    // call that occurs before CreateContext (e.g. during window/surface setup)
+    // passes a valid API to eglBindAPI rather than zero.
+    _this->egl_data->apitype = (_this->gl_config.profile_mask == SDL_GL_CONTEXT_PROFILE_ES)
+        ? EGL_OPENGL_ES_API
+        : EGL_OPENGL_API;
+
     if (!SDL_EGL_LoadLibraryInternal(_this, egl_path)) {
         SDL_free(_this->egl_data);
         _this->egl_data = NULL;
