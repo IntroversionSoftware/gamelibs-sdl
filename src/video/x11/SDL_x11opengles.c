@@ -69,7 +69,8 @@ XVisualInfo *X11_GLES_GetVisual(SDL_VideoDevice *_this, Display *display, int sc
         return NULL;
     }
 
-    if (_this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display,
+    if (!_this->egl_data->egl_config ||
+        _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display,
                                             _this->egl_data->egl_config,
                                             EGL_NATIVE_VISUAL_ID,
                                             &visual_id) == EGL_FALSE) {
