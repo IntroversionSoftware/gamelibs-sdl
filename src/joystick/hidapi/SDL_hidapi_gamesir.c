@@ -226,27 +226,27 @@ static char *FindHIDInterfacePath(Uint16 vid, Uint16 pid, int collection_index)
          i++) {
 
         DWORD requiredSize = 0;
-        SetupDiGetDeviceInterfaceDetail(
+        SetupDiGetDeviceInterfaceDetailW(
             deviceInfoSet, &deviceInterfaceData,
             NULL, 0, &requiredSize, NULL
         );
 
-        PSP_DEVICE_INTERFACE_DETAIL_DATA deviceDetail =
-            (PSP_DEVICE_INTERFACE_DETAIL_DATA)SDL_malloc(requiredSize);
+        PSP_DEVICE_INTERFACE_DETAIL_DATA_W deviceDetail =
+            (PSP_DEVICE_INTERFACE_DETAIL_DATA_W)SDL_malloc(requiredSize);
         if (!deviceDetail) {
             continue;
         }
 
         deviceDetail->cbSize = sizeof(*deviceDetail);
 
-        if (!SetupDiGetDeviceInterfaceDetail(
+        if (!SetupDiGetDeviceInterfaceDetailW(
                 deviceInfoSet, &deviceInterfaceData,
                 deviceDetail, requiredSize, NULL, NULL)) {
             SDL_free(deviceDetail);
             continue;
         }
 
-        HANDLE hDevice = CreateFile(
+        HANDLE hDevice = CreateFileW(
             deviceDetail->DevicePath,
             GENERIC_READ | GENERIC_WRITE,
             FILE_SHARE_READ | FILE_SHARE_WRITE,
