@@ -246,7 +246,6 @@ if target_machine.system() != 'windows'
     ]
     sources += [
         'src/core/unix/SDL_appid.c',
-        'src/core/unix/SDL_gtk.c',
         'src/core/unix/SDL_poll.c',
         'src/dialog/unix/SDL_portaldialog.c',
         'src/dialog/unix/SDL_unixdialog.c',
@@ -486,6 +485,7 @@ if target_machine.system() == 'linux'
         'src/video/wayland/SDL_waylandmouse.c',
         'src/video/wayland/SDL_waylandopengles.c',
         'src/video/wayland/SDL_waylandshmbuffer.c',
+        'src/video/wayland/SDL_waylandutil.c',
         'src/video/wayland/SDL_waylandvideo.c',
         'src/video/wayland/SDL_waylandvulkan.c',
         'src/video/wayland/SDL_waylandwindow.c',
