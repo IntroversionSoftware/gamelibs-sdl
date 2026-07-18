@@ -266,6 +266,7 @@ if target_machine.system() != 'windows'
         'src/thread/pthread/SDL_systls.c',
         'src/time/unix/SDL_systime.c',
         'src/timer/unix/SDL_systimer.c',
+        'src/tray/unix/SDL_dbustray.c',
         'src/tray/unix/SDL_tray.c',
     ]
 endif
