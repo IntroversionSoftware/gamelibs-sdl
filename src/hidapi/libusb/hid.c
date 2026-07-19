@@ -602,7 +602,7 @@ HID_API_EXPORT const char* HID_API_CALL hid_version_str(void)
 
 #ifdef HIDAPI_USING_SDL_RUNTIME
 static libusb_hotplug_callback_handle hotplug_callback_handle;
-static int shutdown_event_thread;
+static SDL_AtomicInt shutdown_event_thread;
 static hidapi_thread_state event_thread_state;
 
 static int LIBUSB_CALL hotplug_callback(struct libusb_context *ctx, struct libusb_device *dev, libusb_hotplug_event event, void *user_data)
@@ -623,7 +623,7 @@ static int LIBUSB_CALL hotplug_callback(struct libusb_context *ctx, struct libus
 
 static void *event_thread(void *param)
 {
-	while (!shutdown_event_thread) {
+	while (!SDL_GetAtomicInt(&shutdown_event_thread)) {
 		int res = libusb_handle_events(usb_context);
 		if (res < 0) {
 			/* There was an error. */
@@ -647,10 +647,10 @@ static void start_event_thread()
 
 static void stop_event_thread()
 {
-	shutdown_event_thread = 1;
+	SDL_SetAtomicInt(&shutdown_event_thread, 1);
 	libusb_interrupt_event_handler(usb_context);
 	hidapi_thread_join(&event_thread_state);
-	shutdown_event_thread = 0;
+	SDL_SetAtomicInt(&shutdown_event_thread, 0);
 
 	if (hotplug_callback_handle) {
 		libusb_hotplug_deregister_callback(usb_context, hotplug_callback_handle);
