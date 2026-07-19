@@ -34,6 +34,7 @@
 #include "SDL_waylandmouse.h"
 #include "SDL_waylandwindow.h"
 #include "SDL_waylandvideo.h"
+#include "SDL_waylandeventthread.h"
 #include "../../SDL_hints_c.h"
 #include "SDL_waylandcolor.h"
 
@@ -670,8 +671,15 @@ static void AddPendingStateSync(SDL_WindowData *window_data)
     void *cb_data = (void *)(uintptr_t)window_data->sdlwindow->id;
 
     ++window_data->pending_state_deadline_count;
+
+    /* Serialize proxy creation + listener setup against the Wayland event
+     * thread, which dispatches concurrently and mutates libwayland's object
+     * map (e.g. display_handle_delete_id). Without this lock, creating the
+     * callback and attaching its listener races that dispatch. */
+    Wayland_LockEventThread(video_data->event_thread_context);
     struct wl_callback *cb = wl_display_sync(video_data->display);
     wl_callback_add_listener(cb, &pending_state_deadline_listener, cb_data);
+    Wayland_UnlockEventThread(video_data->event_thread_context);
 }
 
 static void FlushPendingEvents(SDL_Window *window)
