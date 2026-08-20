@@ -2759,9 +2759,11 @@ elseif(APPLE)
   sdl_glob_sources("${SDL3_SOURCE_DIR}/src/filesystem/cocoa/*.m")
   set(HAVE_SDL_FILESYSTEM TRUE)
 
-  set(SDL_NOTIFICATION_COCOA 1)
-  sdl_glob_sources("${SDL3_SOURCE_DIR}/src/notification/cocoa/*.m")
-  set(HAVE_SDL_NOTIFICATION TRUE)
+  if(SDL_NOTIFICATION)
+    set(SDL_NOTIFICATION_COCOA 1)
+    sdl_glob_sources("${SDL3_SOURCE_DIR}/src/notification/cocoa/*.m")
+    set(HAVE_SDL_NOTIFICATION TRUE)
+  endif()
 
   # TODO: SDL_STORAGE_ICLOUD
   set(SDL_STORAGE_GENERIC 1)
