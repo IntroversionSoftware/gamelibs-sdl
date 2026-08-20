@@ -387,6 +387,8 @@ dep_option(SDL_RENDER_GPU          "Enable the SDL_GPU render driver" ON "SDL_RE
 dep_option(SDL_VIVANTE             "Use Vivante EGL video driver" ON "${UNIX_SYS};SDL_CPU_ARM32" OFF)
 dep_option(SDL_VULKAN              "Enable Vulkan support" "${SDL_VULKAN_DEFAULT}" "SDL_VIDEO;ANDROID OR APPLE OR LINUX OR FREEBSD OR OPENBSD OR WINDOWS OR CYGWIN" OFF)
 dep_option(SDL_RENDER_VULKAN       "Enable the Vulkan render driver" ON "SDL_RENDER;SDL_VULKAN" OFF)
+dep_option(SDL_RENDER_OGL          "Enable the OpenGL render driver" ON "SDL_RENDER;SDL_OPENGL" OFF)
+dep_option(SDL_RENDER_OGL_ES2      "Enable the OpenGL ES render drivers" ON "SDL_RENDER;SDL_OPENGLES" OFF)
 dep_option(SDL_METAL               "Enable Metal support" ON "APPLE" OFF)
 set_option(SDL_OPENVR              "Use OpenVR video driver" OFF)
 dep_option(SDL_KMSDRM              "Use KMS DRM video driver" ${UNIX_SYS} "SDL_VIDEO" OFF)
@@ -3866,6 +3868,18 @@ if(NOT HAVE_SDL_MAIN_CALLBACKS)
     "${SDL3_SOURCE_DIR}/src/main/generic/*.c"
     "${SDL3_SOURCE_DIR}/src/main/generic/*.h"
   )
+endif()
+
+# The GL render drivers are enabled as a side effect of GL context
+# support (SDL_OPENGL/SDL_OPENGLES) in every platform block above; give
+# them independent switches like the other render drivers have, applied
+# here so a single point covers all platforms.
+if(NOT SDL_RENDER_OGL)
+  unset(SDL_VIDEO_RENDER_OGL)
+endif()
+if(NOT SDL_RENDER_OGL_ES2)
+  unset(SDL_VIDEO_RENDER_OGL_ES)
+  unset(SDL_VIDEO_RENDER_OGL_ES2)
 endif()
 
 # config variables may contain generator expression, so we need to generate SDL_build_config.h in 2 steps:
