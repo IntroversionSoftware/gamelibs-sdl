@@ -285,6 +285,7 @@ if target_machine.system() == 'windows'
         'src/audio/wasapi/SDL_wasapi.c',
         'src/camera/mediafoundation/SDL_camera_mediafoundation.c',
         'src/core/windows/pch.c',
+        'src/core/windows/gameinput/gameinput.cpp',
         'src/core/windows/SDL_gameinput.cpp',
         'src/core/windows/SDL_hid.c',
         'src/core/windows/SDL_immdevice.c',

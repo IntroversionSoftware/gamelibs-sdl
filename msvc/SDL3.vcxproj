@@ -80,6 +80,9 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClCompile Include="..\src\camera\mediafoundation\SDL_camera_mediafoundation.c" />
     <ClCompile Include="..\src\camera\SDL_camera.c" />
     <ClCompile Include="..\src\core\SDL_core_unsupported.c" />
+    <ClCompile Include="..\src\core\windows\gameinput\gameinput.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\src\core\windows\pch.c">
       <PrecompiledHeader Condition="'$(AllowPCH)'!='false'">Create</PrecompiledHeader>
     </ClCompile>
@@ -465,6 +468,7 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClInclude Include="..\src\audio\wasapi\SDL_wasapi.h" />
     <ClInclude Include="..\src\camera\SDL_camera_c.h" />
     <ClInclude Include="..\src\camera\SDL_syscamera.h" />
+    <ClInclude Include="..\src\core\windows\gameinput\gameinput.h" />
     <ClInclude Include="..\src\core\windows\SDL_directx.h" />
     <ClInclude Include="..\src\core\windows\SDL_gameinput.h" />
     <ClInclude Include="..\src\core\windows\SDL_hid.h" />
