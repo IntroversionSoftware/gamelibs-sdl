@@ -46,6 +46,9 @@
     <Filter Include="src\core\windows">
       <UniqueIdentifier>{2b7a384f-c46a-4851-904e-3b92b67383f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\core\windows\gameinput">
+      <UniqueIdentifier>{3aa4b787-0604-4dae-8891-ea838a5cbd57}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\cpuinfo">
       <UniqueIdentifier>{bacbebb0-6459-44e4-b9cc-9aca055c2b94}</UniqueIdentifier>
     </Filter>
@@ -344,6 +347,9 @@
     </ClCompile>
     <ClCompile Include="..\src\core\SDL_core_unsupported.c">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\windows\gameinput\gameinput.cpp">
+      <Filter>src\core\windows\gameinput</Filter>
     </ClCompile>
     <ClCompile Include="..\src\core\windows\pch.c">
       <Filter>src\core\windows</Filter>
@@ -1423,6 +1429,9 @@
     </ClInclude>
     <ClInclude Include="..\src\camera\SDL_syscamera.h">
       <Filter>src\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\windows\gameinput\gameinput.h">
+      <Filter>src\core\windows\gameinput</Filter>
     </ClInclude>
     <ClInclude Include="..\src\core\windows\SDL_directx.h">
       <Filter>src\core\windows</Filter>
