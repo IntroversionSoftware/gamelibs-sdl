@@ -651,6 +651,11 @@ if(SDL_LEAN_AND_MEAN)
   set(HAVE_LEAN_AND_MEAN TRUE)
 endif()
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  # CMake's PCH has an unknown pragma
+  sdl_compile_options(PRIVATE "-Wno-unknown-pragmas")
+endif()
+
 # Compiler option evaluation
 if(USE_GCC OR USE_CLANG OR USE_INTELCC OR USE_QCC)
   if(SDL_GCC_ATOMICS)
