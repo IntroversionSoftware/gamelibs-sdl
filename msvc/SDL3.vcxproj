@@ -138,6 +138,7 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClCompile Include="..\src\io\SDL_iostream.c" />
     <ClCompile Include="..\src\io\windows\SDL_asyncio_windows_ioring.c" />
     <ClCompile Include="..\src\joystick\controller_type.c" />
+    <ClCompile Include="..\src\joystick\dummy\SDL_sysjoystick.c" />
     <ClCompile Include="..\src\joystick\gdk\SDL_gameinputjoystick.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -210,6 +211,8 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClCompile Include="..\src\main\windows\SDL_sysmain_runapp.c" />
     <ClCompile Include="..\src\misc\SDL_url.c" />
     <ClCompile Include="..\src\misc\windows\SDL_sysurl.c" />
+    <ClCompile Include="..\src\notification\dummy\SDL_dummynotification.c" />
+    <ClCompile Include="..\src\notification\SDL_notification.c" />
     <ClCompile Include="..\src\notification\windows\SDL_windowsnotification.c" />
     <ClCompile Include="..\src\power\SDL_power.c" />
     <ClCompile Include="..\src\power\windows\SDL_syspower.c" />
@@ -555,6 +558,7 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClInclude Include="..\src\locale\SDL_syslocale.h" />
     <ClInclude Include="..\src\main\SDL_main_callbacks.h" />
     <ClInclude Include="..\src\misc\SDL_sysurl.h" />
+    <ClInclude Include="..\src\notification\SDL_notification_c.h" />
     <ClInclude Include="..\src\power\SDL_syspower.h" />
     <ClInclude Include="..\src\process\SDL_sysprocess.h" />
     <ClInclude Include="..\src\render\direct3d11\D3D11_PixelShader_Advanced.h" />
@@ -621,6 +625,7 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClInclude Include="..\src\render\software\SDL_drawline.h" />
     <ClInclude Include="..\src\render\software\SDL_drawpoint.h" />
     <ClInclude Include="..\src\render\software\SDL_render_sw_c.h" />
+    <ClInclude Include="..\src\render\software\SDL_rotate.h" />
     <ClInclude Include="..\src\render\software\SDL_triangle.h" />
     <ClInclude Include="..\src\render\vulkan\SDL_shaders_vulkan.h" />
     <ClInclude Include="..\src\render\vulkan\VULKAN_PixelShader_Advanced.h" />
@@ -720,6 +725,7 @@ python.exe gen_revision.py include/SDL3/SDL_revision.h</Command>
     <ClInclude Include="..\src\video\SDL_rect_c.h" />
     <ClInclude Include="..\src\video\SDL_rect_impl.h" />
     <ClInclude Include="..\src\video\SDL_RLEaccel_c.h" />
+    <ClInclude Include="..\src\video\SDL_rotate.h" />
     <ClInclude Include="..\src\video\SDL_surface_c.h" />
     <ClInclude Include="..\src\video\SDL_sysvideo.h" />
     <ClInclude Include="..\src\video\SDL_video_c.h" />

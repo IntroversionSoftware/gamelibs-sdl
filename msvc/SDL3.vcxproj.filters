@@ -46,9 +46,6 @@
     <Filter Include="src\core\windows">
       <UniqueIdentifier>{2b7a384f-c46a-4851-904e-3b92b67383f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\core\windows\gameinput">
-      <UniqueIdentifier>{3aa4b787-0604-4dae-8891-ea838a5cbd57}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\cpuinfo">
       <UniqueIdentifier>{bacbebb0-6459-44e4-b9cc-9aca055c2b94}</UniqueIdentifier>
     </Filter>
@@ -115,6 +112,9 @@
     <Filter Include="src\joystick">
       <UniqueIdentifier>{0ae36794-fc58-4371-904b-0c2656104ad2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\joystick\dummy">
+      <UniqueIdentifier>{7d6cf9f4-1f83-4deb-95c5-38c67a14ca59}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\joystick\gdk">
       <UniqueIdentifier>{4074eb6c-2367-4adc-936a-4ba0b34b610b}</UniqueIdentifier>
     </Filter>
@@ -156,12 +156,6 @@
     </Filter>
     <Filter Include="src\misc\windows">
       <UniqueIdentifier>{7884e26d-937d-40f8-882f-ab8b1d656723}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\notification">
-      <UniqueIdentifier>{40d0f40d-e086-464e-85f2-9f6b317082b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\notification\windows">
-      <UniqueIdentifier>{701d5353-8541-4188-9409-fb0dda1d340b}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\power">
       <UniqueIdentifier>{5d0d9a1c-fa7e-4e9e-ac12-aa5c7f6f768c}</UniqueIdentifier>
@@ -292,6 +286,18 @@
     <Filter Include="src\video\yuv2rgb">
       <UniqueIdentifier>{4e522830-f532-4a7b-ba88-376611e298d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\notification">
+      <UniqueIdentifier>{e4f83978-7fac-435a-96b1-d18c7ee8a04b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\notification\windows">
+      <UniqueIdentifier>{581dc4c1-e361-45b1-9f4c-567818cd171e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\notification\dummy">
+      <UniqueIdentifier>{0661bb63-a937-4e45-a7c9-de203fca8677}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core\windows\gameinput">
+      <UniqueIdentifier>{8e925c71-2a36-4fcf-a36b-617b753d0107}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\atomic\SDL_atomic.c">
@@ -347,9 +353,6 @@
     </ClCompile>
     <ClCompile Include="..\src\core\SDL_core_unsupported.c">
       <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\core\windows\gameinput\gameinput.cpp">
-      <Filter>src\core\windows\gameinput</Filter>
     </ClCompile>
     <ClCompile Include="..\src\core\windows\pch.c">
       <Filter>src\core\windows</Filter>
@@ -415,9 +418,6 @@
       <Filter>src\events</Filter>
     </ClCompile>
     <ClCompile Include="..\src\events\SDL_mouse.c">
-      <Filter>src\events</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\events\SDL_notificationevents.c">
       <Filter>src\events</Filter>
     </ClCompile>
     <ClCompile Include="..\src\events\SDL_pen.c">
@@ -498,6 +498,9 @@
     <ClCompile Include="..\src\joystick\controller_type.c">
       <Filter>src\joystick</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\joystick\dummy\SDL_sysjoystick.c">
+      <Filter>src\joystick\dummy</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\joystick\gdk\SDL_gameinputjoystick.cpp">
       <Filter>src\joystick\gdk</Filter>
     </ClCompile>
@@ -511,9 +514,6 @@
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_gamecube.c">
-      <Filter>src\joystick\hidapi</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_gamesir.c">
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_gip.c">
@@ -552,9 +552,6 @@
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_steam_hori.c">
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_steam_triton.c">
-      <Filter>src\joystick\hidapi</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_steamdeck.c">
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
@@ -573,13 +570,7 @@
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_xboxone.c">
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\joystick\hidapi\SDL_hidapi_zuiki.c">
-      <Filter>src\joystick\hidapi</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\joystick\hidapi\SDL_hidapijoystick.c">
-      <Filter>src\joystick\hidapi</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\joystick\hidapi\SDL_report_descriptor.c">
       <Filter>src\joystick\hidapi</Filter>
     </ClCompile>
     <ClCompile Include="..\src\joystick\SDL_gamepad.c">
@@ -707,9 +698,6 @@
     </ClCompile>
     <ClCompile Include="..\src\misc\windows\SDL_sysurl.c">
       <Filter>src\misc\windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\notification\windows\SDL_windowsnotification.c">
-      <Filter>src\notification\windows</Filter>
     </ClCompile>
     <ClCompile Include="..\src\power\SDL_power.c">
       <Filter>src\power</Filter>
@@ -1029,9 +1017,6 @@
     <ClCompile Include="..\src\video\SDL_RLEaccel.c">
       <Filter>src\video</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\video\SDL_rotate.c">
-      <Filter>src\video</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\video\SDL_stb.c">
       <Filter>src\video</Filter>
     </ClCompile>
@@ -1106,6 +1091,24 @@
     </ClCompile>
     <ClCompile Include="..\src\video\yuv2rgb\yuv_rgb_std.c">
       <Filter>src\video\yuv2rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\video\SDL_rotate.c">
+      <Filter>src\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\notification\SDL_notification.c">
+      <Filter>src\notification</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\notification\windows\SDL_windowsnotification.c">
+      <Filter>src\notification\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\notification\dummy\SDL_dummynotification.c">
+      <Filter>src\notification\dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\events\SDL_notificationevents.c">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\core\windows\gameinput\gameinput.cpp">
+      <Filter>src\core\windows\gameinput</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1430,9 +1433,6 @@
     <ClInclude Include="..\src\camera\SDL_syscamera.h">
       <Filter>src\camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\core\windows\gameinput\gameinput.h">
-      <Filter>src\core\windows\gameinput</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\core\windows\SDL_directx.h">
       <Filter>src\core\windows</Filter>
     </ClInclude>
@@ -1518,9 +1518,6 @@
       <Filter>src\events</Filter>
     </ClInclude>
     <ClInclude Include="..\src\events\SDL_mouse_c.h">
-      <Filter>src\events</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\events\SDL_notificationevents_c.h">
       <Filter>src\events</Filter>
     </ClInclude>
     <ClInclude Include="..\src\events\SDL_pen_c.h">
@@ -1632,9 +1629,6 @@
       <Filter>src\joystick\hidapi</Filter>
     </ClInclude>
     <ClInclude Include="..\src\joystick\hidapi\SDL_hidapijoystick_c.h">
-      <Filter>src\joystick\hidapi</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\joystick\hidapi\SDL_report_descriptor.h">
       <Filter>src\joystick\hidapi</Filter>
     </ClInclude>
     <ClInclude Include="..\src\joystick\hidapi\steam\controller_constants.h">
@@ -1887,6 +1881,9 @@
       <Filter>src\render\software</Filter>
     </ClInclude>
     <ClInclude Include="..\src\render\software\SDL_render_sw_c.h">
+      <Filter>src\render\software</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\render\software\SDL_rotate.h">
       <Filter>src\render\software</Filter>
     </ClInclude>
     <ClInclude Include="..\src\render\software\SDL_triangle.h">
@@ -2278,6 +2275,18 @@
     </ClInclude>
     <ClInclude Include="..\src\video\yuv2rgb\yuv_rgb_std_func.h">
       <Filter>src\video\yuv2rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\video\SDL_rotate.h">
+      <Filter>src\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\notification\SDL_notification_c.h">
+      <Filter>src\notification</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\events\SDL_notificationevents_c.h">
+      <Filter>src\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\core\windows\gameinput\gameinput.h">
+      <Filter>src\core\windows\gameinput</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
