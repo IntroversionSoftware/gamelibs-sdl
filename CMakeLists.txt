@@ -1137,11 +1137,32 @@ if(SDL_LIBC)
     time.h
     wchar.h
   )
+  # One probe answers for the whole hosted C99 header set: if a single
+  # translation unit including all of them compiles, each individual
+  # check_include_file would have passed too, so only the non-standard
+  # headers are probed one at a time. If the batch fails, every header
+  # is probed as before. Every try_compile is a process spawn, and the
+  # per-header and per-function probes below were most of SDL's
+  # configure time.
+  set(c99_headers
+    float.h inttypes.h limits.h math.h signal.h stdarg.h stdbool.h
+    stddef.h stdint.h stdio.h stdlib.h string.h time.h wchar.h
+  )
+  set(c99_headers_src "")
+  foreach(_HEADER IN LISTS c99_headers)
+    string(APPEND c99_headers_src "#include <${_HEADER}>\n")
+  endforeach()
+  string(APPEND c99_headers_src "int main(int argc, char **argv) { (void)argc; (void)argv; return 0; }\n")
+  check_c_source_compiles("${c99_headers_src}" LIBC_HAS_C99_HEADERS)
   foreach(_HEADER IN LISTS headers_to_check)
     string(TOUPPER "${_HEADER}" HEADER_IDENTIFIER)
     string(REGEX REPLACE "[./]" "_" HEADER_IDENTIFIER "${HEADER_IDENTIFIER}")
     set(LIBC_HAS_VAR "LIBC_HAS_${HEADER_IDENTIFIER}")
-    check_include_file("${_HEADER}" "${LIBC_HAS_VAR}")
+    if(LIBC_HAS_C99_HEADERS AND "${_HEADER}" IN_LIST c99_headers)
+      set(${LIBC_HAS_VAR} 1)
+    else()
+      check_include_file("${_HEADER}" "${LIBC_HAS_VAR}")
+    endif()
     set(HAVE_${HEADER_IDENTIFIER} ${${LIBC_HAS_VAR}})
     if(HAVE_${HEADER_IDENTIFIER})
       list(APPEND available_headers "${_HEADER}")
@@ -1183,10 +1204,47 @@ if(SDL_LIBC)
     sdl_link_dependency(math LIBS m)
     list(APPEND CMAKE_REQUIRED_LIBRARIES m)
   endif()
+  # Same trick for the functions. Every C99 function on the list is
+  # referenced from one translation unit, behind the #ifndef guard
+  # check_symbol_exists uses so a macro definition still counts. A
+  # pass answers for all of them; a failure falls back to probing each
+  # one. The BSD, POSIX and Windows CRT names are always probed one at
+  # a time, since every platform lacks a different subset of those.
+  set(c99_symbols
+    abs acos acosf asin asinf atan atan2 atan2f atanf atof atoi
+    ceil ceilf copysign copysignf cos cosf
+    _Exit exp expf
+    fabs fabsf floor floorf fmod fmodf
+    getenv
+    log log10 log10f logf lround lroundf
+    malloc memcmp memcpy memmove memset modf modff
+    pow powf
+    round roundf
+    scalbn scalbnf sin sinf sqrt sqrtf sscanf strchr
+    strcmp strlen strncmp strpbrk
+    strrchr strstr strtod strtol strtoll strtoul strtoull
+    tan tanf trunc truncf
+    vsnprintf vsscanf
+    wcscmp wcslen wcsncmp wcsstr wcstol wcstoll wcstoul wcstoull
+  )
+  set(c99_symbols_src "")
+  foreach(_HEADER IN LISTS available_headers)
+    string(APPEND c99_symbols_src "#include <${_HEADER}>\n")
+  endforeach()
+  string(APPEND c99_symbols_src "int main(int argc, char **argv) {\n  void (*volatile fp)(void) = 0;\n  (void)argv;\n")
+  foreach(_FN IN LISTS c99_symbols)
+    string(APPEND c99_symbols_src "#ifndef ${_FN}\n  fp = (void (*)(void))&${_FN};\n#endif\n")
+  endforeach()
+  string(APPEND c99_symbols_src "  return fp ? argc : 0;\n}\n")
+  check_c_source_compiles("${c99_symbols_src}" LIBC_HAS_C99_SYMBOLS)
   foreach(_FN IN LISTS symbols_to_check)
     string(TOUPPER ${_FN} _UPPER)
     set(LIBC_HAS_VAR "LIBC_HAS_${_UPPER}")
-    check_symbol_exists("${_FN}" "${available_headers}" ${LIBC_HAS_VAR})
+    if(LIBC_HAS_C99_SYMBOLS AND "${_FN}" IN_LIST c99_symbols)
+      set(${LIBC_HAS_VAR} 1)
+    else()
+      check_symbol_exists("${_FN}" "${available_headers}" ${LIBC_HAS_VAR})
+    endif()
     set(HAVE_${_UPPER} ${${LIBC_HAS_VAR}})
   endforeach()
   cmake_pop_check_state()
